@@ -4,7 +4,7 @@
 $db_host = 'localhost';
 $db_user = 'root';
 $db_pass = '';
-$db_name = 'school';
+$db_name = 'licenta';
 $db_char = 'utf8';
 //$db_prefix = '';
 
