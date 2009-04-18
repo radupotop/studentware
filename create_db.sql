@@ -9,7 +9,7 @@ create table groups (
 create table users (
 	id_user int not null auto_increment,
 	primary key (id_user),
-	id_group int,
+	id_group int not null,
 	foreign key (id_group) references groups(id_group),
 	first_name varchar(40),
 	fam_name varchar(40),
@@ -23,18 +23,18 @@ create table topics (
 	primary key (id_topic),
 	id_user int,
 	foreign key (id_user) references users(id_user),
-	date_ datetime,
+	date_modified datetime,
 	title varchar(80)
 );
 
 create table posts (
 	id_post int not null auto_increment,
 	primary key (id_post),
-	id_topic int,
+	id_topic int not null,
 	foreign key (id_topic) references topics(id_topic),
 	id_user int,
 	foreign key (id_user) references users(id_user),
-	date_ datetime,
+	date_created datetime,
 	body text
 );
 
@@ -43,7 +43,7 @@ create table pages (
 	primary key (id_page),
 	id_user int,
 	foreign key (id_user) references users(id_user),
-	date_ datetime,
+	date_modified datetime,
 	title varchar(80),
 	body text
 );
@@ -53,7 +53,7 @@ create table files (
 	primary key (id_file),
 	id_user int,
 	foreign key (id_user) references users(id_user),
-	date_ datetime,
+	date_modified datetime,
 	title varchar(80),
 	filename varchar(60)
 );
@@ -63,8 +63,8 @@ create table calendar (
 	primary key (id_cal),
 	id_user int,
 	foreign key (id_user) references users(id_user),
-	start_date datetime,
-	end_date datetime,
+	date_start datetime,
+	date_end datetime,
 	title varchar(80)
 );
 
@@ -73,8 +73,8 @@ create table schedule (
 	primary key (id_sch),
 	id_user int,
 	foreign key (id_user) references users(id_user),
-	start_time time,
-	end_time time,
+	time_start time,
+	time_end time,
 	weekday int,
 	title varchar(80)
 );
