@@ -1,0 +1,17 @@
+table {
+	border-collapse: collapse;
+}
+
+thead th {
+	border-bottom: solid 1px #000;
+	text-align: left;
+}
+
+tbody tr:hover {
+	background: #DBEBF9;
+}
+
+td, th {
+	padding: .2em;
+	width: 6em;
+}
