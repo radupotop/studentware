@@ -1,6 +1,5 @@
 <div id="login">
 <?php
-session_start();
 if ($_SESSION['login']) {
 ?>
 
@@ -17,6 +16,7 @@ $logout = $_GET['logout'];
 
 if ($logout) {
 	session_destroy();
+	setcookie(session_name(), '', 0, '/');
 	header('Location: .');
 }
 } else {
@@ -34,10 +34,6 @@ if ($logout) {
 </form>
 
 <?php
-}
-?>
-
-<?php
 $email = $_POST['email'];
 $pass = $_POST['pass'];
 $login = $_POST['login'];
@@ -50,7 +46,6 @@ if ($login) {
 	");
 	$row = mysql_fetch_array($result);
 	if ($row) {
-		session_start();
 		$_SESSION['login'] = true;
 		$_SESSION['id_user'] = $row['id_user'];
 		$_SESSION['id_group'] = $row['id_group'];
@@ -64,6 +59,7 @@ if ($login) {
 		unset($email, $pass, $login);
 		echo '<p class="error">Login incorrect</p>';
 	}
+}
 }
 ?>
 </div>
