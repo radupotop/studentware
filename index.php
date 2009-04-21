@@ -9,7 +9,13 @@ include('header.php');
 include('menu.php');
 include('login.php');
 
-include('main.php');
+$page = $_GET['p'];
+$allowed = array('users');
+
+if (in_array($page, $allowed))
+	include ($page . '.php');
+else
+	include ('home.php');
 
 include('footer.php');
 ?>

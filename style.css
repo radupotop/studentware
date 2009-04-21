@@ -10,6 +10,25 @@ a {
 	font: normal 2em Verdana;
 }
 
+#menu {
+	list-style: none;
+	padding: 0;
+	clear: both;
+}
+
+#menu li {
+	float: left;
+	margin: 0 2px 2px 0;
+}
+
+#menu a {
+	display: block;
+	padding: .5em;
+	width: 10em;
+	text-align: center;
+	background: #eee;
+}
+
 table {
 	border-collapse: collapse;
 }
@@ -31,6 +50,7 @@ td, th {
 #login {
 	background: #eee;
 	padding: .5em;
+	clear: both;
 }
 
 .error {

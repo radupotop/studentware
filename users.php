@@ -1,5 +1,6 @@
 <?php
 // create, edit, delete users
+if ($_SESSION['login']) {
 ?>
 
 <h2>Users</h2>
@@ -39,10 +40,8 @@
 	</tbody>
 </table>
 
-
-
 <h2>Create user</h2>
-<form action="." method="post">
+<form action="?p=users" method="post">
 	<div>
 		<label for="id_group">Group</label>
 		<select name="id_group" id="id_group">
@@ -77,5 +76,9 @@ $create_user = $_POST['create_user'];
 if ($create_user) {
 	$pass = sha1($pass);
 	mysql_query("insert into users values (null, '$id_group', '$first_name', '$fam_name', '$email', '$pass', '$about')");
+	header('Location: ?p=users');
 }
+
+} else
+	header('Location: .');
 ?>
