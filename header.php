@@ -11,6 +11,9 @@
 
 <body>
 
-<h1>studentware</h1>
+<h1 id="header">
+	<a href="<?php echo $site_url; ?>"><?php echo $site_name; ?></a>
+</h1>
+<p id="desc"><?php echo $site_desc; ?></p>
 
 <div id="content">

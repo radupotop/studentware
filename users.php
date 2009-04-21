@@ -2,7 +2,7 @@
 // create, edit, delete users
 ?>
 
-<h2>List users</h2>
+<h2>Users</h2>
 <table>
 	<thead>
 	<tr>
@@ -70,11 +70,12 @@ $id_group = $_POST['id_group'];
 $first_name = $_POST['first_name'];
 $fam_name = $_POST['fam_name'];
 $email = $_POST['email'];
-$pass = hash (sha1, $_POST['pass']);
+$pass = $_POST['pass'];
 $about = $_POST['about'];
 $create_user = $_POST['create_user'];
 
 if ($create_user) {
+	$pass = sha1($pass);
 	mysql_query("insert into users values (null, '$id_group', '$first_name', '$fam_name', '$email', '$pass', '$about')");
 }
 ?>

@@ -1,5 +1,10 @@
 <?php
 
+// site config
+$site_name = 'studentware';
+$site_desc = '';
+$site_url = 'http://cmyk.wooptoo.com/priv/licenta/';
+
 // database config
 $db_host = 'localhost';
 $db_user = 'root';

@@ -1,3 +1,15 @@
+html {
+	font: normal .75em Verdana, sans-serif;
+}
+
+a {
+	text-decoration: none;
+}
+
+#header {
+	font: normal 2em Verdana;
+}
+
 table {
 	border-collapse: collapse;
 }
@@ -14,4 +26,14 @@ tbody tr:hover {
 td, th {
 	padding: .2em;
 	width: 6em;
+}
+
+#login {
+	background: #eee;
+	padding: .5em;
+}
+
+.error {
+	background: #fcc;
+	padding: .5em;
 }
