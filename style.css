@@ -44,7 +44,7 @@ tbody tr:hover {
 
 td, th {
 	padding: .2em;
-	width: 6em;
+	width: 12em;
 }
 
 #login {
@@ -73,4 +73,26 @@ td, th {
 	font-size: .75em;
 	background: #eee;
 	padding: 1em;
+	clear: both;
+}
+
+#forum {
+	clear: both;
+}
+
+#topics, #posts {
+	width: 50%;
+	float: left;
+}
+
+.author {
+	font-weight: bold;
+	border-bottom: solid 1px #000;
+}
+
+.author .user {
+}
+
+.author .date {
+	font: normal .75em Verdana;
 }

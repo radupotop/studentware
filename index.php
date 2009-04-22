@@ -1,4 +1,5 @@
 <?php
+$is_index = true;
 require('config.php');
 
 mysql_connect($db_host, $db_user, $db_pass);

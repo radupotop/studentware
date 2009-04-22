@@ -1,5 +1,7 @@
 <div id="login">
 <?php
+if ($is_index == false) die;
+
 if ($_SESSION['login']) {
 ?>
 

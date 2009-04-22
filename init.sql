@@ -63,8 +63,6 @@ create table files (
 create table calendar (
 	id_cal int unsigned not null auto_increment,
 	primary key (id_cal),
-	id_user int unsigned,
-	foreign key (id_user) references users(id_user),
 	date_start datetime,
 	date_end datetime,
 	title varchar(255)
@@ -73,8 +71,6 @@ create table calendar (
 create table schedule (
 	id_sch int unsigned not null auto_increment,
 	primary key (id_sch),
-	id_user int unsigned,
-	foreign key (id_user) references users(id_user),
 	time_start time,
 	time_end time,
 	weekday int unsigned,
@@ -84,13 +80,11 @@ create table schedule (
 
 /* create groups */
 
-insert into groups values(1,'special');
-insert into groups values(2,'admin');
-insert into groups values(3,'teacher');
-insert into groups values(4,'student');
+insert into groups values(1,'admin');
+insert into groups values(2,'teacher');
+insert into groups values(3,'student');
 
 
 /* create users */
 
-insert into users values(null, 1, null, null, null, null, null);
-insert into users values(null, 2, null, null, 'admin', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', null);
+insert into users values(1, 1, null, null, 'admin', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', null);

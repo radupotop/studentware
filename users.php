@@ -1,4 +1,6 @@
 <?php
+if ($is_index == false) die;
+
 // create, edit, delete users
 if ($_SESSION['login']) {
 ?>
