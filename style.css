@@ -49,11 +49,28 @@ td, th {
 
 #login {
 	background: #eee;
-	padding: .5em;
+	padding: .5em 1em;
 	clear: both;
+}
+
+#login h2 {
+	display: inline;
+	font-size: 1em;
+	margin-right: 1em;
 }
 
 .error {
 	background: #fcc;
-	padding: .5em;
+	padding: .5em 1em;
+	margin-left: 1em;
+}
+
+.hidden {
+	display: none;
+}
+
+#footer {
+	font-size: .75em;
+	background: #eee;
+	padding: 1em;
 }

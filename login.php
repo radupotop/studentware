@@ -30,8 +30,6 @@ if ($logout) {
 		<label for="pass">Password</label>
 		<input name="pass" type="password" id="pass">
 		<input name="login" type="submit" value="Login">
-	</div>
-</form>
 
 <?php
 $email = $_POST['email'];
@@ -57,9 +55,15 @@ if ($login) {
 		header('Location: .');
 	} else {
 		unset($email, $pass, $login);
-		echo '<p class="error">Login incorrect</p>';
+		echo '		<span class="error">Login incorrect</span>';
 	}
 }
+?>
+
+	</div>
+</form>
+
+<?php
 }
 ?>
 </div>

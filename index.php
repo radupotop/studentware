@@ -10,7 +10,7 @@ include('menu.php');
 include('login.php');
 
 $page = $_GET['p'];
-$allowed = array('users');
+$allowed = array('pages', 'forum', 'files', 'calendar', 'schedule', 'users');
 
 if (in_array($page, $allowed))
 	include ($page . '.php');
