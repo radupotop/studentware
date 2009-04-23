@@ -1,7 +1,11 @@
-<div id="login">
 <?php
 if ($is_index == false) die;
+?>
 
+<div id="login">
+	<h2 class="hidden">Login</h2>
+
+<?php
 if ($_SESSION['login']) {
 ?>
 
@@ -26,7 +30,6 @@ if ($logout) {
 
 <form action="." method="post">
 	<div>
-		<h2>Login</h2>
 		<label for="email">Email</label>
 		<input name="email" type="text" id="email">
 		<label for="pass">Password</label>
@@ -40,10 +43,10 @@ $login = $_POST['login'];
 
 if ($login) {
 	$pass = sha1($pass);
-	$result = mysql_query("
+	$result = mysql_query('
 		select * from users
-		where email = '$email' and pass = '$pass'
-	");
+		where email = "' . $email . '" and pass = "' . $pass . '"
+	');
 	$row = mysql_fetch_array($result);
 	if ($row) {
 		$_SESSION['login'] = true;

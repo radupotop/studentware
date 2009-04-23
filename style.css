@@ -53,12 +53,6 @@ td, th {
 	clear: both;
 }
 
-#login h2 {
-	display: inline;
-	font-size: 1em;
-	margin-right: 1em;
-}
-
 .error {
 	background: #fcc;
 	padding: .5em 1em;
