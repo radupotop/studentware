@@ -29,7 +29,7 @@ $result = mysql_query('
 		. '">' . $row['title'] . '</a></td>' . "\n";
 	echo '		<td>' . $row['first_name'] . ' ' . $row['fam_name'] . '</td>' .
 		"\n";
-	echo '		<td>' . $row['date_modified'] . '</td>' . "\n";
+	echo '		<td>' . date::from_sql($row['date_modified']) . '</td>' . "\n";
 	echo '	</tr>' . "\n";
 	}
 ?>
@@ -65,9 +65,9 @@ if ($topic) {
 		'	<span class="user">' .
 			$row['first_name'] . ' ' . $row['fam_name'] .
 			'</span>' . "\n" .
-		'	<span class="date">' . $row['date_created'] . '</span>' . "\n" .
-		'</p>' . "\n" .
-		'<p>' . $row['body'] . '</p>' . "\n\n";
+		'	<span class="date">' . date::from_sql($row['date_created']) .
+		'</span>' . "\n" . '</p>' . "\n" .
+		'<p class="content">' . $row['body'] . '</p>' . "\n\n";
 	}
 }
 ?>
