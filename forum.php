@@ -21,11 +21,12 @@ $result = mysql_query('
 		from topics
 		join users
 		on topics.id_user=users.id_user
+		order by date_modified desc
 	');
 
 	while ($row = mysql_fetch_array($result)) {
 	echo '	<tr>' . "\n";
-	echo '		<td><a href="?p=' . $_GET['p'] . '&amp;t=' . $row['id_topic']
+	echo '		<td><a href="?p=forum&amp;t=' . $row['id_topic']
 		. '">' . $row['title'] . '</a></td>' . "\n";
 	echo '		<td>' . $row['first_name'] . ' ' . $row['fam_name'] . '</td>' .
 		"\n";
