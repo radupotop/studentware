@@ -1,8 +1,3 @@
-<?php
-if ($is_index == false) die;
-?>
-<div id="forum">
-
 <div id="topics">
 <h2>Topics</h2>
 <table>
@@ -36,10 +31,4 @@ $result = mysql_query('
 ?>
 	</tbody>
 </table>
-</div>
-
-<?php
-include('posts.php');
-?>
-
 </div>

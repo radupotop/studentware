@@ -1,7 +1,3 @@
-<?php
-if ($is_index == false) die;
-?>
-
 <div id="login">
 	<h2 class="hidden">Login</h2>
 
