@@ -1,4 +1,9 @@
 <?php
+// html input filter
+require('class.inputfilter.php');
+$allowed_tags = array('strong', 'em', 'span', 'br', 'cite');
+$html_filter = new InputFilter($allowed_tags);
+
 class date {
 	function from_sql($date) {
 		$unix = strtotime($date);

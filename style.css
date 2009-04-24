@@ -87,6 +87,6 @@ td, th {
 .author .user {
 }
 
-.author .date {
-	font: normal .75em Verdana;
+.author .date, .allowed_tags {
+	font: normal .75em Verdana, sans-serif;
 }

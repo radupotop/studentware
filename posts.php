@@ -51,12 +51,19 @@ if ($topic) {
 		<label for="post">Reply:</label><br>
 		<textarea name="post" rows="5" cols="60" id="post"></textarea><br>
 		<input name="reply" type="submit" value="Post reply">
+		<p class="allowed_tags">Allowed tags:
+			<?php
+				echo implode(', ', $allowed_tags);
+			?>
+		</p>
 	</div>
 	</form>
 
 <?php
 $post = $_POST['post'];
 $reply = $_POST['reply'];
+
+$post = $html_filter->process($post);
 
 if($reply && $post) {
 	mysql_query('
