@@ -6,8 +6,7 @@
 <table>
 	<thead>
 	<tr>
-		<th>id_group</th>
-		<th>title</th>
+		<th>Group</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -19,13 +18,10 @@
 	$col = mysql_num_fields($result);
 
 	while ($row = mysql_fetch_array($result)) {
-	echo "	<tr>\n";
-	for ($i=0; $i<$col; $i++) {
-		echo '		<td>' . $row[$i] . '</td>' . "\n";
-		if ($i==$col-1)
-			echo "\n";
-		}
-	echo "	</tr>\n";
+	echo
+	'	<tr>' . "\n" .
+	'		<td>' . $row['title'] . '</td>' . "\n" .
+	'	</tr>' . "\n";
 	}
 
 	?>

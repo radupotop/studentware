@@ -80,9 +80,9 @@ create table schedule (
 
 /* create groups */
 
-insert into groups values(1,'admin');
-insert into groups values(2,'teacher');
-insert into groups values(3,'student');
+insert into groups values(1,'Admin');
+insert into groups values(2,'Teacher');
+insert into groups values(3,'Student');
 
 
 /* create users */

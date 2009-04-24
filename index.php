@@ -9,7 +9,7 @@ include('functions/functions.php');
 
 include('template/header.php');
 include('template/menu.php');
-include('login.php');
+include('pages/login.php');
 
 $page = $_GET['page'];
 $allowed = array('pages', 'forum', 'files', 'calendar', 'schedule', 'users');
