@@ -47,11 +47,11 @@ if ($topic) {
 ?>
 
 	<form action="?page=forum&amp;topic=<?php echo $topic; ?>" method="post">
-	<div>
-		<label for="post">Reply:</label><br>
+	<div id="reply">
+		<h3><label for="post">Reply</label></h3>
 		<textarea name="post" rows="5" cols="60" id="post"></textarea><br>
 		<input name="reply" type="submit" value="Post reply">
-		<p class="allowed_tags">Allowed tags:
+		<p class="allowed_tags">Allowed HTML tags:
 			<?php
 				echo implode(', ', $allowed_tags);
 			?>
