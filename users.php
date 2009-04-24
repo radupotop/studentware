@@ -43,7 +43,7 @@ if ($_SESSION['login']) {
 </table>
 
 <h2>Create user</h2>
-<form action="?p=users" method="post">
+<form action="?page=users" method="post">
 	<div>
 		<label for="id_group">Group</label>
 		<select name="id_group" id="id_group">
@@ -78,7 +78,7 @@ $create_user = $_POST['create_user'];
 if ($create_user) {
 	$pass = sha1($pass);
 	mysql_query("insert into users values (null, '$id_group', '$first_name', '$fam_name', '$email', '$pass', '$about')");
-	header('Location: ?p=users');
+	header('Location: ?page=users');
 }
 
 } else

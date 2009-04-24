@@ -12,7 +12,7 @@ include('header.php');
 include('menu.php');
 include('login.php');
 
-$page = $_GET['p'];
+$page = $_GET['page'];
 $allowed = array('pages', 'forum', 'files', 'calendar', 'schedule', 'users');
 
 if (in_array($page, $allowed))

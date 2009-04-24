@@ -5,7 +5,7 @@ if ($is_index == false) die;
 <div id="posts">
 
 <?php
-$topic = $_GET['t'];
+$topic = $_GET['topic'];
 
 if ($topic) {
 	// Topic title
@@ -31,9 +31,7 @@ if ($topic) {
 		echo
 		'<div id="post' . $row['id_post'] . '">' . "\n" .
 		'<p class="author">' . "\n" .
-		'	<span class="id">
-		<a href="#post' . $row['id_post'] . '">(' . $row['id_post'] . ')</a>
-		</span>' . "\n" .
+		'	<a class="id" href="#post' . $row['id_post'] . '">#</a>' . "\n" .
 		'	<span class="user">' .
 			$row['first_name'] . ' ' . $row['fam_name'] .
 			'</span>' . "\n" .
@@ -48,7 +46,7 @@ if ($topic) {
 	if ($_SESSION['login']) {
 ?>
 
-	<form action="?p=forum&amp;t=<?php echo $topic; ?>" method="post">
+	<form action="?page=forum&amp;topic=<?php echo $topic; ?>" method="post">
 	<div>
 		<label for="post">Reply:</label><br>
 		<textarea name="post" rows="5" cols="60" id="post"></textarea><br>
@@ -60,7 +58,7 @@ if ($topic) {
 $post = $_POST['post'];
 $reply = $_POST['reply'];
 
-if($reply) {
+if($reply && $post) {
 	mysql_query('
 		insert into posts
 		values (null, ' . $topic . ', ' . $_SESSION['id_user'] . ', "' .
@@ -71,7 +69,7 @@ if($reply) {
 		set date_modified="' . date::to_sql('now') . '"
 		where id_topic=' . $topic . '
 	');
-	header('Location: ?p=forum&t=' . $topic);
+	header('Location: ?page=forum&topic=' . $topic);
 }
 	}
 
