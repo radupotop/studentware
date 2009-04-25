@@ -4,7 +4,7 @@ update users set first_name='Radu', fam_name='Potop', email='wooptoo@gmail.com',
 	pass='1e41c981637834caec149b4d33f7f8566076ddfa', about='this is me'
 	where id_user=1;
 
-insert into users values(null, 2, 'Dumitru', 'Radoiu', 'radoiu@yahoo.com',
+insert into users values(null, 2, 'Ion', 'Popescu', 'popescu@yahoo.com',
 	'83592796bc17705662dc9a750c8b6d0a4fd93396', '');
 
 insert into users values(null, 3, 'Gavril', 'Adace', 'adace@yahoo.com',
