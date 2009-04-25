@@ -4,6 +4,7 @@ if ($_SESSION['login']) {
 ?>
 
 <h2>Users</h2>
+<form action="?page=users" method="post">
 <table>
 	<thead>
 	<tr>
@@ -33,18 +34,25 @@ if ($_SESSION['login']) {
 	'		<td>' . $row['fam_name'] . '</td>' . "\n" .
 	'		<td>' . $row['email'] . '</td>' . "\n" .
 	'		<td>(Not shown)</td>' . "\n" .
-	'		<td>' . $row['about'] . '</td>' . "\n" .
+	'		<td>';
+			if (strlen($row['about']) > 20) {
+				echo substr($row['about'], 0, 20) . '...';
+			} else {
+				echo $row['about'];
+			}
+	echo
+	'		</td>' . "\n" .
 	'	</tr>' . "\n";
 	}
+	if ($_SESSION['id_group'] == 1)
+		include('users_users_add.php');
 	?>
 
 	</tbody>
 </table>
+</form>
 
 <?php
-if ($_SESSION['id_group'] == 1)
-	include('users_users_add.php');
-
 } else
 	header('Location: .');
 ?>
