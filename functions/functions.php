@@ -16,4 +16,11 @@ class date {
 		return $formatted;
 	}
 }
+
+function trim_title($title, $len) { // trim title to specified length
+	if (strlen($title) > $len) {
+		$title = substr($title, 0, $len) . '...';
+	}
+	return $title;
+}
 ?>

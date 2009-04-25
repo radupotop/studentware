@@ -22,7 +22,7 @@ $result = mysql_query('
 	while ($row = mysql_fetch_array($result)) {
 	echo '	<tr>' . "\n";
 	echo '		<td><a href="?page=forum&amp;topic=' . $row['id_topic']
-		. '">' . $row['title'] . '</a></td>' . "\n";
+		. '">' . trim_title($row['title'], 20) . '</a></td>' . "\n";
 	echo '		<td>' . $row['first_name'] . ' ' . $row['fam_name'] . '</td>' .
 		"\n";
 	echo '		<td>' . date::from_sql($row['date_modified']) . '</td>' . "\n";

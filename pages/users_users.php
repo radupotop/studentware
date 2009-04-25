@@ -14,6 +14,13 @@ if ($_SESSION['login']) {
 		<th>Email</th>
 		<th>Password</th>
 		<th>About</th>
+		<?php
+			if ($_SESSION['id_group'] == 1) {
+		?>
+		<th class="manage">Manage</th>
+		<?php
+			}
+		?>
 	</tr>
 	</thead>
 	<tbody>
@@ -34,14 +41,8 @@ if ($_SESSION['login']) {
 	'		<td>' . $row['fam_name'] . '</td>' . "\n" .
 	'		<td>' . $row['email'] . '</td>' . "\n" .
 	'		<td>(Not shown)</td>' . "\n" .
-	'		<td>';
-			if (strlen($row['about']) > 20) {
-				echo substr($row['about'], 0, 20) . '...';
-			} else {
-				echo $row['about'];
-			}
-	echo
-	'		</td>' . "\n" .
+	'		<td>' . trim_title($row['about'], 20) . '</td>' . "\n" .
+	'		<td></td>' . "\n" .
 	'	</tr>' . "\n";
 	}
 	if ($_SESSION['id_group'] == 1)
