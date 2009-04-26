@@ -5,7 +5,7 @@
 if ($_SESSION['login']) {
 ?>
 
-<form action="." method="get">
+<form action="<?php echo current_page('escape'); ?>" method="post">
 	<div>
 		Hello <strong><?php echo $_SESSION['first_name'] . ' '
 			. $_SESSION['fam_name']; ?></strong>
@@ -14,17 +14,17 @@ if ($_SESSION['login']) {
 </form>
 
 <?php
-$logout = $_GET['logout'];
+$logout = $_POST['logout'];
 
 if ($logout) {
 	session_destroy();
 	setcookie(session_name(), '', 0, '/');
-	header('Location: .');
+	header('Location: ' . current_page());
 }
 } else {
 ?>
 
-<form action="." method="post">
+<form action="<?php echo current_page('escape'); ?>" method="post">
 	<div>
 		<label for="email">Email</label>
 		<input name="email" type="text" id="email">
@@ -53,7 +53,7 @@ if ($login) {
 		$_SESSION['email'] = $row['email'];
 		$_SESSION['pass'] = $row['pass'];
 		$_SESSION['about'] = $row['about'];
-		header('Location: .');
+		header('Location: ' . current_page());
 	} else {
 		unset($email, $pass, $login);
 		echo '		<span class="error">Login incorrect</span>';

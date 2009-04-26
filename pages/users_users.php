@@ -1,10 +1,10 @@
 <?php
-// create, edit, delete users
+// view, add, edit, delete users
 if ($_SESSION['login']) {
 ?>
 
 <h2>Users</h2>
-<form action="?page=users" method="post">
+<form action="<?php echo current_page('escape'); ?>" method="post">
 <table>
 	<thead>
 	<tr>
@@ -54,6 +54,7 @@ if ($_SESSION['login']) {
 </form>
 
 <?php
-} else
-	header('Location: .');
+} else {
+	header('Location: ' . current_page());
+}
 ?>

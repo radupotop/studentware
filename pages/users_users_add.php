@@ -61,5 +61,6 @@ if ($valid) {
 		$filtered_data['about'] . '")
 	');
 	unset($valid);
-	header('Location: ?page=' . $_GET['page']);
+	header('Location: ' . current_page());
 }
+?>

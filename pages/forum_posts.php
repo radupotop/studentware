@@ -42,7 +42,7 @@ if ($topic) {
 	if ($_SESSION['login']) {
 ?>
 
-	<form action="?page=forum&amp;topic=<?php echo $topic; ?>" method="post">
+	<form action="<?php echo current_page('escape'); ?>" method="post">
 	<div id="reply">
 		<h3><label for="post">Reply</label></h3>
 		<textarea name="post" rows="5" cols="60" id="post"></textarea><br>
@@ -72,7 +72,7 @@ if($reply && $post) {
 		set date_modified="' . date::to_sql('now') . '"
 		where id_topic=' . $topic . '
 	');
-	header('Location: ?page=forum&topic=' . $topic);
+	header('Location: ' . current_page());
 }
 	}
 

@@ -1,11 +1,11 @@
 <?php
+include('functions/functions.php');
+
 require('config.php');
 
 mysql_connect($db_host, $db_user, $db_pass);
 mysql_set_charset($db_char);
 mysql_select_db($db_name);
-
-include('functions/functions.php');
 
 include('template/header.php');
 include('template/menu.php');
