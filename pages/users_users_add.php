@@ -19,28 +19,47 @@
 		<input title="Password" name="pass" type="password" id="pass">
 		</td>
 		<td>
-		<input title="About" name="about" id="about">
+		<input title="About" name="about" type="text" id="about">
 		</td>
 		<td>
-		<input name="create_user" type="submit" value="Create user">
+		<input type="submit" value="Create user">
 		</td>
 	</tr>
 
 <?php
-$id_group = $_POST['id_group'];
-$first_name = $_POST['first_name'];
-$fam_name = $_POST['fam_name'];
-$email = $_POST['email'];
-$pass = $_POST['pass'];
-$about = $_POST['about'];
-$create_user = $_POST['create_user'];
+$input_data = array(
+	'id_group' => FILTER_VALIDATE_INT,
+	'first_name' => FILTER_SANITIZE_ENCODED,
+	'fam_name' => FILTER_SANITIZE_ENCODED,
+	'email' => FILTER_VALIDATE_EMAIL,
+	'pass' => FILTER_REQUIRE_ARRAY,
+	'about' => FILTER_UNSAFE_RAW
+);
 
-if ($create_user) {
-	$pass = sha1($pass);
+$filtered_data = filter_input_array(INPUT_POST, $input_data);
+
+if (
+	$filtered_data['id_group'] &&
+	$filtered_data['first_name'] &&
+	$filtered_data['fam_name'] &&
+	$filtered_data['email'] &&
+	$filtered_data['pass']
+) {
+	$valid = true;
+}
+
+if ($valid) {
+	$filtered_data['pass'] = sha1($filtered_data['pass']);
+	$filtered_data['about'] = $html_filter->process($filtered_data['about']);
 	mysql_query('
-		insert into users values (null, ' . $id_group . ', "' . $first_name .
-		'", "' . $fam_name . '", "' . $email . '", "' . $pass . '", "' .
-		$about . '")
+		insert into users values (null, ' .
+		$filtered_data['id_group'] . ', "' .
+		$filtered_data['first_name'] . '", "' .
+		$filtered_data['fam_name'] . '", "' .
+		$filtered_data['email'] . '", "' .
+		$filtered_data['pass'] . '", "' .
+		$filtered_data['about'] . '")
 	');
-	header('Location: ?page=users');
+	unset($valid);
+	header('Location: ?page=' . $_GET['page']);
 }
