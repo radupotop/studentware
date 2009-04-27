@@ -17,7 +17,7 @@ if ($_SESSION['login']) {
 		<?php
 			if ($_SESSION['id_group'] == 1) {
 		?>
-		<th class="manage">Manage</th>
+		<th>Manage</th>
 		<?php
 			}
 		?>
@@ -41,12 +41,24 @@ if ($_SESSION['login']) {
 	'		<td>' . $row['fam_name'] . '</td>' . "\n" .
 	'		<td>' . $row['email'] . '</td>' . "\n" .
 	'		<td>(Not shown)</td>' . "\n" .
-	'		<td>' . trim_title($row['about'], 20) . '</td>' . "\n" .
-	'		<td></td>' . "\n" .
+	'		<td>' . trim_title($row['about'], 20) . '</td>' . "\n";
+	if ($_SESSION['id_group'] == 1) {
+	echo
+	'		<td>' . "\n" .
+	'			<button name="edit_user" value="' . $row['id_user'] .
+					'">Edit</button>' . "\n" .
+	'			<button name="delete_user" value="' . $row['id_user'] .
+					'">Delete</button>' . "\n" .
+	'		</td>' . "\n";
+	include('users_users_edit.php');
+	include('users_users_delete.php');
+	}
+	echo
 	'	</tr>' . "\n";
 	}
-	if ($_SESSION['id_group'] == 1)
+	if ($_SESSION['id_group'] == 1) {
 		include('users_users_add.php');
+	}
 	?>
 
 	</tbody>
@@ -55,6 +67,6 @@ if ($_SESSION['login']) {
 
 <?php
 } else {
-	header('Location: ' . current_page());
+	header('Location: .');
 }
 ?>

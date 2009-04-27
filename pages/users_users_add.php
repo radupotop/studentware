@@ -22,7 +22,7 @@
 		<input title="About" name="about" type="text" id="about">
 		</td>
 		<td>
-		<input type="submit" value="Create user">
+		<input name="add_user" type="submit" value="Add user">
 		</td>
 	</tr>
 
@@ -33,7 +33,8 @@ $input_data = array(
 	'fam_name' => FILTER_SANITIZE_ENCODED,
 	'email' => FILTER_VALIDATE_EMAIL,
 	'pass' => FILTER_REQUIRE_ARRAY,
-	'about' => FILTER_UNSAFE_RAW
+	'about' => FILTER_UNSAFE_RAW,
+	'add_user' => FILTER_REQUIRE_ARRAY
 );
 
 $filtered_data = filter_input_array(INPUT_POST, $input_data);
@@ -43,7 +44,8 @@ if (
 	$filtered_data['first_name'] &&
 	$filtered_data['fam_name'] &&
 	$filtered_data['email'] &&
-	$filtered_data['pass']
+	$filtered_data['pass'] &&
+	$filtered_data['add_user']
 ) {
 	$valid = true;
 }
