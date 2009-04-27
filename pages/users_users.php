@@ -14,13 +14,13 @@ if ($_SESSION['login']) {
 		<th>Email</th>
 		<th>Password</th>
 		<th>About</th>
-		<?php
+<?php
 			if ($_SESSION['id_group'] == 1) {
-		?>
+?>
 		<th>Manage</th>
-		<?php
+<?php
 			}
-		?>
+?>
 	</tr>
 	</thead>
 	<tbody>
@@ -42,16 +42,21 @@ if ($_SESSION['login']) {
 	'		<td>' . $row['email'] . '</td>' . "\n" .
 	'		<td>(Not shown)</td>' . "\n" .
 	'		<td>' . trim_title($row['about'], 20) . '</td>' . "\n";
-	if ($_SESSION['id_group'] == 1) {
-	echo
+	if ($_SESSION['id_group'] == 1) { // display admin controls
+		echo
 	'		<td>' . "\n" .
 	'			<button name="edit_user" value="' . $row['id_user'] .
-					'">Edit</button>' . "\n" .
+					'">Edit</button>' . "\n";
+		include('users_users_edit.php');
+
+		if($row['id_user'] != 1) { // don't display delete button for id_user=1
+			echo
 	'			<button name="delete_user" value="' . $row['id_user'] .
-					'">Delete</button>' . "\n" .
+					'">Delete</button>' . "\n";
+			include('users_users_delete.php');
+		}
+		echo
 	'		</td>' . "\n";
-	include('users_users_edit.php');
-	include('users_users_delete.php');
 	}
 	echo
 	'	</tr>' . "\n";
