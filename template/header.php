@@ -14,8 +14,8 @@
 <body>
 
 <h1 id="header">
-	<a href="<?php echo $site_url; ?>"><?php echo $site_name; ?></a>
+	<a href="<?php echo $site['url']; ?>"><?php echo $site['name']; ?></a>
 </h1>
-<p id="desc"><?php echo $site_desc; ?></p>
+<p id="desc"><?php echo $site['desc']; ?></p>
 
 <div id="content">

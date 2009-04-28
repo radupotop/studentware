@@ -1,5 +1,8 @@
 <?php
-// view, add, edit, delete users
+/**
+ * @file
+ * View, add, edit, delete users.
+ */
 if ($_SESSION['login']) {
 ?>
 
@@ -33,7 +36,11 @@ if ($_SESSION['login']) {
 	');
 	$col = mysql_num_fields($result);
 
-	while ($row = mysql_fetch_array($result)) {
+while ($row = mysql_fetch_array($result)) {
+	$edit_user = filter_input(INPUT_POST, 'edit_user', FILTER_VALIDATE_INT);
+	if ($row['id_user'] == $edit_user) {
+		include('users_users_edit.php');
+	} else {
 	echo
 	'	<tr>' . "\n" .
 	'		<td>' . $row['title'] . '</td>' . "\n" .
@@ -42,14 +49,18 @@ if ($_SESSION['login']) {
 	'		<td>' . $row['email'] . '</td>' . "\n" .
 	'		<td>(Not shown)</td>' . "\n" .
 	'		<td>' . trim_title($row['about'], 20) . '</td>' . "\n";
-	if ($_SESSION['id_group'] == 1) { // display admin controls
+	/**
+	 * Display admin controls.
+	 */
+	if ($_SESSION['id_group'] == 1) {
 		echo
 	'		<td>' . "\n" .
 	'			<button name="edit_user" value="' . $row['id_user'] .
 					'">Edit</button>' . "\n";
-		include('users_users_edit.php');
-
-		if($row['id_user'] != 1) { // don't display delete button for id_user=1
+		/**
+		 * Don't display delete button for id_user=1
+		 */
+		if($row['id_user'] != 1) {
 			echo
 	'			<button name="delete_user" value="' . $row['id_user'] .
 					'">Delete</button>' . "\n";
@@ -61,6 +72,7 @@ if ($_SESSION['login']) {
 	echo
 	'	</tr>' . "\n";
 	}
+}
 	if ($_SESSION['id_group'] == 1) {
 		include('users_users_add.php');
 	}

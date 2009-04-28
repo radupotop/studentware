@@ -1,16 +1,28 @@
 <?php
+/**
+ * @file
+ * Config file.
+ */
 
-// site config
-$site_name = 'studentware';
-$site_desc = '';
-$site_url = 'http://cmyk.wooptoo.com/priv/licenta/';
+/**
+ * Site config.
+ */
+$site = array (
+	'name' => 'studentware',
+	'desc' => '',
+	'url'  => 'http://cmyk.wooptoo.com/priv/licenta/'
+);
 
-// database config
-$db_host = 'localhost';
-$db_user = 'root';
-$db_pass = '';
-$db_name = 'licenta';
-$db_char = 'utf8';
-//$db_prefix = '';
+/**
+ * Database config.
+ */
+$db = array (
+	'host' => 'localhost',
+	'user' => 'root',
+	'pass' => '',
+	'name' => 'licenta',
+	'char' => 'utf8',
+	'pref' => '' //database prefix
+);
 
 ?>

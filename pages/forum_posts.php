@@ -31,7 +31,7 @@ if ($topic) {
 		'	<span class="user">' .
 			$row['first_name'] . ' ' . $row['fam_name'] .
 			'</span>' . "\n" .
-		'	<span class="date">' . date::from_sql($row['date_created']) .
+		'	<span class="date">' . Date::from_sql($row['date_created']) .
 		'</span>' . "\n" .
 		'</p>' . "\n" .
 		'<p class="content">' . $row['body'] . '</p>' .
@@ -65,11 +65,11 @@ if($reply && $post) {
 	mysql_query('
 		insert into posts
 		values (null, ' . $topic . ', ' . $_SESSION['id_user'] . ', "' .
-			date::to_sql('now') . '", "' . $post . '")
+			Date::to_sql('now') . '", "' . $post . '")
 	');
 	mysql_query('
 		update topics
-		set date_modified="' . date::to_sql('now') . '"
+		set date_modified="' . Date::to_sql('now') . '"
 		where id_topic=' . $topic . '
 	');
 	header('Location: ' . current_page());

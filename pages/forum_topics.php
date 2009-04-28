@@ -25,7 +25,7 @@ $result = mysql_query('
 		. '">' . trim_title($row['title'], 20) . '</a></td>' . "\n";
 	echo '		<td>' . $row['first_name'] . ' ' . $row['fam_name'] . '</td>' .
 		"\n";
-	echo '		<td>' . date::from_sql($row['date_modified']) . '</td>' . "\n";
+	echo '		<td>' . Date::from_sql($row['date_modified']) . '</td>' . "\n";
 	echo '	</tr>' . "\n";
 	}
 ?>

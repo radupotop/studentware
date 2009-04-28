@@ -1,11 +1,18 @@
 <?php
+/**
+ * \mainpage
+ * Studentware is a groupware for students.
+ *
+ * @file
+ * Load all the functions, configs, templates and pages needed.
+ */
 include('functions/functions.php');
 
 require('config.php');
 
-mysql_connect($db_host, $db_user, $db_pass);
-mysql_set_charset($db_char);
-mysql_select_db($db_name);
+mysql_connect($db['host'], $db['user'], $db['pass']);
+mysql_set_charset($db['char']);
+mysql_select_db($db['name']);
 
 include('template/header.php');
 include('template/menu.php');
