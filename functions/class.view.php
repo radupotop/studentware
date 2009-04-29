@@ -120,6 +120,56 @@ while ($row = mysql_fetch_array($result)) {
 	return;
 	}
 
+	/**
+	 * View logout.
+	 * @return null
+	 */
+	function logout() {
+		if ($_SESSION['login']) {
+?>
+		<form action="<?php echo current_page('escape'); ?>" method="post">
+			<div>
+				Hello <strong><?php echo $_SESSION['first_name'] . ' '
+				. $_SESSION['fam_name']; ?></strong>
+				<input name="logout" type="submit" value="Logout">
+			</div>
+		</form>
+<?php
+		}
+	return;
+	}
+
+	/**
+	 * View login.
+	 * @return null
+	 */
+	function login() {
+		if ($_SESSION['login']==false) {
+?>
+<form action="<?php echo current_page('escape'); ?>" method="post">
+	<div>
+		<label for="email">Email</label>
+		<input name="email" type="text" id="email">
+		<label for="pass">Password</label>
+		<input name="pass" type="password" id="pass">
+		<input name="login" type="submit" value="Login">
+	</div>
+</form>
+<?php
+		}
+	return;
+	}
+
+	/**
+	 * View login error.
+	 * @return null
+	 */
+	function login_error() {
+?>
+		<span class="error">Login incorrect</span>
+<?php
+	return;
+	}
 
 
 } // end class.
