@@ -6,6 +6,11 @@ a {
 	text-decoration: none;
 }
 
+body {
+	width: 82em;
+	margin: 0 auto;
+}
+
 #header {
 	font: normal 2em Verdana;
 }

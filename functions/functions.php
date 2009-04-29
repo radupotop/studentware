@@ -1,41 +1,21 @@
 <?php
 /**
  * @file
- * Functions file, also used to load classes.
+ * Functions file, also used to autoload classes.
  */
 
 /**
- * HTML input filter.
+ * Autoload needed classes from corresponding files.
+ * File format is class.class_name.php
+ * class_name must be lowercase
+ *
+ * @param string $class - class name to be loaded
+ * @return null
  */
-require('class.inputfilter.php');
-$allowed_tags = array('strong', 'em', 'span', 'br', 'cite');
-$html_filter = new InputFilter($allowed_tags);
-
-/**
- * Converts dates from/to SQL format.
- * @class Date
- */
-class Date {
-	/**
-	 * Convert date from SQL format to 'd M Y, H:i' format.
-	 * @param string $date - date in SQL format
-	 * @return string $formatted - date in 'd M Y, H:i' format
-	 */
-	function from_sql($date) {
-		$unix = strtotime($date);
-		$formatted = date('d M Y, H:i', $unix);
-		return $formatted;
-	}
-	/**
-	 * Convert date from any format supported by PHP strtotime() to SQL format.
-	 * @param string $date - date in any format
-	 * @return string $formatted - date in SQL format
-	 */
-	function to_sql($date) {
-		$unix = strtotime($date);
-		$formatted = date('Y-m-d H:i:s', $unix);
-		return $formatted;
-	}
+function __autoload($class) {
+	$class = strtolower($class);
+	require_once 'class.' . $class . '.php';
+	return;
 }
 
 /**

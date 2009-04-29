@@ -38,6 +38,12 @@ if ($_SESSION['login']) {
 
 while ($row = mysql_fetch_array($result)) {
 	$edit_user = filter_input(INPUT_POST, 'edit_user', FILTER_VALIDATE_INT);
+	$submit_edit_user = $_POST['submit_edit_user'];
+
+	if ($submit_edit_user) {
+		include('users_users_edit_submit.php');
+	}
+
 	if ($row['id_user'] == $edit_user) {
 		include('users_users_edit.php');
 	} else {

@@ -1,10 +1,10 @@
 <?php
 /**
- * \mainpage
- * Studentware is a groupware for students.
- *
  * @file
  * Load all the functions, configs, templates and pages needed.
+ *
+ * \mainpage
+ * Studentware is a groupware for students.
  */
 include('functions/functions.php');
 

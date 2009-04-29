@@ -27,6 +27,10 @@
 	</tr>
 
 <?php
+$add_user = $_POST['add_user'];
+
+if ($add_user) {
+
 $input_data = array(
 	'id_group' => FILTER_VALIDATE_INT,
 	'first_name' => FILTER_SANITIZE_ENCODED,
@@ -64,5 +68,7 @@ if ($valid) {
 	');
 	unset($valid);
 	header('Location: ' . current_page());
+}
+
 }
 ?>
