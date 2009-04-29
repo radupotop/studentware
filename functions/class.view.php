@@ -5,7 +5,7 @@
  */
 class View {
 
-	/***************************************************************************
+	/**
 	 * View topics.
 	 * @return null
 	 */
@@ -48,16 +48,14 @@ while ($row = mysql_fetch_array($result)) {
 	return;
 	}
 
-	/***************************************************************************
+	/**
 	 * View posts.
 	 * @return null
 	 */
 	function posts() {
 
 		global $topic;
-		/**
-		 * View topic title.
-		 */
+		// View topic title.
 	if ($topic) {
 		$result = mysql_query('
 			select *
@@ -67,9 +65,8 @@ while ($row = mysql_fetch_array($result)) {
 		$row = mysql_fetch_array($result);
 		echo '<h2>' . $row['title'] . '</h2>' ."\n";
 
-		/**
-		 * View posts from topic.
-		 */
+
+		// View posts from topic.
 		$result = mysql_query('
 			select posts.id_post, posts.id_user, posts.date_created, posts.body,
 				users.first_name, users.fam_name
@@ -97,7 +94,7 @@ while ($row = mysql_fetch_array($result)) {
 	return;
 	}
 
-	/***************************************************************************
+	/**
 	 * View add posts.
 	 * @return null
 	 */

@@ -4,6 +4,8 @@
  * @class Date
  */
 class Date {
+	var $date;
+
 	/**
 	 * Convert date from SQL format to 'd M Y, H:i' format.
 	 * @param string $date - date in SQL format
@@ -14,6 +16,7 @@ class Date {
 		$formatted = date('d M Y, H:i', $unix);
 		return $formatted;
 	}
+
 	/**
 	 * Convert date from any format supported by PHP strtotime() to SQL format.
 	 * @param string $date - date in any format
