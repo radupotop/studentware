@@ -2,12 +2,14 @@
 
 /* create tables */
 
+drop table if exists groups;
 create table groups (
 	id_group int unsigned not null auto_increment,
 	primary key (id_group),
 	title varchar(255)
 );
 
+drop table if exists users;
 create table users (
 	id_user int unsigned not null auto_increment,
 	primary key (id_user),
@@ -20,6 +22,7 @@ create table users (
 	about text
 );
 
+drop table if exists topics;
 create table topics (
 	id_topic int unsigned not null auto_increment,
 	primary key (id_topic),
@@ -29,6 +32,7 @@ create table topics (
 	title varchar(255)
 );
 
+drop table if exists posts;
 create table posts (
 	id_post int unsigned not null auto_increment,
 	primary key (id_post),
@@ -40,6 +44,7 @@ create table posts (
 	body text
 );
 
+drop table if exists pages;
 create table pages (
 	id_page int unsigned not null auto_increment,
 	primary key (id_page),
@@ -50,6 +55,7 @@ create table pages (
 	body text
 );
 
+drop table if exists files;
 create table files (
 	id_file int unsigned not null auto_increment,
 	primary key (id_file),
@@ -60,6 +66,7 @@ create table files (
 	filename varchar(255)
 );
 
+drop table if exists calendar;
 create table calendar (
 	id_cal int unsigned not null auto_increment,
 	primary key (id_cal),
@@ -68,6 +75,7 @@ create table calendar (
 	title varchar(255)
 );
 
+drop table if exists schedule;
 create table schedule (
 	id_sch int unsigned not null auto_increment,
 	primary key (id_sch),

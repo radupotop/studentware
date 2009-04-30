@@ -5,6 +5,15 @@
  */
 
 /**
+ * Connect to database using settings from config.
+ */
+{
+	mysql_connect($db['host'], $db['user'], $db['pass']);
+	mysql_set_charset($db['char']);
+	mysql_select_db($db['name']);
+}
+
+/**
  * Autoload needed classes from corresponding files.
  *
  * @param string $class - class name to be loaded

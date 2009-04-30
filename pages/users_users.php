@@ -46,7 +46,7 @@ while ($row = mysql_fetch_array($result)) {
 	}
 
 	if ($row['id_user'] == $edit_user) {
-		include('users_users_edit.php');
+		View::users_edit();
 	} else {
 	echo
 	'	<tr>' . "\n" .
@@ -71,7 +71,7 @@ while ($row = mysql_fetch_array($result)) {
 			echo
 	'			<button name="delete_user" value="' . $row['id_user'] .
 					'">Delete</button>' . "\n";
-			include('users_users_delete.php');
+			Action::users_delete();
 		}
 		echo
 	'		</td>' . "\n";

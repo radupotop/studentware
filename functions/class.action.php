@@ -16,7 +16,7 @@ class Action {
 		global $topic;
 		global $tags;
 
-		$html_filter = new InputFilter($tags['forum']);
+		global $html_filter;
 		$post = $html_filter->process($post);
 
 		if($reply && $post) {
@@ -118,7 +118,7 @@ class Action {
 		if ($valid) {
 			$filtered_data['pass'] = sha1($filtered_data['pass']);
 			global $tags;
-			$html_filter = new InputFilter($tags['forum']);
+			global $html_filter;
 			$filtered_data['about'] =
 				$html_filter->process($filtered_data['about']);
 			mysql_query(
@@ -129,6 +129,24 @@ class Action {
 				$filtered_data['email'] . '", "' .
 				$filtered_data['pass'] . '", "' .
 				$filtered_data['about'] . '")'
+			);
+			header('Location: ' . current_page(false));
+		}
+	return;
+	}
+
+	/**
+	 * Delete users.
+	 * @return null
+	 */
+	static function users_delete() {
+		$delete_user =
+			filter_input(INPUT_POST, 'delete_user', FILTER_VALIDATE_INT);
+		// do not allow deletion of user with id 1
+		if ($delete_user && $delete_user != 1) {
+			mysql_query(
+				'delete from users
+				where id_user = ' . $delete_user
 			);
 			header('Location: ' . current_page(false));
 		}

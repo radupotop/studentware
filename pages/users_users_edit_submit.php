@@ -12,6 +12,7 @@ $input_data = array(
 );
 
 $filtered_data = filter_input_array(INPUT_POST, $input_data);
+}
 
 if (
 	$filtered_data['id_group'] &&
@@ -25,9 +26,9 @@ if (
 
 if ($valid) {
 	$filtered_data['pass'] = sha1($filtered_data['pass']);
-	$html_filter = new InputFilter($tags['forum']);
+	global $html_filter;
 	$filtered_data['about'] = $html_filter->process($filtered_data['about']);
-	$query =
+	mysql_query(
 		'update users set ' .
 		'id_group = ' . $filtered_data['id_group'] . ', ' .
 		'first_name = "' . $filtered_data['first_name'] . '", ' .
@@ -36,11 +37,8 @@ if ($valid) {
 		'pass = "' . $filtered_data['pass'] . '", ' .
 		'about= "' . $filtered_data['about'] . '" ' .
 		'where id_user = ' . $row['id_user']
-	;
-	mysql_query($query);
-	unset($valid);
+	);
 	header('Location: ' . current_page(false));
 }
 
-}
 ?>

@@ -3,6 +3,7 @@
  * @file
  * Forum and its configuration.
  */
+	$html_filter = new InputFilter($tags['forum']);
 	$topic = filter_input(INPUT_GET, 'topic', FILTER_VALIDATE_INT);
 ?>
 <div id="forum">
