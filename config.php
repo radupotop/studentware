@@ -14,6 +14,14 @@ $site = array (
 );
 
 /**
+ * Allowed HTML tags.
+ */
+$tags = array (
+	'forum' => array('strong', 'em', 'span', 'br', 'cite'),
+	'pages' => array('h2', 'h3', 'strong', 'em', 'span', 'br', 'cite')
+);
+
+/**
  * Database config.
  */
 $db = array (
@@ -24,5 +32,4 @@ $db = array (
 	'char' => 'utf8',
 	'pref' => '' //database prefix
 );
-
 ?>

@@ -25,6 +25,7 @@ if (
 
 if ($valid) {
 	$filtered_data['pass'] = sha1($filtered_data['pass']);
+	$html_filter = new InputFilter($tags['forum']);
 	$filtered_data['about'] = $html_filter->process($filtered_data['about']);
 	$query =
 		'update users set ' .

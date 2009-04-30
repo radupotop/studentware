@@ -9,13 +9,14 @@ class Action {
 	 * Add posts.
 	 * @return null
 	 */
-	function posts_add() {
+	static function posts_add() {
 		$post = $_POST['post'];
 		$reply = $_POST['reply'];
 
 		global $topic;
-		global $html_filter;
+		global $tags;
 
+		$html_filter = new InputFilter($tags['forum']);
 		$post = $html_filter->process($post);
 
 		if($reply && $post) {
@@ -38,7 +39,7 @@ class Action {
 	 * Logout.
 	 * @return null
 	 */
-	function logout() {
+	static function logout() {
 		if ($_SESSION['login']) {
 			$logout = $_POST['logout'];
 			if ($logout) {
@@ -54,7 +55,7 @@ class Action {
 	 * Login.
 	 * @return null
 	 */
-	function login() {
+	static function login() {
 		if ($_SESSION['login']==false) {
 			$email = $_POST['email'];
 			$pass = $_POST['pass'];
@@ -81,6 +82,55 @@ class Action {
 					View::login_error();
 				}
 			}
+		}
+	return;
+	}
+
+	/**
+	 * Add users.
+	 * @return null
+	 */
+	static function users_add() {
+		$add_user = $_POST['add_user'];
+
+		if ($add_user) {
+			$input_data = array(
+				'id_group' => FILTER_VALIDATE_INT,
+				'first_name' => FILTER_SANITIZE_ENCODED,
+				'fam_name' => FILTER_SANITIZE_ENCODED,
+				'email' => FILTER_VALIDATE_EMAIL,
+				'pass' => FILTER_REQUIRE_ARRAY,
+				'about' => FILTER_UNSAFE_RAW,
+				'add_user' => FILTER_REQUIRE_ARRAY
+			);
+			$filtered_data = filter_input_array(INPUT_POST, $input_data);
+		}
+		if (
+			$filtered_data['id_group'] &&
+			$filtered_data['first_name'] &&
+			$filtered_data['fam_name'] &&
+			$filtered_data['email'] &&
+			$filtered_data['pass'] &&
+			$filtered_data['add_user']
+		) {
+			$valid = true;
+		}
+		if ($valid) {
+			$filtered_data['pass'] = sha1($filtered_data['pass']);
+			global $tags;
+			$html_filter = new InputFilter($tags['forum']);
+			$filtered_data['about'] =
+				$html_filter->process($filtered_data['about']);
+			mysql_query(
+				'insert into users values (null, ' .
+				$filtered_data['id_group'] . ', "' .
+				$filtered_data['first_name'] . '", "' .
+				$filtered_data['fam_name'] . '", "' .
+				$filtered_data['email'] . '", "' .
+				$filtered_data['pass'] . '", "' .
+				$filtered_data['about'] . '")'
+			);
+			header('Location: ' . current_page());
 		}
 	return;
 	}

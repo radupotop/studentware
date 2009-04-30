@@ -11,7 +11,7 @@ class Date {
 	 * @param string $date - date in SQL format
 	 * @return string $formatted - date in 'd M Y, H:i' format
 	 */
-	function from_sql($date) {
+	static function from_sql($date) {
 		$unix = strtotime($date);
 		$formatted = date('d M Y, H:i', $unix);
 		return $formatted;
@@ -22,7 +22,7 @@ class Date {
 	 * @param string $date - date in any format
 	 * @return string $formatted - date in SQL format
 	 */
-	function to_sql($date) {
+	static function to_sql($date) {
 		$unix = strtotime($date);
 		$formatted = date('Y-m-d H:i:s', $unix);
 		return $formatted;

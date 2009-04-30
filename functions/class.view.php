@@ -9,7 +9,7 @@ class View {
 	 * View topics.
 	 * @return null
 	 */
-	function topics() {
+	static function topics() {
 ?>
 <table>
 	<thead>
@@ -52,7 +52,7 @@ while ($row = mysql_fetch_array($result)) {
 	 * View posts.
 	 * @return null
 	 */
-	function posts() {
+	static function posts() {
 
 		global $topic;
 		// View topic title.
@@ -98,10 +98,10 @@ while ($row = mysql_fetch_array($result)) {
 	 * View add posts.
 	 * @return null
 	 */
-	function posts_add() {
+	static function posts_add() {
 
 		global $topic;
-		global $allowed_tags;
+		global $tags;
 
 		if ($_SESSION['login'] && $topic) {
 ?>
@@ -111,7 +111,7 @@ while ($row = mysql_fetch_array($result)) {
 			<textarea name="post" rows="5" cols="60" id="post"></textarea><br>
 			<input name="reply" type="submit" value="Post reply">
 			<p class="allowed_tags">Allowed HTML tags:
-				<?php echo implode(', ', $allowed_tags); ?>
+				<?php echo implode(', ', $tags['forum']); ?>
 			</p>
 		</div>
 	</form>
@@ -124,7 +124,7 @@ while ($row = mysql_fetch_array($result)) {
 	 * View logout.
 	 * @return null
 	 */
-	function logout() {
+	static function logout() {
 		if ($_SESSION['login']) {
 ?>
 		<form action="<?php echo current_page('escape'); ?>" method="post">
@@ -143,7 +143,7 @@ while ($row = mysql_fetch_array($result)) {
 	 * View login.
 	 * @return null
 	 */
-	function login() {
+	static function login() {
 		if ($_SESSION['login']==false) {
 ?>
 <form action="<?php echo current_page('escape'); ?>" method="post">
@@ -164,9 +164,46 @@ while ($row = mysql_fetch_array($result)) {
 	 * View login error.
 	 * @return null
 	 */
-	function login_error() {
+	static function login_error() {
 ?>
 		<span class="error">Login incorrect</span>
+<?php
+	return;
+	}
+
+	/**
+	 * View users add.
+	 * @return null
+	 */
+	static function users_add() {
+?>
+	<tr>
+		<td>
+		<select title="Group" name="id_group" id="id_group">
+			<option value="1">Admin</option>
+			<option value="2">Teacher</option>
+			<option value="3" selected="selected">Student</option>
+		</select>
+		</td>
+		<td>
+		<input title="First name" name="first_name" type="text" id="first_name">
+		</td>
+		<td>
+		<input title="Family name" name="fam_name" type="text" id="fam_name">
+		</td>
+		<td>
+		<input title="Email" name="email" type="text" id="email">
+		</td>
+		<td>
+		<input title="Password" name="pass" type="password" id="pass">
+		</td>
+		<td>
+		<input title="About" name="about" type="text" id="about">
+		</td>
+		<td>
+		<input name="add_user" type="submit" value="Add user">
+		</td>
+	</tr>
 <?php
 	return;
 	}

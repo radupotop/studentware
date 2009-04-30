@@ -80,7 +80,8 @@ while ($row = mysql_fetch_array($result)) {
 	}
 }
 	if ($_SESSION['id_group'] == 1) {
-		include('users_users_add.php');
+		View::users_add();
+		Action::users_add();
 	}
 	?>
 
