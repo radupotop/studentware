@@ -105,7 +105,7 @@ while ($row = mysql_fetch_array($result)) {
 
 		if ($_SESSION['login'] && $topic) {
 ?>
-	<form action="<?php echo current_page('escape'); ?>" method="post">
+	<form action="<?php echo current_page(true); ?>" method="post">
 		<div id="reply">
 			<h3><label for="post">Reply</label></h3>
 			<textarea name="post" rows="5" cols="60" id="post"></textarea><br>
@@ -127,7 +127,7 @@ while ($row = mysql_fetch_array($result)) {
 	static function logout() {
 		if ($_SESSION['login']) {
 ?>
-		<form action="<?php echo current_page('escape'); ?>" method="post">
+		<form action="<?php echo current_page(true); ?>" method="post">
 			<div>
 				Hello <strong><?php echo $_SESSION['first_name'] . ' '
 				. $_SESSION['fam_name']; ?></strong>
@@ -146,7 +146,7 @@ while ($row = mysql_fetch_array($result)) {
 	static function login() {
 		if ($_SESSION['login']==false) {
 ?>
-<form action="<?php echo current_page('escape'); ?>" method="post">
+<form action="<?php echo current_page(true); ?>" method="post">
 	<div>
 		<label for="email">Email</label>
 		<input name="email" type="text" id="email">

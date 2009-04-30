@@ -7,7 +7,7 @@ if ($_SESSION['login']) {
 ?>
 
 <h2>Users</h2>
-<form action="<?php echo current_page('escape'); ?>" method="post">
+<form action="<?php echo current_page(true); ?>" method="post">
 <table>
 	<thead>
 	<tr>

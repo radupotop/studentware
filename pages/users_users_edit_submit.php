@@ -39,7 +39,7 @@ if ($valid) {
 	;
 	mysql_query($query);
 	unset($valid);
-	header('Location: ' . current_page());
+	header('Location: ' . current_page(false));
 }
 
 }

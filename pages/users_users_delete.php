@@ -6,6 +6,6 @@ if ($delete_user>1) {
 		delete from users
 		where id_user = ' . $delete_user . '
 	');
-	header('Location: ' . current_page());
+	header('Location: ' . current_page(false));
 }
 ?>

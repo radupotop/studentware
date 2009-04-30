@@ -30,7 +30,7 @@ class Action {
 				set date_modified="' . Date::to_sql('now') . '"
 				where id_topic=' . $topic
 			);
-			header('Location: ' . current_page());
+			header('Location: ' . current_page(false));
 		}
 	return;
 	}
@@ -45,7 +45,7 @@ class Action {
 			if ($logout) {
 				session_destroy();
 				setcookie(session_name(), '', 0, '/');
-				header('Location: ' . current_page());
+				header('Location: ' . current_page(false));
 			}
 		}
 	return;
@@ -77,7 +77,7 @@ class Action {
 					$_SESSION['email'] = $row['email'];
 					$_SESSION['pass'] = $row['pass'];
 					$_SESSION['about'] = $row['about'];
-					header('Location: ' . current_page());
+					header('Location: ' . current_page(false));
 				} else {
 					View::login_error();
 				}
@@ -130,7 +130,7 @@ class Action {
 				$filtered_data['pass'] . '", "' .
 				$filtered_data['about'] . '")'
 			);
-			header('Location: ' . current_page());
+			header('Location: ' . current_page(false));
 		}
 	return;
 	}
