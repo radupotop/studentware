@@ -2,11 +2,11 @@
 	<h2 class="hidden">Login</h2>
 
 <?php
-View::logout();
 Action::logout();
+View::logout();
 
-View::login();
 Action::login();
+View::login();
 ?>
 
 </div>

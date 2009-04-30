@@ -4,6 +4,7 @@
  * View, add, edit, delete users.
  */
 if ($_SESSION['login']) {
+	Action::users_add();
 ?>
 
 <h2>Users</h2>
@@ -81,7 +82,6 @@ while ($row = mysql_fetch_array($result)) {
 }
 	if ($_SESSION['id_group'] == 1) {
 		View::users_add();
-		Action::users_add();
 	}
 	?>
 

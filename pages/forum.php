@@ -16,10 +16,10 @@
 
 <div id="posts">
 <?php
+	Action::posts_add();
+
 	View::posts();
 	View::posts_add();
-
-	Action::posts_add();
 ?>
 </div>
 

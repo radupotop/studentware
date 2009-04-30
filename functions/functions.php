@@ -6,8 +6,6 @@
 
 /**
  * Autoload needed classes from corresponding files.
- * File format is class.class_name.php
- * class_name must be lowercase
  *
  * @param string $class - class name to be loaded
  * @return null
@@ -20,6 +18,7 @@ function __autoload($class) {
 
 /**
  * Trim input string to specified length.
+ *
  * @param string $title - input string
  * @param int $len - length
  * @return string $title - trimmed string followed by '...'
