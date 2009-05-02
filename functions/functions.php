@@ -5,12 +5,13 @@
  */
 
 /**
- * Connect to database using settings from config.
+ * Init.
  */
 {
 	mysql_connect($db['host'], $db['user'], $db['pass']);
 	mysql_set_charset($db['char']);
 	mysql_select_db($db['name']);
+	session_start();
 }
 
 /**
@@ -66,6 +67,15 @@ function current_page($escape) {
 		$get_string = '.';
 	}
 	return $get_string;
+}
+
+/**
+ * Check if current user has permission to do action.
+ *
+ * @return bool
+ */
+function permission() {
+	return true;
 }
 
 ?>

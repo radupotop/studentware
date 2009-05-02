@@ -13,6 +13,7 @@ body {
 
 #header {
 	font: normal 2em Verdana;
+	margin-bottom: 4em;
 }
 
 #menu {
@@ -98,4 +99,10 @@ td, th {
 
 #editable {
 	background: #fcc;
+}
+
+#sidebar {
+	position: absolute;
+	top: 4em;
+	width: 82em;
 }

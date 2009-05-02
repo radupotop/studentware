@@ -95,4 +95,5 @@ insert into groups values(3,'Student');
 
 /* create users */
 
-insert into users values(1, 1, null, null, 'admin', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', null);
+insert into users values(1, 1, null, null, 'admin@example.org',
+	'd033e22ae348aeb5660fc2140aec35850c4da997', null);

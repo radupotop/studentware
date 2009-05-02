@@ -30,6 +30,6 @@ $db = array (
 	'pass' => '',
 	'name' => 'licenta',
 	'char' => 'utf8',
-	'pref' => '' //database prefix
+	'pref' => '' //database prefix - not working yet
 );
 ?>
