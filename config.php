@@ -10,7 +10,8 @@
 $site = array (
 	'name' => 'studentware',
 	'desc' => '',
-	'url'  => 'http://cmyk.wooptoo.com/priv/licenta/'
+	'url'  => 'http://cmyk.wooptoo.com/priv/licenta/',
+	'files' => 'files/'
 );
 
 /**

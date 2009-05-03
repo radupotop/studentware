@@ -5,8 +5,12 @@
 	display: block;
 	position: absolute;
 	background: #fff;
-	top: 0;
 	z-index: 1;
+	bottom: 0;
+	right: 1em;
 ">
-<?php var_dump($_POST); ?>
+<?php
+//var_dump($_POST);
+var_dump($_FILES);
+?>
 </pre>
