@@ -28,6 +28,8 @@ if (in_array($page, $allowed)) {
  */
 include('template/header.php');
 
+//include('debug.php');
+
 if (in_array($page, $allowed)) {
 	include ('pages/' . $page . '.php');
 } else {

@@ -3,7 +3,6 @@
  * @file
  * Display users.
  */
-	$html_filter = new InputFilter($tags['forum']);
 
 if ($_SESSION['login']) {
 ?>
@@ -83,39 +82,42 @@ function display_users_add() {
 
 /**
  * Display users edit.
+ * @param int $id_user
  * @return null
  */
 function display_users_edit() {
 ?>
 	<tr id="editable">
 		<td>
-		<select title="Group" name="id_group">
+		<select title="Group" name="x_id_group">
 			<option value="1">Admin</option>
 			<option value="2">Teacher</option>
 			<option value="3" selected="selected">Student</option>
 		</select>
 		</td>
 		<td>
-		<input title="First name" name="first_name" type="text"
+		<input title="First name" name="x_first_name" type="text"
 			value="<?php echo $row['first_name']; ?>">
 		</td>
 		<td>
-		<input title="Family name" name="fam_name" type="text"
+		<input title="Family name" name="x_fam_name" type="text"
 			value="<?php echo $row['fam_name']; ?>">
 		</td>
 		<td>
-		<input title="Email" name="email" type="text"
+		<input title="Email" name="x_email" type="text"
 			value="<?php echo $row['email']; ?>">
 		</td>
 		<td>
-		<input title="Password" name="pass" type="password">
+		<input title="Password" name="x_pass" type="password">
 		</td>
 		<td>
-		<input title="About" name="about" type="text"
+		<input title="About" name="x_about" type="text"
 			value="<?php echo $row['about']; ?>">
 		</td>
 		<td>
-		<input name="submit_edit_user" type="submit" value="Edit user">
+		<button name="submit_edit_user" value="
+			<?php global $edit_user; echo $edit_user; ?>
+		">Edit user</button>
 		</td>
 	</tr>
 <?php
@@ -154,10 +156,7 @@ function display_users() {
 	');
 
 while ($row = mysql_fetch_array($result)) {
-	// \todo
-	$edit_user = filter_input(INPUT_POST, 'edit_user', FILTER_VALIDATE_INT);
-	$submit_edit_user = $_POST['submit_edit_user'];
-
+	global $edit_user;
 	if ($row['id_user'] == $edit_user) {
 		display_users_edit();
 	} else {
