@@ -32,7 +32,7 @@ function extension($file) {
  * @return string $hashed - file renamed to its hash
  */
 function rename_to_hash($path, $file) {
-	$hash = hash_file('md5', $path . $file);
+	$hash = hash_file('sha1', $path . $file);
 	$ext = substr($file, strrpos($file, '.'));
 	$hashed = $hash . $ext;
 	rename($path . $file, $path . $hashed);
@@ -40,10 +40,13 @@ function rename_to_hash($path, $file) {
 }
 
 /**
- * Display upload.
+ * Input upload.
  * @return bool - whether upload succeded or not
  */
 function input_upload() {
+	if($_SESSION['login'] && $_POST['upload']['submit']) {
+	//$title = filter_input(INPUT_POST, '[upload][title]', FILTER_SANITIZE_ENCODED);
+	$title = $_POST['upload']['title'];
 	global $site;
 	if (
 		($_FILES['upload']['error'] == 0)
@@ -57,14 +60,25 @@ function input_upload() {
 	)
 	) {
 		move_uploaded_file($_FILES['upload']['tmp_name'],
-			$site['files'] . sha1($_FILES['upload']['name']) .
-				extension($_FILES['upload']['name'])
+			$site['files'] . $_FILES['upload']['name']
 		);
+		$hash = rename_to_hash($site['files'], $_FILES['upload']['name']);
+		//if(file_exists($site['files'] . $hash) == false) {
+		mysql_query(
+			'insert into files
+			values (null, "' . $_SESSION['id_user'] . '",
+			"' . Date::to_sql('now') . '", "' . $title . '", "' . $hash . '")'
+		);
+		//}
 		return true;
+		echo $title;
 	}
 	else
 		return false;
+	}
 }
 input_upload();
+
+
 
 ?>
