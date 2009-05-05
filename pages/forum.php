@@ -7,7 +7,6 @@
 	global $tags;
 ?>
 <div id="forum">
-
 <div id="topics">
 <h2>Topics</h2>
 <?php
