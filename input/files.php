@@ -79,6 +79,29 @@ function input_upload() {
 }
 input_upload();
 
+/**
+ * Delete files. First delete file on disk then erase record from database.
+ * @return null
+ */
+function input_delete() {
+	global $site;
+	if ($_SESSION['login'] && $_POST['delete']) {
+		$delete = filter_input(INPUT_POST, 'delete', FILTER_VALIDATE_INT);
+		$result = mysql_query(
+			'select filename
+			from files
+			where id_file=' . $delete
+		);
+		$row = mysql_fetch_array($result);
+		unlink($site['files'] . $row['filename']);
+		mysql_query(
+			'delete from files
+			where id_file=' . $delete
+		);
+	}
+	return;
+}
+input_delete();
 
 
 ?>

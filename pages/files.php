@@ -12,11 +12,13 @@ function display_upload() {
 	if($_SESSION['login']) {
 ?>
 	<tr>
-		<td>
-		<input title="Title" type="text" name="upload[title]" id="upload_title">
+		<td colspan="2">
+		<label for="upload_title">Title</label>
+		<input type="text" name="upload[title]" id="upload_title" size="40">
 		</td>
 		<td colspan="2">
-		<input title="File" type="file" name="upload">
+		<label for="upload_file">File</label>
+		<input type="file" name="upload" id="upload_file">
 		<input type="submit" name='upload[submit]' value="Upload">
 		</td>
 	</tr>
@@ -40,13 +42,16 @@ function display_files() {
 		<th>Title</th>
 		<th>Uploaded by</th>
 		<th>Date</th>
+		<?php if ($_SESSION['login']) { ?>
+		<th>Manage</th>
+		<?php } ?>
 	</tr>
 	</thead>
 	<tbody>
 <?php
 	$result = mysql_query(
-		'select files.id_file, files.id_user, files.date_modified,
-		files.title, files.filename, users.first_name, users.fam_name
+		'select files.id_file, files.id_user, files.date_modified, files.title,
+		files.filename, users.id_group, users.first_name, users.fam_name
 		from files
 		join users
 		on files.id_user = users.id_user
@@ -58,7 +63,24 @@ function display_files() {
 		'		<td><a href="' . $site['files'] . $row['filename'] . '">' .
 					$row['title'] . '</a></td>' .
 		'		<td>' . $row['first_name'] . ' ' . $row['fam_name'] . '</td>' .
-		'		<td>' . Date::from_sql($row['date_modified']) . '</td>' .
+		'		<td>' . Date::from_sql($row['date_modified']) . '</td>';
+		if ($_SESSION['login']) {
+			echo
+		'		<td>';
+			if(
+				$_SESSION['id_user'] == $row['id_user'] ||
+				$_SESSION['id_group'] == 1
+			) {
+				echo
+		'		<button name="edit" value="' . $row['id_file'] .
+						'">Edit</button>' .
+		'		<button name="delete" value="' . $row['id_file'] .
+						'">Delete</button>';
+			}
+			echo
+		'		</td>';
+		}
+		echo
 		'	</tr>';
 	}
 
