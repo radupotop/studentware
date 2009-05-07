@@ -60,8 +60,8 @@ function display_files() {
 	while ($row = mysql_fetch_array($result)) {
 		echo
 		'	<tr>' .
-		'		<td><a href="' . $site['files'] . $row['filename'] . '">' .
-					$row['title'] . '</a></td>' .
+		'		<td><a href="?page=files&amp;download=' .
+				$row['id_file'] . '">' . $row['title'] . '</a></td>' .
 		'		<td>' . $row['first_name'] . ' ' . $row['fam_name'] . '</td>' .
 		'		<td>' . Date::from_sql($row['date_modified']) . '</td>';
 		if ($_SESSION['login']) {

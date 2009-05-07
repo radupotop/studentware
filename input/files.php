@@ -44,34 +44,26 @@ function rename_to_hash($path, $file) {
  * @return bool - whether upload succeded or not
  */
 function input_upload() {
-	if($_SESSION['login'] && $_POST['upload']['submit']) {
-	//$title = filter_input(INPUT_POST, '[upload][title]', FILTER_SANITIZE_ENCODED);
-	$title = $_POST['upload']['title'];
+	$title = filter_var($_POST['upload']['title'], FILTER_SANITIZE_ENCODED);
+	if($_SESSION['login'] && $title) {
 	global $site;
 	if (
 		($_FILES['upload']['error'] == 0)
 	&&	($_FILES['upload']['size'] < 31000000)
-	&&	(file_exists($_FILES['upload']['name']) == 0)
-	&&	ereg("^[^.]+.*$", $_FILES['upload']['name'])
-
 	&&	(
 		($_FILES['upload']['type'] == 'application/zip')
 	||	($_FILES['upload']['type'] == 'image/png')
 	)
 	) {
 		move_uploaded_file($_FILES['upload']['tmp_name'],
-			$site['files'] . $_FILES['upload']['name']
-		);
+			$site['files'] . $_FILES['upload']['name']);
 		$hash = rename_to_hash($site['files'], $_FILES['upload']['name']);
-		//if(file_exists($site['files'] . $hash) == false) {
 		mysql_query(
 			'insert into files
 			values (null, "' . $_SESSION['id_user'] . '",
 			"' . Date::to_sql('now') . '", "' . $title . '", "' . $hash . '")'
 		);
-		//}
 		return true;
-		echo $title;
 	}
 	else
 		return false;
@@ -102,6 +94,31 @@ function input_delete() {
 	return;
 }
 input_delete();
+
+/**
+ * Handles downloads - force the browser to display the save dialog.
+ * @return null
+ */
+function input_download() {
+	global $site;
+	$download = filter_input(INPUT_GET, 'download', FILTER_VALIDATE_INT);
+	if($download) {
+		$result = mysql_query(
+			'select *
+			from files
+			where id_file=' . $download
+		);
+		$row = mysql_fetch_array($result);
+		$download_name = $row['title'] . extension($row['filename']);
+		$file = $site['files'] . $row['filename'];
+		//header('Content-type: ' . mime_content_type($file));
+		header('Content-Disposition: attachment;
+			filename="' . $download_name . '"');
+		readfile($file);
+	}
+	return;
+}
+input_download();
 
 
 ?>
