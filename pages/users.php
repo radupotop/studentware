@@ -44,6 +44,26 @@ function display_groups() {
 display_groups();
 
 /**
+ * Display groups dropdown menu.
+ * @param int $select - select group with this id
+ * @return null
+ */
+function display_groups_dropdown($select) {
+	$result = mysql_query(
+		'select *
+		from groups'
+	);
+	while ($row = mysql_fetch_array($result)) {
+		echo '			<option ';
+		if($row['id_group'] == $select) {
+			echo 'selected="selected" ';
+		}
+		echo 'value="'. $row['id_group'] .'">'. $row['title'] .'</option>'."\n";
+	}
+	return;
+}
+
+/**
  * Display users add.
  * @return null
  */
@@ -51,10 +71,8 @@ function display_users_add() {
 ?>
 	<tr>
 		<td>
-		<select title="Group" name="id_group" id="id_group">
-			<option value="1">Admin</option>
-			<option value="2">Teacher</option>
-			<option value="3" selected="selected">Student</option>
+		<select title="Group" name="id_group">
+			<?php display_groups_dropdown(3); ?>
 		</select>
 		</td>
 		<td>
@@ -82,17 +100,21 @@ function display_users_add() {
 
 /**
  * Display users edit.
- * @param int $id_user
  * @return null
  */
 function display_users_edit() {
+	global $edit_user;
+	$result = mysql_query(
+		'select *
+		from users
+		where id_user=' . $edit_user
+	);
+	$row = mysql_fetch_array($result);
 ?>
-	<tr id="editable">
+	<tr class="editing">
 		<td>
 		<select title="Group" name="x_id_group">
-			<option value="1">Admin</option>
-			<option value="2">Teacher</option>
-			<option value="3" selected="selected">Student</option>
+			<?php display_groups_dropdown($row['id_group']); ?>
 		</select>
 		</td>
 		<td>
@@ -115,9 +137,8 @@ function display_users_edit() {
 			value="<?php echo $row['about']; ?>">
 		</td>
 		<td>
-		<button name="submit_edit_user" value="
-			<?php global $edit_user; echo $edit_user; ?>
-		">Edit user</button>
+		<button name="submit_edit_user" value="<?php echo $edit_user; ?>">
+			Edit user</button>
 		</td>
 	</tr>
 <?php
@@ -129,6 +150,7 @@ function display_users_edit() {
  * @return null
  */
 function display_users() {
+	global $edit_user;
 ?>
 <h2>Users</h2>
 <form action="<?php echo current_page(true); ?>" method="post">
@@ -156,7 +178,6 @@ function display_users() {
 	');
 
 while ($row = mysql_fetch_array($result)) {
-	global $edit_user;
 	if ($row['id_user'] == $edit_user) {
 		display_users_edit();
 	} else {

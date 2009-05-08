@@ -18,7 +18,7 @@ function display_upload() {
 		</td>
 		<td colspan="2">
 		<label for="upload_file">File</label>
-		<input type="file" name="upload" id="upload_file">
+		<input type="file" name="upload" id="upload_file" size="18">
 		<input type="submit" name='upload[submit]' value="Upload">
 		</td>
 	</tr>

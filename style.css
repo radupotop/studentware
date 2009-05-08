@@ -97,8 +97,8 @@ td, th {
 	font: normal .75em Verdana, sans-serif;
 }
 
-#editable {
-	background: #fcc;
+.editing {
+	background: #fcc !important;
 }
 
 #sidebar {

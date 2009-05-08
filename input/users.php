@@ -11,6 +11,7 @@
  * @return null
  */
 function input_users_add() {
+		global $html_filter;
 		$add_user = $_POST['add_user'];
 
 		if ($_SESSION['login'] && $add_user) {
@@ -35,7 +36,6 @@ function input_users_add() {
 		}
 		if ($valid) {
 			$filtered_data['pass'] = sha1($filtered_data['pass']);
-			global $html_filter;
 			$filtered_data['about'] =
 				$html_filter->process($filtered_data['about']);
 			mysql_query(
@@ -74,6 +74,7 @@ input_users_delete();
  * @return null
  */
 function input_users_edit() {
+		global $html_filter;
 		$submit_edit_user =
 			filter_input(INPUT_POST, 'submit_edit_user', FILTER_VALIDATE_INT);
 		if ($_SESSION['login'] && $submit_edit_user) {
@@ -98,7 +99,6 @@ function input_users_edit() {
 		}
 
 		if ($valid) {
-			global $html_filter;
 			$filtered_data['x_about'] =
 				$html_filter->process($filtered_data['x_about']);
 			$query =
@@ -115,6 +115,14 @@ function input_users_edit() {
 				'about= "' . $filtered_data['x_about'] . '" ' .
 				'where id_user = ' . $submit_edit_user;
 			mysql_query($query);
+			if ($_SESSION['id_user'] == $submit_edit_user) {
+
+				$_SESSION['id_group'] = $filtered_data['x_id_group'];
+				$_SESSION['first_name'] = $filtered_data['x_first_name'];
+				$_SESSION['fam_name'] = $filtered_data['x_fam_name'];
+				$_SESSION['email'] = $filtered_data['x_email'];
+				$_SESSION['about'] = $filtered_data['x_about'];
+			}
 		}
 	return;
 }
