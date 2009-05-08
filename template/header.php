@@ -4,10 +4,11 @@
 <html lang="en">
 
 <head>
-	<title>studentware</title>
+	<title>Studentware</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="stylesheet" href="style.css" type="text/css" media="screen">
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" type="text/css" media="screen" href="style.css">
+	<link rel="shortcut icon" type="image/vnd.microsoft.icon"
+		href="favicon.ico">
 </head>
 
 <body>
