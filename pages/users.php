@@ -12,15 +12,66 @@ if ($_SESSION['login']) {
 <?php
 
 /**
+ * Display groups add.
+ * @return null
+ */
+function display_groups_add() {
+?>
+	<tr>
+		<td>
+		<input name="groups[add][title]" type="text" title="Title">
+		</td>
+		<td>
+		<input name="groups[add][submit]" type="submit" value="Add group">
+		</td>
+	</tr>
+<?php
+	return;
+}
+
+/**
+ * Display groups edit.
+ * @return null
+ */
+function display_groups_edit() {
+	global $groups;
+	$result = mysql_query (
+		'select title
+		from groups
+		where id_group = ' . $groups['edit']['req']
+	);
+	$row = mysql_fetch_array($result);
+?>
+	<tr class="editing">
+		<td>
+			<input title="Title" name="groups[edit][title]" type="text"
+				value="<?php echo $row['title'] ?>">
+		</td>
+		<td>
+			<button name="groups[edit][submit]"
+				value="<?php echo $groups['edit']['req'] ?>">
+				Edit group</button>
+		</td>
+	</tr>
+<?php
+	return;
+}
+
+/**
  * Display groups.
  * @return null
  */
 function display_groups() {
+	global $groups;
 ?>
+<form action="<?php echo current_page(true); ?>" method="post">
 <table>
 	<thead>
 	<tr>
 		<th>Group</th>
+		<?php if ($_SESSION['id_group'] == 1) { ?>
+		<th>Manage</th>
+		<?php } ?>
 	</tr>
 	</thead>
 	<tbody>
@@ -30,14 +81,38 @@ function display_groups() {
 		from groups'
 	);
 	while ($row = mysql_fetch_array($result)) {
+		if($row['id_group'] == $groups['edit']['req']) {
+			display_groups_edit();
+		} else {
 		echo
 		'	<tr>' . "\n" .
-		'		<td>' . $row['title'] . '</td>' . "\n" .
+		'		<td>' . $row['title'] . '</td>' . "\n";
+		if($_SESSION['id_group'] == 1) {
+			echo
+		'		<td>' ."\n";
+			echo
+		'		<button name="groups[edit][req]" value="' . $row['id_group'] .
+						'">Edit</button>' ."\n";
+		// do not allow deletion of admin group
+		if($row['id_group'] != 1) {
+			echo
+		'		<button name="groups[delete][req]" value="' . $row['id_group'] .
+						'">Delete</button>' ."\n";
+		}
+			echo
+		'		</td>' ."\n";
+		}
+		echo
 		'	</tr>' . "\n";
+		}
+	}
+	if($_SESSION['id_group'] == 1) {
+		display_groups_add();
 	}
 ?>
 	</tbody>
 </table>
+</form>
 <?php
 	return;
 }

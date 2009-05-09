@@ -5,6 +5,69 @@
  */
 	$html_filter = new InputFilter($tags['forum']);
 	$edit_user = filter_input(INPUT_POST, 'edit_user', FILTER_VALIDATE_INT);
+	$groups['edit']['req'] = filter_var($_POST['groups']['edit']['req'],
+		FILTER_VALIDATE_INT);
+
+/**
+ * Input groups add.
+ * @return null
+ */
+function input_groups_add() {
+	$title =  filter_var($_POST['groups']['add']['title'], FILTER_UNSAFE_RAW);
+	$submit = $_POST['groups']['add']['submit'];
+	if(
+		$title
+		&& $submit
+		&& $_SESSION['id_group'] == 1
+	) {
+		mysql_query(
+		'insert into groups
+		values (null, "'. $title .'")'
+		);
+	}
+	return;
+}
+input_groups_add();
+
+/**
+ * Input groups delete.
+ * @return null
+ */
+function input_groups_delete() {
+	$delete = filter_var($_POST['groups']['delete']['req'],
+		FILTER_VALIDATE_INT);
+	if ($delete && $delete != 1 && $_SESSION['id_group'] == 1) {
+		mysql_query(
+			'delete from groups
+			where id_group = ' . $delete
+		);
+	}
+	return;
+}
+input_groups_delete();
+
+/**
+ * Input groups edit.
+ * @return null
+ */
+function input_groups_edit() {
+	$title =  filter_var($_POST['groups']['edit']['title'], FILTER_UNSAFE_RAW);
+	$submit = filter_var($_POST['groups']['edit']['submit'],
+		FILTER_VALIDATE_INT);
+	if (
+		$title
+		&& $submit
+		&& $_SESSION['id_group'] == 1
+	) {
+		mysql_query(
+			'update groups
+			set title = "'. $title .'"
+			where id_group = '. $submit
+		);
+	}
+	return;
+}
+input_groups_edit();
 
 /**
  * Input users add.
