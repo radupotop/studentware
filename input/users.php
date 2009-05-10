@@ -184,7 +184,6 @@ function input_users_edit() {
 				$_SESSION['first_name'] = $filtered_data['x_first_name'];
 				$_SESSION['fam_name'] = $filtered_data['x_fam_name'];
 				$_SESSION['email'] = $filtered_data['x_email'];
-				$_SESSION['about'] = $filtered_data['x_about'];
 			}
 		}
 	return;

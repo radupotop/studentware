@@ -40,3 +40,8 @@ insert into posts values(null, 3, 1, '2009-02-16 02:20',
 	'Nam scelerisque feugiat mi. Nunc ac risus. Duis egestas arcu in justo. Vestibulum ut turpis vitae sem rutrum pharetra. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam ligula augue, molestie ut, ullamcorper ut, tristique ut, nibh.');
 insert into posts values(null, 3, 2, '2009-03-13 02:20',
 	'Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Integer hendrerit dignissim nunc. Nam viverra, ligula eget fermentum congue, tortor arcu feugiat leo, in lobortis risus nunc eu mauris.');
+
+/* pages */
+
+insert into pages values(null, 1, '2009-05-01 14:50', 'page1', 'we can have lotsa fun', 0);
+insert into pages values(null, 1, '2009-04-02 11:30', 'page2', 'kekeke', 1);

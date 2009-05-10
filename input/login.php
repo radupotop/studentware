@@ -43,7 +43,6 @@ function input_login() {
 					$_SESSION['first_name'] = $row['first_name'];
 					$_SESSION['fam_name'] = $row['fam_name'];
 					$_SESSION['email'] = $row['email'];
-					$_SESSION['about'] = $row['about'];
 				} else {
 					$login_fail = true;
 				}

@@ -52,7 +52,8 @@ create table pages (
 	foreign key (id_user) references users(id_user),
 	date_modified datetime,
 	title varchar(255),
-	body text
+	body text,
+	is_home tinyint unsigned not null
 );
 
 drop table if exists files;
