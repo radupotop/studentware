@@ -14,12 +14,13 @@ function display_upload() {
 	<tr>
 		<td colspan="2">
 		<label for="upload_title">Title</label>
-		<input type="text" name="upload[title]" id="upload_title" size="40">
+		<input type="text" name="upload[add][title]" id="upload_title"
+			size="40">
 		</td>
 		<td colspan="2">
 		<label for="upload_file">File</label>
 		<input type="file" name="upload" id="upload_file" size="18">
-		<input type="submit" name='upload[submit]' value="Upload">
+		<input type="submit" name="upload[add][submit]" value="Upload">
 		</td>
 	</tr>
 <?php
@@ -72,9 +73,9 @@ function display_files() {
 				$_SESSION['id_group'] == 1
 			) {
 				echo
-		'		<button name="edit" value="' . $row['id_file'] .
+		'		<button name="upload[edit][req]" value="' . $row['id_file'] .
 						'">Edit</button>' .
-		'		<button name="delete" value="' . $row['id_file'] .
+		'		<button name="upload[delete][req]" value="' . $row['id_file'] .
 						'">Delete</button>';
 			}
 			echo

@@ -70,12 +70,13 @@ function current_page($escape) {
 }
 
 /**
- * Check if current user has permission to do action.
+ * Check if current user has permissions for specified page.
  *
- * @return bool
+ * @param string $page - page to get permissions for
+ * @return int $perm - permission number
  */
-function permission() {
-	return true;
+function get_permissions($page) {
+	return $perm;
 }
 
 ?>

@@ -44,9 +44,11 @@ function rename_to_hash($path, $file) {
  * @return bool - whether upload succeded or not
  */
 function input_upload() {
-	$title = filter_var($_POST['upload']['title'], FILTER_SANITIZE_ENCODED);
-	if($_SESSION['login'] && $title) {
 	global $site;
+	$title = filter_var($_POST['upload']['add']['title'],
+		FILTER_SANITIZE_ENCODED);
+	$submit = $_POST['upload']['add']['submit'];
+	if($_SESSION['login'] && $title && $submit) {
 	if (
 		($_FILES['upload']['error'] == 0)
 	&&	($_FILES['upload']['size'] < 31000000)
@@ -77,8 +79,8 @@ input_upload();
  */
 function input_delete() {
 	global $site;
-	if ($_SESSION['login'] && $_POST['delete']) {
-		$delete = filter_input(INPUT_POST, 'delete', FILTER_VALIDATE_INT);
+	$delete = filter_var($_POST['upload']['delete']['req'],FILTER_VALIDATE_INT);
+	if ($_SESSION['login'] && $delete) {
 		$result = mysql_query(
 			'select filename
 			from files

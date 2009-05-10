@@ -53,7 +53,7 @@ create table pages (
 	date_modified datetime,
 	title varchar(255),
 	body text,
-	is_home tinyint unsigned not null
+	is_home tinyint unsigned not null default '0'
 );
 
 drop table if exists files;
