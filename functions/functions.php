@@ -17,12 +17,12 @@
 /**
  * Autoload needed classes from corresponding files.
  *
- * @param string $class - class name to be loaded
+ * @param string $class_name
  * @return null
  */
-function __autoload($class) {
-	$class = strtolower($class);
-	require_once 'class.' . $class . '.php';
+function __autoload($class_name) {
+	$class_name = strtolower($class_name);
+	require_once 'class.' . $class_name . '.php';
 	return;
 }
 
@@ -67,6 +67,30 @@ function current_page($escape) {
 		$get_string = '.';
 	}
 	return $get_string;
+}
+
+/**
+ * Get extension of file.
+ * @param string $file - file
+ * @return string $ext - extension
+ */
+function extension($file) {
+	$ext = substr($file, strrpos($file, '.'));
+	return $ext;
+}
+
+/**
+ * Rename filename.ext to hash.ext
+ * @param string $path - path to file
+ * @param string $file - file
+ * @return string $hashed - file renamed to its hash
+ */
+function rename_to_hash($path, $file) {
+	$hash = hash_file('sha1', $path . $file);
+	$ext = substr($file, strrpos($file, '.'));
+	$hashed = $hash . $ext;
+	rename($path . $file, $path . $hashed);
+	return($hashed);
 }
 
 /**

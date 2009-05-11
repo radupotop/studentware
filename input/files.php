@@ -4,62 +4,29 @@
  * Input files.
  */
 
-/**
- * Get filename of file.
- * @param string $file - file
- * @return string $filename - its filename
- */
-function filename($file) {
-	$len = - strlen($file) + strrpos($file, '.');
-	$filename = substr($file, 0, $len);
-	return $filename;
-}
+	$upload['edit']['req'] = filter_var($_POST['upload']['edit']['req'],
+		FILTER_VALIDATE_INT);
 
 /**
- * Get extension of file.
- * @param string $file - file
- * @return string $ext - extension
+ * Input files add.
+ * @return bool - whether add succeded or not
  */
-function extension($file) {
-	$ext = substr($file, strrpos($file, '.'));
-	return $ext;
-}
-
-/**
- * Rename filename.ext to hash.ext
- * @param string $path - path to file
- * @param string $file - file
- * @return string $hashed - file renamed to its hash
- */
-function rename_to_hash($path, $file) {
-	$hash = hash_file('sha1', $path . $file);
-	$ext = substr($file, strrpos($file, '.'));
-	$hashed = $hash . $ext;
-	rename($path . $file, $path . $hashed);
-	return($hashed);
-}
-
-/**
- * Input upload.
- * @return bool - whether upload succeded or not
- */
-function input_upload() {
+function input_files_add() {
 	global $site;
-	$title = filter_var($_POST['upload']['add']['title'],
-		FILTER_SANITIZE_ENCODED);
+	$title = filter_var($_POST['upload']['add']['title'], FILTER_UNSAFE_RAW);
 	$submit = $_POST['upload']['add']['submit'];
 	if($_SESSION['login'] && $title && $submit) {
 	if (
-		($_FILES['upload']['error'] == 0)
-	&&	($_FILES['upload']['size'] < 31000000)
+		($_FILES['upload_add']['error'] == 0)
+	&&	($_FILES['upload_add']['size'] < 31000000)
 	&&	(
-		($_FILES['upload']['type'] == 'application/zip')
-	||	($_FILES['upload']['type'] == 'image/png')
+		($_FILES['upload_add']['type'] == 'application/zip')
+	||	($_FILES['upload_add']['type'] == 'image/png')
 	)
 	) {
-		move_uploaded_file($_FILES['upload']['tmp_name'],
-			$site['files'] . $_FILES['upload']['name']);
-		$hash = rename_to_hash($site['files'], $_FILES['upload']['name']);
+		move_uploaded_file($_FILES['upload_add']['tmp_name'],
+			$site['files'] . $_FILES['upload_add']['name']);
+		$hash = rename_to_hash($site['files'], $_FILES['upload_add']['name']);
 		mysql_query(
 			'insert into files
 			values (null, "' . $_SESSION['id_user'] . '",
@@ -71,13 +38,59 @@ function input_upload() {
 		return false;
 	}
 }
-input_upload();
+input_files_add();
+
+/**
+ * Input files edit.
+ * @return null
+ */
+function input_files_edit() {
+	global $site;
+	$title =  filter_var($_POST['upload']['edit']['title'], FILTER_UNSAFE_RAW);
+	$submit = filter_var($_POST['upload']['edit']['submit'],
+		FILTER_VALIDATE_INT);
+	if ($_SESSION['login'] && $title && $submit) {
+		$result = mysql_query(
+			'select *
+			from files
+			where id_file = '.$submit
+		);
+		$row = mysql_fetch_array($result);
+
+		if (
+			($_FILES['upload_edit']['error'] == 0)
+			&&	($_FILES['upload_edit']['size'] < 31000000)
+			&&	(
+				($_FILES['upload_edit']['type'] == 'application/zip')
+			||	($_FILES['upload_edit']['type'] == 'image/png')
+			)
+		) {
+			move_uploaded_file($_FILES['upload_edit']['tmp_name'],
+				$site['files'] . $_FILES['upload_edit']['name']);
+			$hash = rename_to_hash($site['files'],
+				$_FILES['upload_edit']['name']);
+			mysql_query(
+				'update files set '.
+				'id_user = '.$_SESSION['id_user'].', '.
+				'date_modified = "'.Date::to_sql('now').'", '.
+				'title = "'.$title.'", '.
+				'filename = "'.$hash.'" '.
+				'where id_file = '.$submit
+			);
+			@unlink($site['files'] . $row['filename']);
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+input_files_edit();
 
 /**
  * Delete files. First delete file on disk then erase record from database.
  * @return null
  */
-function input_delete() {
+function input_files_delete() {
 	global $site;
 	$delete = filter_var($_POST['upload']['delete']['req'],FILTER_VALIDATE_INT);
 	if ($_SESSION['login'] && $delete) {
@@ -87,7 +100,7 @@ function input_delete() {
 			where id_file=' . $delete
 		);
 		$row = mysql_fetch_array($result);
-		unlink($site['files'] . $row['filename']);
+		@unlink($site['files'] . $row['filename']);
 		mysql_query(
 			'delete from files
 			where id_file=' . $delete
@@ -95,13 +108,13 @@ function input_delete() {
 	}
 	return;
 }
-input_delete();
+input_files_delete();
 
 /**
  * Handles downloads - force the browser to display the save dialog.
  * @return null
  */
-function input_download() {
+function input_files_download() {
 	global $site;
 	$download = filter_input(INPUT_GET, 'download', FILTER_VALIDATE_INT);
 	if($download) {
@@ -120,7 +133,7 @@ function input_download() {
 	}
 	return;
 }
-input_download();
+input_files_download();
 
 
 ?>

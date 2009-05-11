@@ -5,10 +5,10 @@
  */
 
 /**
- * Display upload.
+ * Display files add.
  * @return null
  */
-function display_upload() {
+function display_files_add() {
 	if($_SESSION['login']) {
 ?>
 	<tr>
@@ -19,12 +19,45 @@ function display_upload() {
 		</td>
 		<td colspan="2">
 		<label for="upload_file">File</label>
-		<input type="file" name="upload" id="upload_file" size="18">
+		<input type="file" name="upload_add" id="upload_file" size="18">
 		<input type="submit" name="upload[add][submit]" value="Upload">
 		</td>
 	</tr>
 <?php
 	}
+	return;
+}
+
+/**
+ * Display files edit.
+ * @return null
+ */
+function display_files_edit() {
+	global $upload;
+	$result = mysql_query(
+		'select title
+		from files
+		where id_file = '.$upload['edit']['req']
+	);
+	$row = mysql_fetch_array($result);
+	if($_SESSION['login'] && $upload) {
+?>
+	<tr class="editing">
+		<td colspan="2">
+		<label for="upload_edit_title">Title</label>
+		<input type="text" name="upload[edit][title]" id="upload_edit_title"
+			size="40" value="<?php echo $row['title'] ?>">
+		</td>
+		<td colspan="2">
+		<label for="upload_edit_file">File</label>
+		<input type="file" name="upload_edit" id="upload_edit_file" size="18">
+		<button name="upload[edit][submit]"
+			value="<?php echo $upload['edit']['req'] ?>">Edit file</button>
+		</td>
+	</tr>
+<?php
+	}
+	return;
 }
 
 /**
@@ -33,6 +66,7 @@ function display_upload() {
  */
 function display_files() {
 	global $site;
+	global $upload;
 ?>
 <h2>Files</h2>
 <form action="<?php echo current_page(true); ?>" method="post"
@@ -59,6 +93,9 @@ function display_files() {
 		order by date_modified desc'
 	);
 	while ($row = mysql_fetch_array($result)) {
+		if($row['id_file'] == $upload['edit']['req']) {
+			display_files_edit();
+		} else {
 		echo
 		'	<tr>' .
 		'		<td><a href="?page=files&amp;download=' .
@@ -84,8 +121,9 @@ function display_files() {
 		echo
 		'	</tr>';
 	}
+	}
 
-display_upload();
+display_files_add();
 ?>
 	</tbody>
 </table>

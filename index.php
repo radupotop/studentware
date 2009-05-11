@@ -28,8 +28,6 @@ if (in_array($page, $allowed)) {
  */
 include('template/header.php');
 
-include('debug/debug.php');
-
 if (in_array($page, $allowed)) {
 	include ('pages/' . $page . '.php');
 } else {
@@ -37,5 +35,6 @@ if (in_array($page, $allowed)) {
 }
 
 include('template/sidebar.php');
+include('debug/debug.php');
 include('template/footer.php');
 ?>
