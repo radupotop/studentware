@@ -16,6 +16,20 @@
  */
 function display_home_edit() {
 	global $home;
+	$result = mysql_query(
+		'select *
+		from pages
+		where is_home=1'
+	);
+	$row = mysql_fetch_array($result);
+?>
+	<input name="home[edit][title]" type="text" id="home_edit_title"
+		value="<?php echo $row['title'] ?>"><br><br>
+	<textarea name="home[edit][body]" rows="18" cols="80"
+		id="home_edit_body"><?php echo $row['body'] ?></textarea><br><br>
+	<button name="home[edit][submit]" value="<?php echo $row['id_page'] ?>">
+		Submit</button>
+<?php
 	return;
 }
 
@@ -52,6 +66,5 @@ function display_home() {
 display_home();
 ?>
 
-</div>
 </div>
 </form>

@@ -18,7 +18,7 @@ body {
 	margin: .3em 0 2.6em 0;
 }
 
-h2 {
+h2, #home_edit_title {
 	font: normal 2em "Trebuchet MS";
 }
 
