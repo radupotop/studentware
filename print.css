@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+#sidebar, #debug {
+	display: none;
+}
+
+.author .user {
+	font-weight: bold;
+}

@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 html {
 	font: normal .75em Verdana, sans-serif;
 }
@@ -76,11 +78,15 @@ td, th {
 	clear: both;
 }
 
-#forum {
+#forum, #pages {
 	clear: both;
 }
 
-#topics, #posts {
+#forum h2, #pages h2 {
+	margin: 0 0 1em 0;
+}
+
+#topics, #posts, #page_list, #page {
 	width: 50%;
 	float: left;
 }

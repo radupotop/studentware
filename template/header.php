@@ -7,6 +7,7 @@
 	<title>Studentware</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<link rel="stylesheet" type="text/css" media="screen" href="style.css">
+	<link rel="stylesheet" type="text/css" media="print" href="print.css">
 	<link rel="shortcut icon" type="image/vnd.microsoft.icon"
 		href="favicon.ico">
 </head>

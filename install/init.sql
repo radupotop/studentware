@@ -98,3 +98,8 @@ insert into groups values(3,'Student');
 
 insert into users values(1, 1, null, null, 'admin@example.org',
 	'd033e22ae348aeb5660fc2140aec35850c4da997', null);
+
+/* create home page */
+
+insert into pages values(null, 1, '2009-05-01 14:50', 'Welcome',
+	'Home page, edit me!', 1);
