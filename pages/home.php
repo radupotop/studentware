@@ -57,8 +57,8 @@ function display_home() {
 		'</div>'."\n";
 	if ($_SESSION['id_group'] == 1) {
 		echo
-		'<button name="home[edit][req]" value="'.$row['id_page'].'">
-			Edit</button>'."\n";
+		'<p><button name="home[edit][req]" value="'.$row['id_page'].'">
+			Edit</button></p>'."\n";
 	}
 	}
 	return;

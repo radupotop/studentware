@@ -21,13 +21,12 @@ function input_home_edit() {
 			FILTER_VALIDATE_INT);
 	}
 	if($title && $body && $submit) {
-		// \todo fix query
 		mysql_query(
 			'update pages set '.
 			'id_user = "'.$_SESSION['id_user'].'", '.
 			'date_modified = "'.Date::to_sql('now').'", '.
 			'title = "'.$title.'", '.
-			'body = "'.$body.'", '.
+			'body = "'.$body.'" '.
 			'where id_page='.$submit.' and is_home = 1'
 		);
 	}
