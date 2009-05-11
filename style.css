@@ -14,8 +14,12 @@ body {
 }
 
 #header {
-	font: normal 2em Verdana;
-	margin-bottom: 4em;
+	font: normal 3em "Trebuchet MS";
+	margin: .3em 0 2.6em 0;
+}
+
+h2 {
+	font: normal 2em "Trebuchet MS";
 }
 
 #menu {
@@ -109,6 +113,6 @@ td, th {
 
 #sidebar {
 	position: absolute;
-	top: 4em;
+	top: 4.2em;
 	width: 82em;
 }

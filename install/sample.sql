@@ -43,6 +43,15 @@ insert into posts values(null, 3, 2, '2009-03-13 02:20',
 
 /* pages */
 
+update pages set body='
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec id massa vitae risus eleifend consectetuer. Donec accumsan ornare purus. Aliquam malesuada. Integer rutrum, justo id fringilla congue, ligula libero mattis odio, quis pulvinar tellus sapien non enim. Quisque in urna eu lorem pharetra feugiat. Quisque ligula lacus, congue tristique, consequat in, aliquet nec, augue. Ut lobortis. Donec a leo. Duis ipsum. In porta felis sed nisl. Pellentesque ipsum. Maecenas ac dui. Etiam accumsan condimentum pede. Cras sit amet nunc scelerisque nunc aliquam porttitor. Fusce hendrerit laoreet sem. Aenean mi ante, faucibus sed, fringilla eu, malesuada eu, libero. Curabitur dictum sem. Nullam dignissim euismod nibh. Suspendisse eu diam.
+<br><br>
+Fusce eget nisl imperdiet lectus sagittis tempor. Aenean condimentum elementum nisi. Integer sollicitudin. Suspendisse non leo. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis aliquam, tellus nec hendrerit mattis, felis lectus euismod eros, eu auctor pede magna eget odio. Morbi elementum lectus non eros. Morbi volutpat viverra diam. Fusce sed elit eu nisi egestas eleifend. Pellentesque pellentesque. Etiam sed mauris vitae nunc accumsan cursus. Fusce tristique lacinia quam. In hac habitasse platea dictumst.
+<br><br>
+Aliquam erat volutpat. Vestibulum sollicitudin turpis et eros. Sed euismod massa sit amet enim. Nulla nec tortor non nisl tristique sodales. Nam scelerisque feugiat mi. Nunc ac risus. Duis egestas arcu in justo. Vestibulum ut turpis vitae sem rutrum pharetra. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam ligula augue, molestie ut, ullamcorper ut, tristique ut, nibh.
+<br><br>
+' where id_page=1;
+
 insert into pages values(null, 1, '2009-04-02 11:30', 'page2', '
 This copy of the libpng notices is provided for your convenience.  In case of
 any discrepancy between this copy and the notices in the file png.h that is
