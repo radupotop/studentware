@@ -13,6 +13,10 @@ body {
 	margin: 0 auto;
 }
 
+textarea {
+	font: normal 1em Verdana, sans-serif;
+}
+
 #header {
 	font: normal 3em "Trebuchet MS";
 	margin: .3em 0 2.6em 0;

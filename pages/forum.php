@@ -119,7 +119,7 @@ function display_posts_add() {
 	<form action="<?php echo current_page(true); ?>" method="post">
 		<div id="reply">
 			<h3><label for="post">Reply</label></h3>
-			<textarea name="post" rows="5" cols="60" id="post"></textarea><br>
+			<textarea name="post" rows="5" cols="58" id="post"></textarea><br>
 			<input name="reply" type="submit" value="Post reply">
 			<p class="allowed_tags">Allowed HTML tags:
 				<?php echo implode(', ', $tags['forum']); ?>
