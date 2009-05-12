@@ -12,7 +12,7 @@ insert into users values(null, 3, 'Gavril', 'Adace', 'adace@yahoo.com',
 insert into users values(null, 3, 'Bartha', 'Ciprian', 'bartha@yahoo.com',
 	'83592796bc17705662dc9a750c8b6d0a4fd93396', '');
 insert into users values(null, 3, 'Adam', 'Gergely', 'gergely@yahoo.com',
-	'83592796bc17705662dc9a750c8b6d0a4fd93396', '');
+	'83592796bc17705662dc9a750c8b6d0a4fd93396', 'Admiral Anquietas');
 
 
 /* topics */
@@ -46,9 +46,13 @@ insert into posts values(null, 3, 2, '2009-03-13 02:20',
 update pages set body='
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec id massa vitae risus eleifend consectetuer. Donec accumsan ornare purus. Aliquam malesuada. Integer rutrum, justo id fringilla congue, ligula libero mattis odio, quis pulvinar tellus sapien non enim. Quisque in urna eu lorem pharetra feugiat. Quisque ligula lacus, congue tristique, consequat in, aliquet nec, augue. Ut lobortis. Donec a leo. Duis ipsum. In porta felis sed nisl. Pellentesque ipsum. Maecenas ac dui. Etiam accumsan condimentum pede. Cras sit amet nunc scelerisque nunc aliquam porttitor. Fusce hendrerit laoreet sem. Aenean mi ante, faucibus sed, fringilla eu, malesuada eu, libero. Curabitur dictum sem. Nullam dignissim euismod nibh. Suspendisse eu diam.
 <br><br>
+<strong>
 Fusce eget nisl imperdiet lectus sagittis tempor. Aenean condimentum elementum nisi. Integer sollicitudin. Suspendisse non leo. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis aliquam, tellus nec hendrerit mattis, felis lectus euismod eros, eu auctor pede magna eget odio. Morbi elementum lectus non eros. Morbi volutpat viverra diam. Fusce sed elit eu nisi egestas eleifend. Pellentesque pellentesque. Etiam sed mauris vitae nunc accumsan cursus. Fusce tristique lacinia quam. In hac habitasse platea dictumst.
+</strong>
 <br><br>
+<em>
 Aliquam erat volutpat. Vestibulum sollicitudin turpis et eros. Sed euismod massa sit amet enim. Nulla nec tortor non nisl tristique sodales. Nam scelerisque feugiat mi. Nunc ac risus. Duis egestas arcu in justo. Vestibulum ut turpis vitae sem rutrum pharetra. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam ligula augue, molestie ut, ullamcorper ut, tristique ut, nibh.
+</em>
 <br><br>
 ' where id_page=1;
 
@@ -86,3 +90,14 @@ Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
 <br><br>
 Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas dapibus ipsum vitae ligula. Aliquam ornare dignissim velit. Sed et lacus ut tortor dapibus tempus. Vestibulum consectetuer purus. Aliquam eleifend diam id leo. Sed mattis. Aenean eget lorem in velit rutrum porta. Cras rhoncus, arcu sed iaculis laoreet, tellus arcu interdum ipsum, vitae suscipit massa sem in dui. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Pellentesque volutpat vestibulum tellus. Quisque dolor justo, lacinia in, ultricies vitae, pretium quis, ligula. Morbi a neque et enim ultricies interdum. Integer laoreet, leo in consequat ornare, tellus magna volutpat lorem, suscipit vehicula eros eros vel pede. Donec vel metus ac arcu feugiat bibendum. Fusce tempor neque id tortor. Curabitur a eros non erat ultricies nonummy.
 ', 0);
+
+/* calendar */
+
+insert into calendar values(null, '2009-04-29 13:00', '',
+	'Cercetari operationale');
+insert into calendar values(null, '2009-04-30 08:00', '',
+	'Limbaje formale');
+insert into calendar values(null, '2009-05-12 16:00', '',
+	'Statistica');
+insert into calendar values(null, '2009-05-14 16:00', '',
+	'Sesiunea de comunicari');

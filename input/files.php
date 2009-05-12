@@ -22,6 +22,7 @@ function input_files_add() {
 	&&	(
 		($_FILES['upload_add']['type'] == 'application/zip')
 	||	($_FILES['upload_add']['type'] == 'image/png')
+	||	($_FILES['upload_add']['type'] == 'image/jpeg')
 	)
 	) {
 		move_uploaded_file($_FILES['upload_add']['tmp_name'],
@@ -63,6 +64,7 @@ function input_files_edit() {
 			&&	(
 				($_FILES['upload_edit']['type'] == 'application/zip')
 			||	($_FILES['upload_edit']['type'] == 'image/png')
+			||	($_FILES['upload_edit']['type'] == 'image/jpeg')
 			)
 		) {
 			move_uploaded_file($_FILES['upload_edit']['tmp_name'],
