@@ -7,8 +7,8 @@
 <div id="schedule">
 
 <style type="text/css" media="all">
-	html {
-		font: normal .75em Tahoma, Verdana, sans-serif;
+	#schedule {
+		font: normal 1em Tahoma, Verdana, sans-serif;
 	}
 	table {
 		width: 80em;
