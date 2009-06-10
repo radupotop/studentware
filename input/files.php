@@ -132,6 +132,7 @@ function input_files_download() {
 		header('Content-Disposition: attachment;
 			filename="' . $download_name . '"');
 		readfile($file);
+		exit;
 	}
 	return;
 }

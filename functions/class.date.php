@@ -18,6 +18,16 @@ class Date {
 	}
 
 	/**
+	 * Convert date from any format to UNIX format
+	 * @param string $date - date in any format
+	 * @return string $unix - date in UNIX format
+	 */
+	static function to_unix($date) {
+		$unix = strtotime($date);
+		return $unix;
+	}
+
+	/**
 	 * Convert date from any format supported by PHP strtotime() to SQL format.
 	 * @param string $date - date in any format
 	 * @return string $formatted - date in SQL format

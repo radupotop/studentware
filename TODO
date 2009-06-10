@@ -17,3 +17,6 @@ email discutii <> email atentionare
 orar/calendar ajax
 permissions
 linking system
+
+bugs:
+* files: upload la acelasi fisier, sterge fisierul
