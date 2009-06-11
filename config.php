@@ -18,9 +18,10 @@ $site = array (
  * Allowed HTML tags.
  */
 $tags = array (
-	'forum' => array('strong', 'em', 'span', 'br', 'cite', 'code'),
-	'pages' => array('h2', 'h3', 'strong', 'em', 'span', 'br', 'cite', 'code',
-		'img')
+	'forum' => array('strong', 'em', 'br', 'cite', 'code'),
+	'pages' => array('h2', 'h3', 'h4', 'h5', 'h6', 'strong', 'em', 'br',
+		'cite', 'blockquote', 'code', 'pre', 'img',
+		'ul', 'ol', 'li')
 );
 
 /**

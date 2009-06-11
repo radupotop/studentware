@@ -10,6 +10,8 @@
  */
 function display_calendar() {
 ?>
+<form action="<?php echo current_page(true); ?>" method="post"
+	enctype="multipart/form-data">
 <table>
 <thead>
 	<tr>
@@ -38,13 +40,22 @@ function display_calendar() {
 			echo Date::from_sql($row['date_end']);
 		}
 		echo
-				'</td>'."\n".
-		'		<td></td>'."\n".
-		'	</tr>'."\n";
+				'</td>'."\n";
+		if($_SESSION['id_group'] == 1) {
+		echo
+		'<td>'.
+		'		<button name="cal[edit][req]" value="' . $row['id_cal'] .
+						'">Edit</button>' .
+		'		<button name="cal[delete][req]" value="' . $row['id_cal'] .
+						'">Delete</button>'.
+		'</td>';
+		}
+		echo '	</tr>'."\n";
 	}
 ?>
 </tbody>
 </table>
+</form>
 <?php
 	return;
 }

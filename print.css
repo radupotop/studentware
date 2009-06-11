@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-#sidebar, #debug {
+#sidebar, #debug, #reply {
 	display: none;
 }
 

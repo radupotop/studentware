@@ -18,8 +18,9 @@ insert into users values(null, 3, 'Adam', 'Gergely', 'gergely@yahoo.com',
 /* topics */
 
 insert into topics values(null, 1, '2009-02-13 02:20', 'Hello Dolly');
-insert into topics values(null, 5, '2009-02-14 08:30', 'This is Louis');
-insert into topics values(null, 4, '2009-02-15 14:15', 'Dolly');
+insert into topics values(null, 5, '2009-02-14 08:30', 'This is Louis, Dolly');
+insert into topics values(null, 4, '2009-02-15 14:15', 'Lorem Ipsum');
+insert into topics values(null, 1, '2009-05-13 03:12', 'Despre JavaScript');
 
 
 /* posts */
@@ -40,6 +41,12 @@ insert into posts values(null, 3, 1, '2009-02-16 02:20',
 	'Nam scelerisque feugiat mi. Nunc ac risus. Duis egestas arcu in justo. Vestibulum ut turpis vitae sem rutrum pharetra. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam ligula augue, molestie ut, ullamcorper ut, tristique ut, nibh.');
 insert into posts values(null, 3, 2, '2009-03-13 02:20',
 	'Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Integer hendrerit dignissim nunc. Nam viverra, ligula eget fermentum congue, tortor arcu feugiat leo, in lobortis risus nunc eu mauris.');
+insert into posts values(null, 4, 1, '2009-05-13 02:00', '
+JavaScript este un limbaj de programare orientat obiect bazat pe conceptul prototipurilor. Este folosit mai ales pentru introducerea unor funcţionalităţi în paginile web, codul Javascript din aceste pagini fiind rulat de către browser.
+');
+insert into posts values(null, 4, 3, '2009-05-13 03:00', '
+În ciuda numelui şi a unor similarităţi în sintaxă, între JavaScript şi limbajul Java nu există nicio legătură. Ca şi Java, JavaScript are o sintaxă apropiată de cea a limbajului C, dar are mai multe în comun cu limbajul Self decât cu Java.
+');
 
 /* pages */
 
@@ -89,6 +96,60 @@ Aliquam erat volutpat. Vestibulum sollicitudin turpis et eros. Sed euismod massa
 Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Integer hendrerit dignissim nunc. Nam viverra, ligula eget fermentum congue, tortor arcu feugiat leo, in lobortis risus nunc eu mauris. Nunc elit justo, elementum mollis, tempor quis, pretium ut, purus. In hac habitasse platea dictumst. Donec fringilla, felis eget sodales facilisis, ligula quam egestas diam, id feugiat pede ipsum a elit. Duis non lorem. Cras sollicitudin. In hac habitasse platea dictumst. In hac habitasse platea dictumst. Integer diam ipsum, pretium et, commodo sed, suscipit nec, velit. Sed arcu. Mauris mollis elementum risus. Nunc at justo a ante sagittis pharetra. Proin eu mauris eget dui facilisis vestibulum. Donec ut diam quis libero fermentum vestibulum. Sed in purus. Mauris molestie urna nec dolor.
 <br><br>
 Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas dapibus ipsum vitae ligula. Aliquam ornare dignissim velit. Sed et lacus ut tortor dapibus tempus. Vestibulum consectetuer purus. Aliquam eleifend diam id leo. Sed mattis. Aenean eget lorem in velit rutrum porta. Cras rhoncus, arcu sed iaculis laoreet, tellus arcu interdum ipsum, vitae suscipit massa sem in dui. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Pellentesque volutpat vestibulum tellus. Quisque dolor justo, lacinia in, ultricies vitae, pretium quis, ligula. Morbi a neque et enim ultricies interdum. Integer laoreet, leo in consequat ornare, tellus magna volutpat lorem, suscipit vehicula eros eros vel pede. Donec vel metus ac arcu feugiat bibendum. Fusce tempor neque id tortor. Curabitur a eros non erat ultricies nonummy.
+', 0);
+
+insert into pages values(null, 1, '2009-05-13 11:00', 'Video encoder', '
+Cateva detalii despre cum se poate face video encoderul pentru proiectul cu Streaming Media Website.<br>
+<h3>Idei</h3>
+<ul>
+	<li>se poate face in CGI</li>
+	<li>pot sa-l scriu in bash</li>
+	<li>putem folosit fie mencoder sau ffmpeg</li>
+	<li>scriptul CGI se poate interfata cu php</li>
+	<li>parerea mea e ca nu avem nevoie de server de streaming<br>
+		(scriptul produce fisierul .flv care e streamed direct de un player flash)</li>
+	<li>si ffmpeg si mencoder pot converti din (aproape) orice format in .flv<br>
+		(nu trebuie specificat => less fuss)</li>
+</ul>
+<h3>Functionare</h3>
+<ul>
+	<li>php-ul uploadeaza undeva fisierul video</li>
+	<li>ii paseaza scriptului cgi path-ul unde gaseste video-ul (php exec, etc.)</li>
+	<li>scriptul produce un video pe care il poate copia/muta undeva accesibil de catre php</li>
+	<li>php paseaza playerului flash path-ul catre .flv </li>
+</ul>
+<h3>Note</h3>
+<ul>
+	<li>Se mai poate implementa un queue pentru encoding, in caz ca sunt introduse mai multe filme de-o data pentru encoding.</li>
+	<li>php-ul ar trebui sa genereze niste linkuri unice (permalinks) catre diversele videos uploadate<br>
+		(hash-uri a la youtube merge, desi sunt cam idioate)</li>
+	<li>trebuie rezolvata problema cu stocarea mai multor videos in acelasi loc<br>
+		(putem sa le facem rename de la numele original, la un hash sau. e tricky) </li>
+</ul>
+<h3>Exemple</h3>
+<h4>CGI</h4>
+<pre>
+#!/bin/sh
+
+#varianta ffmpeg:
+ffmpeg -i $1 -ar 22050 $1.flv
+
+#varianta mencoder (nu am testat-o inca):
+mencoder -forceidx -of lavf -oac mp3lame -lameopts abr:br=56 \
+-srate 22050 -ovc lavc -lavcopts \
+vcodec=flv:vbitrate=250:mbd=2:mv0:trell:v4mv:cbp:last_pred=3 \
+-vf scale=360:240 -o $1.flv $1
+</pre>
+
+<h4>PHP</h4>
+Sau direct in php
+<pre>
+
+system("fmpeg -i $1 -ar 22050 $1.flv", $return)
+if ($return == 0) echo DONE
+
+</pre>
+Wooptoo 17:32, 19 March 2009 (EET)
 ', 0);
 
 /* calendar */
