@@ -10,6 +10,7 @@
  */
 function display_calendar() {
 ?>
+<h2>Calendar</h2>
 <form action="<?php echo current_page(true); ?>" method="post"
 	enctype="multipart/form-data">
 <table>
