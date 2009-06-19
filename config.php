@@ -10,8 +10,60 @@
 $site = array (
 	'name' => 'studentware',
 	'desc' => '',
-	'url'  => 'http://cmyk.wooptoo.com/priv/licenta/',
-	'files' => 'files/'
+	'url'  => 'http://cmyk.wooptoo.com/priv/licenta/'
+);
+
+/**
+ * Files section config.
+ * Configure path to store files, max file size, allowed file types
+ */
+$files = array (
+	'path' => 'files/',
+	'size' => '31000000',
+	'type' => array (
+		// Images
+		'image/png',
+		'image/gif',
+		'image/jpeg', 'image/pjpeg',
+		'image/svg+xml',
+		// Archives
+		'application/zip',
+		'application/x-gzip',
+		'application/rar',
+		// Audio Video
+		'audio/mpeg',
+		'video/mpeg',
+		'audio/ogg',
+		'video/ogg',
+		'application/ogg',
+		'video/mp4',
+		'video/x-msvideo',
+		'video/x-ms-wmv',
+		'video/quicktime',
+		'video/x-flv',
+		// Source code
+		'text/x-csrc',
+		'text/x-chdr',
+		'text/x-c++src',
+		'text/x-c++hdr',
+		'text/x-python',
+		'text/x-java',
+		'text/x-sh',
+		// Documents
+		'text/html',
+		'application/xml',
+		'application/xhtml+xml',
+		'application/pdf',
+		'application/postscript',
+		'application/msword',
+		'application/vnd.ms-excel',
+		'application/vnd.ms-powerpoint',
+		'application/vnd.oasis.opendocument.text',
+		'application/vnd.oasis.opendocument.presentation',
+		'application/vnd.oasis.opendocument.spreadsheet',
+		'application/vnd.oasis.opendocument.graphics',
+		'text/plain'
+	)
 );
 
 /**

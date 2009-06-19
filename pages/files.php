@@ -65,7 +65,6 @@ function display_files_edit() {
  * @return null
  */
 function display_files() {
-	global $site;
 	global $upload;
 ?>
 <h2>Files</h2>
