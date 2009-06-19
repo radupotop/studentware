@@ -3,19 +3,20 @@
  * @file
  * Display page.
  */
-	$p = filter_input(INPUT_GET, 'p', FILTER_VALIDATE_INT);
+	$p = filter_input(INPUT_GET, 'p', FILTER_VALIDATE_INT); // current page
 	global $tags;
 ?>
 <div id="pages">
 <?php
 /**
- * Display page list.
+ * Display list of pages.
  * @return null
  */
 function display_page_list() {
 ?>
 <div id="page_list">
 <h2>Pages</h2>
+<form action="<?php echo current_page(true); ?>" method="post">
 <table>
 	<thead>
 	<tr>
@@ -47,9 +48,11 @@ while ($row = mysql_fetch_array($result)) {
 	'		<td>' . Date::from_sql($row['date_modified']) . '</td>' . "\n" .
 	'	</tr>' . "\n";
 }
+	display_page_add();
 ?>
 	</tbody>
 </table>
+</form>
 </div>
 <?php
 	return;
@@ -108,23 +111,19 @@ function display_page_add() {
 		global $p;
 		global $tags;
 
-		if ($_SESSION['login'] && $p) {
+		if ($_SESSION['login']) {
 ?>
-	<form action="<?php echo current_page(true); ?>" method="post">
-		<div id="reply">
-			<h3><label for="post">Reply</label></h3>
-			<textarea name="post" rows="5" cols="60" id="post"></textarea><br>
-			<input name="reply" type="submit" value="Post reply">
-			<p class="allowed_tags">Allowed HTML tags:
-				<?php echo implode(', ', $tags['forum']); ?>
-			</p>
-		</div>
-	</form>
+	<tr>
+		<td></td>
+		<td></td>
+		<td>
+		<input type="submit" name="page[add][req]" value="Add page">
+		</td>
+	</tr>
 <?php
 		}
 	return;
 }
-//display_page_add();
 ?>
 </div>
 </div>

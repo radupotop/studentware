@@ -15,7 +15,7 @@ $site = array (
 
 /**
  * Files section config.
- * Configure path to store files, max file size, allowed file types
+ * Configure path to files, max file size, allowed file types
  */
 $files = array (
 	'path' => 'files/',
