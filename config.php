@@ -10,7 +10,8 @@
 $site = array (
 	'name' => 'studentware',
 	'desc' => '',
-	'url'  => 'http://cmyk.wooptoo.com/priv/licenta/'
+	'url'  => 'http://cmyk.wooptoo.com/priv/licenta/',
+	'home' => '1' // id of home page
 );
 
 /**
@@ -70,10 +71,12 @@ $files = array (
  * Allowed HTML tags.
  */
 $tags = array (
-	'forum' => array('strong', 'em', 'br', 'cite', 'code'),
-	'pages' => array('h2', 'h3', 'h4', 'h5', 'h6', 'strong', 'em', 'br',
-		'cite', 'blockquote', 'code', 'pre', 'img',
-		'ul', 'ol', 'li')
+	'h2', 'h3', 'h4', 'h5', 'h6',
+	'strong', 'em', 'br',
+	'cite', 'blockquote', 'code', 'pre',
+	'sub', 'sup', 'del',
+	'p', 'span', 'img', 'a',
+	'ul', 'ol', 'li'
 );
 
 /**

@@ -52,8 +52,7 @@ create table pages (
 	foreign key (id_user) references users(id_user),
 	date_modified datetime,
 	title varchar(255),
-	body text,
-	is_home tinyint unsigned not null default '0'
+	body text
 );
 
 drop table if exists files;
@@ -67,19 +66,19 @@ create table files (
 	filename varchar(255)
 );
 
-drop table if exists calendar;
-create table calendar (
-	id_cal int unsigned not null auto_increment,
-	primary key (id_cal),
+drop table if exists calendars;
+create table calendars (
+	id_calendar int unsigned not null auto_increment,
+	primary key (id_calendar),
 	date_start datetime,
 	date_end datetime,
 	title varchar(255)
 );
 
-drop table if exists schedule;
-create table schedule (
-	id_sch int unsigned not null auto_increment,
-	primary key (id_sch),
+drop table if exists schedules;
+create table schedules (
+	id_schedule int unsigned not null auto_increment,
+	primary key (id_schedule),
 	time_start time,
 	time_end time,
 	weekday int unsigned,
@@ -102,4 +101,4 @@ insert into users values(1, 1, null, null, 'admin@example.org',
 /* create home page */
 
 insert into pages values(null, 1, '2009-05-01 14:50', 'Welcome',
-	'Home page, edit me!', 1);
+	'Home page, edit me!');
