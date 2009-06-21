@@ -3,7 +3,7 @@
  * @file
  * Display page.
  */
-	$p = filter_input(INPUT_GET, 'p', FILTER_VALIDATE_INT); // current page
+	$pg = filter_input(INPUT_GET, 'pg', FILTER_VALIDATE_INT); // current page
 ?>
 <div id="pages">
 <?php
@@ -41,7 +41,7 @@ while ($row = mysql_fetch_array($result)) {
 	echo
 	'	<tr>' . "\n" .
 	'		<td>' . "\n" .
-	'		<a href="?page=' . $_GET['page'] . '&amp;p=' .
+	'		<a href="?p=' . $_GET['p'] . '&amp;pg=' .
 		$row['id_page'] . '">' . trim_title($row['title'], 20) . '</a>' ."\n".
 	'		</td>' . "\n" .
 	'		<td>' . $row['first_name'] . ' ' . $row['fam_name'] . '</td>' ."\n".
@@ -67,8 +67,8 @@ function display_page() {
 ?>
 <div id="page">
 <?php
-	global $p;
-	if ($p) {
+	global $pg;
+	if ($pg) {
 		$result = mysql_query(
 			'select pages.id_page, pages.id_user, pages.date_modified,
 				pages.title, pages.body, users.id_user, users.first_name,
@@ -76,7 +76,7 @@ function display_page() {
 			from pages
 			join users
 			on pages.id_user = users.id_user
-			where id_page='.$p
+			where id_page='.$pg
 		);
 		$row = mysql_fetch_array($result);
 		// View page title.
@@ -108,7 +108,7 @@ display_page();
  * @return null
  */
 function display_page_add() {
-		global $p;
+		global $pg;
 
 		if ($_SESSION['login']) {
 ?>

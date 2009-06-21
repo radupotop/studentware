@@ -9,7 +9,7 @@
 require('config.php');
 include('functions/functions.php');
 
-$page = $_GET['page'];
+$p = $_GET['p'];
 $allowed = array('pages', 'forum', 'files', 'calendar', 'schedule', 'users');
 
 /**
@@ -17,8 +17,8 @@ $allowed = array('pages', 'forum', 'files', 'calendar', 'schedule', 'users');
  */
 include('input/login.php');
 
-if (in_array($page, $allowed)) {
-	include ('input/' . $page . '.php');
+if (in_array($p, $allowed)) {
+	include ('input/' . $p . '.php');
 } else {
 	include ('input/home.php');
 }
@@ -28,8 +28,8 @@ if (in_array($page, $allowed)) {
  */
 include('template/header.php');
 
-if (in_array($page, $allowed)) {
-	include ('pages/' . $page . '.php');
+if (in_array($p, $allowed)) {
+	include ('pages/' . $p . '.php');
 } else {
 	include ('pages/home.php');
 }

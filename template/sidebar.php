@@ -18,14 +18,14 @@ function display_menu() {
 ?>
 <ul id="menu">
 	<li><a href=".">Home</a></li>
-	<li><a href="?page=pages">Pages</a></li>
-	<li><a href="?page=forum">Forum</a></li>
-	<li><a href="?page=files">Files</a></li>
-	<li><a href="?page=schedule">Schedule</a></li>
-	<li><a href="?page=calendar">Calendar</a></li>
+	<li><a href="?p=pages">Pages</a></li>
+	<li><a href="?p=forum">Forum</a></li>
+	<li><a href="?p=files">Files</a></li>
+	<li><a href="?p=schedule">Schedule</a></li>
+	<li><a href="?p=calendar">Calendar</a></li>
 
 	<?php if ($_SESSION['login']) { ?>
-	<li><a href="?page=users">Users</a></li>
+	<li><a href="?p=users">Users</a></li>
 	<?php } ?>
 </ul>
 <?php

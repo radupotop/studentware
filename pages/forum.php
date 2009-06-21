@@ -38,7 +38,7 @@ while ($row = mysql_fetch_array($result)) {
 	echo
 	'	<tr>' . "\n" .
 	'		<td>' . "\n" .
-	'		<a href="?page=' . $_GET['page'] . '&amp;topic=' .
+	'		<a href="?p=' . $_GET['p'] . '&amp;topic=' .
 		$row['id_topic'] . '">' . trim_title($row['title'], 20) . '</a>' ."\n".
 	'		</td>' . "\n" .
 	'		<td>' . $row['first_name'] . ' ' . $row['fam_name'] . '</td>' ."\n".
