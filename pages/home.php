@@ -2,7 +2,7 @@
 /**
  * @file
  * Home page.
- * Pages from pages.is_home appear here.
+ * This is defined in config.php
  */
 ?>
 
@@ -15,11 +15,11 @@
  * @return null
  */
 function display_home_edit() {
-	global $home;
+	global $site;
 	$result = mysql_query(
 		'select *
 		from pages
-		where is_home=1'
+		where id_page='.$site['home']
 	);
 	$row = mysql_fetch_array($result);
 ?>
@@ -38,14 +38,14 @@ function display_home_edit() {
  * @return null
  */
 function display_home() {
-	global $home;
+	global $site, $home;
 	if($home['edit']['req']) {
 		display_home_edit();
 	} else {
 	$result = mysql_query(
 		'select *
 		from pages
-		where is_home = 1'
+		where id_page='.$site['home']
 	);
 	$row = mysql_fetch_array($result);
 	//title

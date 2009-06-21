@@ -3,7 +3,7 @@
  * @file
  * Input users.
  */
-	$html_filter = new InputFilter($tags['forum']);
+	$html_filter = new InputFilter($tags);
 	$edit_user = filter_input(INPUT_POST, 'edit_user', FILTER_VALIDATE_INT);
 	$groups['edit']['req'] = filter_var($_POST['groups']['edit']['req'],
 		FILTER_VALIDATE_INT);

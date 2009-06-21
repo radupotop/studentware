@@ -4,7 +4,6 @@
  * Display page.
  */
 	$p = filter_input(INPUT_GET, 'p', FILTER_VALIDATE_INT); // current page
-	global $tags;
 ?>
 <div id="pages">
 <?php
@@ -13,6 +12,7 @@
  * @return null
  */
 function display_page_list() {
+	global $site;
 ?>
 <div id="page_list">
 <h2>Pages</h2>
@@ -29,11 +29,11 @@ function display_page_list() {
 <?php
 $result = mysql_query('
 		select pages.id_page, pages.id_user, pages.date_modified,
-			pages.title, pages.is_home, users.first_name, users.fam_name
+			pages.title, users.first_name, users.fam_name
 		from pages
 		join users
 		on pages.id_user=users.id_user
-		where pages.is_home = 0
+		where pages.id_page !='.$site['home'].'
 		order by date_modified desc
 	');
 
@@ -109,7 +109,6 @@ display_page();
  */
 function display_page_add() {
 		global $p;
-		global $tags;
 
 		if ($_SESSION['login']) {
 ?>

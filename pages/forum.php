@@ -4,7 +4,6 @@
  * Display forum.
  */
 	$topic = filter_input(INPUT_GET, 'topic', FILTER_VALIDATE_INT);
-	global $tags;
 ?>
 <div id="forum">
 <div id="topics">
@@ -112,7 +111,6 @@ display_posts();
  */
 function display_posts_add() {
 		global $topic;
-		global $tags;
 
 		if ($_SESSION['login'] && $topic) {
 ?>
@@ -121,9 +119,6 @@ function display_posts_add() {
 			<h3><label for="post">Reply</label></h3>
 			<textarea name="post" rows="5" cols="58" id="post"></textarea><br>
 			<input name="reply" type="submit" value="Post reply">
-			<p class="allowed_tags">Allowed HTML tags:
-				<?php echo implode(', ', $tags['forum']); ?>
-			</p>
 		</div>
 	</form>
 <?php

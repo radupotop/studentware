@@ -28,7 +28,7 @@ function display_calendar() {
 <?php
 	$result = mysql_query(
 		'select *
-		from calendar
+		from calendars
 		order by date_start'
 	);
 	while ($row = mysql_fetch_array($result)) {
@@ -45,10 +45,10 @@ function display_calendar() {
 		if($_SESSION['id_group'] == 1) {
 		echo
 		'<td>'.
-		'		<button name="cal[edit][req]" value="' . $row['id_cal'] .
-						'">Edit</button>' .
-		'		<button name="cal[delete][req]" value="' . $row['id_cal'] .
-						'">Delete</button>'.
+		'		<button name="calendar[edit][req]" value="'
+					.$row['id_calendar'].'">Edit</button>' .
+		'		<button name="calendar[delete][req]" value="'
+					.$row['id_calendar'].'">Delete</button>'.
 		'</td>';
 		}
 		echo '	</tr>'."\n";

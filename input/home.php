@@ -6,7 +6,7 @@
 
 	$home['edit']['req'] = filter_var($_POST['home']['edit']['req'],
 		FILTER_VALIDATE_INT);
-	$html_filter = new InputFilter($tags['pages']);
+	$html_filter = new InputFilter($tags);
 
 /**
  * Edit home page
@@ -27,7 +27,7 @@ function input_home_edit() {
 			'date_modified = "'.Date::to_sql('now').'", '.
 			'title = "'.$title.'", '.
 			'body = "'.$body.'" '.
-			'where id_page='.$submit.' and is_home = 1'
+			'where id_page='.$submit
 		);
 	}
 	return;

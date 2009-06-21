@@ -4,7 +4,7 @@
  * Input forum.
  */
 	$topic = filter_input(INPUT_GET, 'topic', FILTER_VALIDATE_INT);
-	$html_filter = new InputFilter($tags['forum']);
+	$html_filter = new InputFilter($tags);
 
 /**
  * Input posts add.
