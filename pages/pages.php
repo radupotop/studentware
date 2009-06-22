@@ -3,7 +3,6 @@
  * @file
  * Display page.
  */
-	$pag = filter_input(INPUT_GET, 'pag', FILTER_VALIDATE_INT); // current page
 ?>
 <div id="pages">
 <?php
@@ -68,7 +67,9 @@ function display_page() {
 ?>
 <div id="page">
 <?php
-	if ($pag) {
+	if ($page['edit']['req']) {
+		display_page_edit();
+	} else if ($pag) {
 		$result = mysql_query(
 			'select pages.id_page, pages.id_user, pages.date_modified,
 				pages.title, pages.body, users.id_user, users.first_name,
@@ -95,6 +96,19 @@ function display_page() {
 		'<div id="body">'."\n".
 		$row['body'];
 		'</div>'."\n";
+		?>
+		<form action="<?php echo current_page(true); ?>" method="post">
+		<?php
+		if ($_SESSION['id_group'] == 1) {
+			echo '<p>
+				<button name="page[edit][req]"
+					value="'.$row['id_page'].'">Edit</button>'."\n".
+				'<button name="page[delete][req]"
+					value="'.$row['id_page'].'">Delete</button></p>'."\n";
+		}
+		?>
+		</form>
+		<?php
 	}
 ?>
 </div>
@@ -121,6 +135,28 @@ function display_page_add() {
 	</tr>
 <?php
 		}
+	return;
+}
+
+/**
+ * Display page edit.
+ * @return null
+ */
+function display_page_edit() {
+	$result = mysql_query(
+		'select *
+		from pages
+		where id_page='.$page['edit']['req']
+	);
+	$row = mysql_fetch_array($result);
+?>
+	<input name="page[edit][title]" type="text"
+		value="<?php echo $row['title'] ?>"><br><br>
+	<textarea name="page[edit][body]" rows="18" cols="80">
+		<?php echo $row['body'] ?></textarea><br><br>
+	<button name="page[edit][submit]"
+		value="<?php echo $row['id_page'] ?>">Submit</button>
+<?php
 	return;
 }
 ?>

@@ -3,7 +3,6 @@
  * @file
  * Display forum.
  */
-	$topic = filter_input(INPUT_GET, 'topic', FILTER_VALIDATE_INT);
 ?>
 <div id="forum">
 <div id="topics">
