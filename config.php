@@ -74,9 +74,18 @@ $tags = array (
 	'h2', 'h3', 'h4', 'h5', 'h6',
 	'strong', 'em', 'br',
 	'cite', 'blockquote', 'code', 'pre',
-	'sub', 'sup', 'del',
+	'sub', 'sup', 'del', 'ins',
 	'p', 'span', 'img', 'a',
-	'ul', 'ol', 'li'
+	'ul', 'ol', 'li',
+	'dl', 'dt', 'dd',
+	'abbr', 'acronym', 'hr'
+);
+$attr = array (
+	'href', 'src', 'lang',
+	'title', 'alt',
+	'rel', 'rev',
+	'id', 'class', 'name',
+	'style', 'width', 'height', 'align'
 );
 
 /**
