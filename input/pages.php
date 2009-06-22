@@ -4,7 +4,7 @@
  * Input processing for pages.
  */
 	$pag = filter_input(INPUT_GET, 'pag', FILTER_VALIDATE_INT); // current page
-	$html_filter = new InputFilter($tags);
+	$html_filter = new InputFilter($tags, $attr);
 	$page['edit']['req'] =
 		filter_var($_POST['page']['edit']['req'], FILTER_VALIDATE_INT);
 
@@ -29,8 +29,8 @@ function input_page_edit() {
 			'update pages set '.
 			'id_user = "'.$_SESSION['id_user'].'", '.
 			'date_modified = "'.Date::to_sql('now').'", '.
-			'title = "'.$page['edit']['title'].'", '.
-			'body = "'.$page['edit']['body'].'" '.
+			'title = "'.esc($page['edit']['title']).'", '.
+			'body = "'.esc($page['edit']['body']).'" '.
 			'where id_page='.$page['edit']['submit']
 		);
 	}

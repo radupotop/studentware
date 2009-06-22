@@ -3,7 +3,7 @@
  * @file
  * Input users.
  */
-	$html_filter = new InputFilter($tags);
+	$html_filter = new InputFilter($tags, $attr);
 	$edit_user = filter_input(INPUT_POST, 'edit_user', FILTER_VALIDATE_INT);
 	$groups['edit']['req'] = filter_var($_POST['groups']['edit']['req'],
 		FILTER_VALIDATE_INT);
@@ -22,7 +22,7 @@ function input_groups_add() {
 	) {
 		mysql_query(
 		'insert into groups
-		values (null, "'. $title .'")'
+		values (null, "'. esc($title) .'")'
 		);
 	}
 	return;
@@ -61,7 +61,7 @@ function input_groups_edit() {
 	) {
 		mysql_query(
 			'update groups
-			set title = "'. $title .'"
+			set title = "'. esc($title) .'"
 			where id_group = '. $submit
 		);
 	}
@@ -80,8 +80,8 @@ function input_users_add() {
 		if ($_SESSION['login'] && $add_user) {
 			$input_data = array(
 				'id_group' => FILTER_VALIDATE_INT,
-				'first_name' => FILTER_SANITIZE_ENCODED,
-				'fam_name' => FILTER_SANITIZE_ENCODED,
+				'first_name' => FILTER_UNSAFE_RAW,
+				'fam_name' => FILTER_UNSAFE_RAW,
 				'email' => FILTER_VALIDATE_EMAIL,
 				'pass' => FILTER_REQUIRE_ARRAY,
 				'about' => FILTER_UNSAFE_RAW
@@ -104,11 +104,11 @@ function input_users_add() {
 			mysql_query(
 				'insert into users values (null, ' .
 				$filtered_data['id_group'] . ', "' .
-				$filtered_data['first_name'] . '", "' .
-				$filtered_data['fam_name'] . '", "' .
-				$filtered_data['email'] . '", "' .
+				esc($filtered_data['first_name']) . '", "' .
+				esc($filtered_data['fam_name']) . '", "' .
+				esc($filtered_data['email']) . '", "' .
 				$filtered_data['pass'] . '", "' .
-				$filtered_data['about'] . '")'
+				esc($filtered_data['about']) . '")'
 			);
 		}
 	return;
@@ -167,15 +167,15 @@ function input_users_edit() {
 			$query =
 				'update users set ' .
 				'id_group = ' . $filtered_data['x_id_group'] . ', ' .
-				'first_name = "' . $filtered_data['x_first_name'] . '", ' .
-				'fam_name = "' . $filtered_data['x_fam_name'] . '", ' .
-				'email = "' . $filtered_data['x_email'] . '", ';
+				'first_name = "' . esc($filtered_data['x_first_name']) . '", ' .
+				'fam_name = "' . esc($filtered_data['x_fam_name']) . '", ' .
+				'email = "' . esc($filtered_data['x_email']) . '", ';
 			if($filtered_data['x_pass']) {
 				$filtered_data['x_pass'] = sha1($filtered_data['x_pass']);
 				$query = $query . 'pass = "' . $filtered_data['x_pass'] . '", ';
 			}
 			$query = $query .
-				'about= "' . $filtered_data['x_about'] . '" ' .
+				'about= "' . esc($filtered_data['x_about']) . '" ' .
 				'where id_user = ' . $submit_edit_user;
 			mysql_query($query);
 			if ($_SESSION['id_user'] == $submit_edit_user) {

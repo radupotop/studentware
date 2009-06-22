@@ -4,7 +4,7 @@
  * Input forum.
  */
 	$topic = filter_input(INPUT_GET, 'topic', FILTER_VALIDATE_INT);
-	$html_filter = new InputFilter($tags);
+	$html_filter = new InputFilter($tags, $attr);
 
 /**
  * Input posts add.
@@ -22,13 +22,13 @@ function input_posts_add() {
 		if($post) {
 			mysql_query(
 				'insert into posts
-				values (null, ' . $topic . ', ' . $_SESSION['id_user'] . ', "' .
-				Date::to_sql('now') . '", "' . $post . '")'
+				values (null, ' . esc($topic) . ', ' . $_SESSION['id_user'] . ', "' .
+				Date::to_sql('now') . '", "' . esc($post) . '")'
 			);
 			mysql_query(
 				'update topics
 				set date_modified="' . Date::to_sql('now') . '"
-				where id_topic=' . $topic
+				where id_topic=' . esc($topic)
 			);
 		}
 	}
