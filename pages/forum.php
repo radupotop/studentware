@@ -95,7 +95,7 @@ function display_posts() {
 			'	<span class="date">' . Date::from_sql($row['date_created']) .
 			'</span>' . "\n" .
 			'</p>' . "\n" .
-			'<p class="content">' . $row['body'] . '</p>' .
+			'<div class="content">' . $row['body'] . '</div>' .
 			'</div>' .  "\n\n";
 		}
 	}
@@ -115,8 +115,8 @@ function display_posts_add() {
 ?>
 	<form action="<?php echo current_page(true); ?>" method="post">
 		<div id="reply">
-			<h3><label for="post">Reply</label></h3>
-			<textarea name="post" rows="5" cols="58" id="post"></textarea><br>
+			<h3><label for="textarea">Reply</label></h3>
+			<textarea name="post" rows="5" cols="57" id="textarea"></textarea><br>
 			<input name="reply" type="submit" value="Post reply">
 		</div>
 	</form>
