@@ -75,7 +75,7 @@ $tags = array (
 	'strong', 'em', 'br',
 	'cite', 'blockquote', 'code', 'pre',
 	'sub', 'sup', 'del', 'ins',
-	'p', 'span', 'img', 'a',
+	'div', 'p', 'span', 'img', 'a',
 	'ul', 'ol', 'li',
 	'dl', 'dt', 'dd',
 	'abbr', 'acronym', 'hr'

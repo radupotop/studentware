@@ -94,6 +94,21 @@ function rename_to_hash($path, $file) {
 }
 
 /**
+ * Escape data to be inserted into db.
+ *
+ * @param $value - value to be escaped
+ * @return $value - escaped value
+ */
+function esc($value) {
+	if (get_magic_quotes_gpc() == false) {
+		$value = mysql_real_escape_string($value);
+  	}
+	return $value;
+}
+
+
+
+/**
  * Check if current user has permissions for specified page.
  *
  * @param string $page - page to get permissions for

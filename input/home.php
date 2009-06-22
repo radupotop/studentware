@@ -25,8 +25,8 @@ function input_home_edit() {
 			'update pages set '.
 			'id_user = "'.$_SESSION['id_user'].'", '.
 			'date_modified = "'.Date::to_sql('now').'", '.
-			'title = "'.$title.'", '.
-			'body = "'.addslashes($body).'" '.
+			'title = "'.esc($title).'", '.
+			'body = "'.esc($body).'" '.
 			'where id_page='.$submit
 		);
 	}
