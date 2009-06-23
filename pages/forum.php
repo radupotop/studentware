@@ -34,6 +34,7 @@
  * @return null
  */
 function display_topic_list() {
+	global $topic;
 ?>
 <form action="<?php echo current_page(true); ?>" method="post">
 <table>
@@ -59,6 +60,9 @@ $result = mysql_query('
 	');
 
 while ($row = mysql_fetch_array($result)) {
+	if($topic['edit']['req'] == $row['id_topic']) {
+		display_topic_edit();
+	} else {
 ?>
 <tr>
 	<td>
@@ -68,14 +72,17 @@ while ($row = mysql_fetch_array($result)) {
 	</td>
 	<td><?php echo $row['first_name'].' '.$row['fam_name'] ?></td>
 	<td><?php echo Date::from_sql($row['date_modified']) ?></td>
+	<?php if ($_SESSION['login']) { ?>
 	<td>
 		<button name="topic[edit][req]"
 			value="<?php echo $row['id_topic'] ?>">Edit</button>
 		<button name="topic[delete][req]"
 			value="<?php echo $row['id_topic'] ?>">Delete</button>
 	</td>
+	<?php } ?>
 </tr>
 <?php
+	}
 }
 if ($_SESSION['login']) {
 ?>
@@ -203,6 +210,35 @@ function display_topic_add() {
 	return;
 }
 
+/**
+ * Display topic edit
+ * @return null
+ */
+function display_topic_edit() {
+	global $topic;
+
+	if ($_SESSION['login']) {
+		$result = mysql_query (
+			'select *
+			from topics
+			where id_topic='.$topic['edit']['req']
+		);
+		$row = mysql_fetch_array($result);
+?>
+<tr class="editing">
+	<td colspan="3">
+		<input type="text" name="topic[edit][title]" size="70"
+			value="<?php echo $row['title'] ?>">
+	</td>
+	<td>
+		<button name="topic[edit][submit]"
+			value="<?php echo $row['id_topic'] ?>">Edit topic</button>
+	</td>
+</tr>
+<?php
+	}
+	return;
+}
 
 /**
  * Display post edit.

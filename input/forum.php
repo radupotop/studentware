@@ -7,6 +7,8 @@
 		filter_input(INPUT_GET, 'topic', FILTER_VALIDATE_INT); // topic number
 	$topic['add']['req'] =
 		$_POST['topic']['add']['req'];
+	$topic['edit']['req'] =
+		filter_var($_POST['topic']['edit']['req'], FILTER_VALIDATE_INT);
 	$post['edit']['req'] =
 		filter_var($_POST['post']['edit']['req'], FILTER_VALIDATE_INT);
 
@@ -62,9 +64,11 @@ function input_post_edit() {
 	if($_SESSION['login']
 	&& $post['edit']['body']
 	&& $post['edit']['submit']) {
+		$edit_tag = '<p><em>Edited by '.$_SESSION['first_name'].' '.
+			$_SESSION['fam_name'].' on '.Date::from_sql('now').'</em></p>';
 		mysql_query(
 			'update posts set
-			body="'.esc($post['edit']['body']).'"
+			body="'.esc($post['edit']['body']).$edit_tag.'"
 			where id_post='.$post['edit']['submit']
 		);
 	}
@@ -72,6 +76,27 @@ function input_post_edit() {
 }
 input_post_edit();
 
+/**
+ * Input topic edit
+ * @return null
+ */
+function input_topic_edit() {
+	$topic['edit']['title'] =
+		filter_var($_POST['topic']['edit']['title'], FILTER_UNSAFE_RAW);
+	$topic['edit']['submit'] =
+		filter_var($_POST['topic']['edit']['submit'], FILTER_VALIDATE_INT);
+	if ($_SESSION['login']
+	&& $topic['edit']['title']
+	&& $topic['edit']['submit']) {
+		mysql_query (
+			'update topics set
+			title="'.esc($topic['edit']['title']).'"
+			where id_topic='.$topic['edit']['submit']
+		);
+	}
+	return;
+}
+input_topic_edit();
 
 /**
  * Input topic add.
