@@ -8,8 +8,8 @@
  * Site config.
  */
 $site = array (
-	'name' => 'studentware',
-	'desc' => '',
+	'name' => 'Info 3',
+	'desc' => 'grupa 2231',
 	'url'  => 'http://cmyk.wooptoo.com/priv/licenta/',
 	'home' => '1' // id of home page
 );

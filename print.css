@@ -1,6 +1,11 @@
 @charset "UTF-8";
 
-#sidebar, #debug, #reply, #textarea, select, textarea, button, input {
+a {
+	text-decoration: none;
+}
+
+#sidebar, #debug, #reply, #textarea, #page_list, #topic_list,
+	select, textarea, button, input {
 	display: none;
 }
 

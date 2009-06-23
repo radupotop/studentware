@@ -16,8 +16,10 @@
 <body>
 
 <h1 id="header">
-	<a href="<?php echo $site['url']; ?>"><?php echo $site['name']; ?></a>
+	<a href="<?php echo $site['url']; ?>">
+		<?php echo $site['name']; ?>
+		<span id="desc"><?php echo $site['desc']; ?></span>
+	</a>
 </h1>
-<p id="desc"><?php echo $site['desc']; ?></p>
 
 <div id="content">

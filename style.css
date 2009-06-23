@@ -20,12 +20,16 @@ textarea {
 }
 
 #header {
-	font: normal 3em "Trebuchet MS";
+	font: normal 3em "Trebuchet MS", sans-serif;
 	margin: .3em 0 2.6em 0;
 }
 
+#desc {
+	font-size: .5em;
+}
+
 h2, .page_title {
-	font: normal 2em "Trebuchet MS";
+	font: normal 2em "Trebuchet MS", sans-serif;
 }
 
 #menu {
