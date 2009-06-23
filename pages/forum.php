@@ -40,6 +40,9 @@ function display_topic_list() {
 		<th>Title</th>
 		<th>Started by</th>
 		<th>Last post</th>
+	<?php if ($_SESSION['login']) { ?>
+		<th>Manage</th>
+	<?php } ?>
 	</tr>
 	</thead>
 	<tbody>
@@ -54,19 +57,28 @@ $result = mysql_query('
 	');
 
 while ($row = mysql_fetch_array($result)) {
-	echo
-	'	<tr>' . "\n" .
-	'		<td>' . "\n" .
-	'		<a href="?p=' . $_GET['p'] . '&amp;topic=' .
-		$row['id_topic'] . '">' . trim_title($row['title'], 20) . '</a>' ."\n".
-	'		</td>' . "\n" .
-	'		<td>' . $row['first_name'] . ' ' . $row['fam_name'] . '</td>' ."\n".
-	'		<td>' . Date::from_sql($row['date_modified']) . '</td>' . "\n".
-	'	</tr>' . "\n";
+?>
+<tr>
+	<td>
+		<a href="<?php echo '?p='.$_GET['p'].'&amp;topic='.$row['id_topic'] ?>">
+			<?php echo trim_title($row['title'], 20) ?>
+		</a>
+	</td>
+	<td><?php echo $row['first_name'].' '.$row['fam_name'] ?></td>
+	<td><?php echo Date::from_sql($row['date_modified']) ?></td>
+	<td>
+		<button name="topic[edit][req]"
+			value="<?php echo $row['id_topic'] ?>">Edit</button>
+		<button name="topic[delete][req]"
+			value="<?php echo $row['id_topic'] ?>">Delete</button>
+	</td>
+</tr>
+<?php
 }
 if ($_SESSION['login']) {
 ?>
 	<tr>
+		<td></td>
 		<td></td>
 		<td></td>
 		<td>
@@ -90,7 +102,7 @@ if ($_SESSION['login']) {
 function display_post_list() {
 	global $topic;
 
-	// View topic title.
+	// display topic title.
 	$result = mysql_query('
 		select *
 		from topics
@@ -99,7 +111,7 @@ function display_post_list() {
 	$row = mysql_fetch_array($result);
 	echo '<h2>' . $row['title'] . '</h2>' ."\n";
 
-	// View posts from topic.
+	// display posts from topic.
 	$result = mysql_query('
 		select posts.id_post, posts.id_user, posts.date_created, posts.body,
 			users.first_name, users.fam_name
@@ -110,18 +122,37 @@ function display_post_list() {
 		order by date_created
 	');
 	while ($row = mysql_fetch_array($result)) {
-		echo
-		'<div id="post' . $row['id_post'] . '">' . "\n" .
-		'<p class="author">' . "\n" .
-		'	<a class="id" href="#post' . $row['id_post'] . '">#</a>' ."\n".
-		'	<span class="user">' .
-			$row['first_name'] . ' ' . $row['fam_name'] .
-			'</span>' . "\n" .
-		'	<span class="date">' . Date::from_sql($row['date_created']) .
-		'</span>' . "\n" .
-		'</p>' . "\n" .
-		'<div class="content">' . $row['body'] . '</div>' .
-		'</div>' .  "\n\n";
+		// display individual post
+?>
+	<div id="post<?php echo $row['id_post'] ?>">
+		<p class="author">
+			<a class="id" href="#post<?php echo $row['id_post'] ?>">#</a>
+			<span class="user">
+				<?php echo $row['first_name'] . ' ' . $row['fam_name'] ?>
+			</span>
+			<span class="date">
+				<?php echo Date::from_sql($row['date_created']) ?>
+			</span>
+		</p>
+		<div class="content">
+			<?php echo $row['body'] ?>
+		</div>
+		<?php
+			// display edit & delete buttons for post
+			if($_SESSION['id_group'] == 1
+			|| $_SESSION['id_user'] == $row['id_user']) {
+		?>
+		<form action="<?php echo current_page(true); ?>" method="post">
+		<p>
+			<button name="post[edit][req]"
+				value="<?php echo $row['id_post'] ?>">Edit</button>
+			<button name="post[delete][req]"
+				value="<?php echo $row['id_post'] ?>">Delete</button>
+		</p>
+		</form>
+		<?php } ?>
+	</div>
+<?php
 	}
 	return;
 }

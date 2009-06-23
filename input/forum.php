@@ -90,9 +90,72 @@ function input_topic_add() {
 				"'.esc($topic['add']['body']).'"
 			)'
 		);
+		// redirect to newly created topic
+		header('Location: ?p='.$_GET['p'].'&topic='.$row['id_topic']);
 	}
 	return;
 }
 input_topic_add();
+
+/**
+ * Input post delete
+ * @return null
+ */
+function input_post_delete() {
+	global $topic;
+	$post['delete']['req'] =
+		filter_var($_POST['post']['delete']['req'], FILTER_VALIDATE_INT);
+	if ($_SESSION['login'] && $post['delete']['req']) {
+		// delete post
+		mysql_query (
+			'delete from posts
+			where id_post='.$post['delete']['req']
+		);
+		// check if topic contains more posts
+		$result = mysql_query (
+			'select *
+			from posts
+			where id_topic='.$topic['id']
+		);
+		$row = mysql_fetch_array($result);
+		// delete if topic is empty
+		if ($row == false) {
+			mysql_query (
+				'delete from topics
+				where id_topic='.$topic['id']
+			);
+			// redirect to list of topics
+			header('Location: ?p='.$_GET['p']);
+		}
+	}
+	return;
+}
+input_post_delete();
+
+
+/**
+ * Input post delete.
+ * @return null
+ */
+function input_topic_delete() {
+	$topic['delete']['req'] =
+		filter_var($_POST['topic']['delete']['req'], FILTER_VALIDATE_INT);
+	if ($_SESSION['login'] && $topic['delete']['req']) {
+		// delete topics
+		mysql_query (
+			'delete from topics
+			where id_topic='.$topic['delete']['req']
+		);
+		// and also delete posts from that topic
+		mysql_query (
+			'delete from posts
+			where id_topic='.$topic['delete']['req']
+		);
+		// redirect to list of topics
+		header('Location: ?p='.$_GET['p']);
+	}
+	return;
+}
+input_topic_delete();
 
 ?>
