@@ -37,9 +37,15 @@ function input_groups_delete() {
 	$delete = filter_var($_POST['groups']['delete']['req'],
 		FILTER_VALIDATE_INT);
 	if ($delete && $delete != 1 && $_SESSION['id_group'] == 1) {
+		// delete group
 		mysql_query(
 			'delete from groups
 			where id_group = ' . $delete
+		);
+		// also delete users from group
+		mysql_query(
+			'delete from users
+			where id_group='.$delete
 		);
 	}
 	return;

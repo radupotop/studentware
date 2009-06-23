@@ -6,12 +6,12 @@
 ?>
 <div id="forum">
 
-<div id="topics">
+<div id="topic_list">
 	<h2>Topics</h2>
 	<?php display_topic_list(); ?>
 </div>
 
-<div id="posts">
+<div id="post_list">
 <?php
 	if ($topic['add']['req']) {
 		display_topic_add();
@@ -124,7 +124,7 @@ function display_post_list() {
 	while ($row = mysql_fetch_array($result)) {
 		// display individual post
 ?>
-	<div id="post<?php echo $row['id_post'] ?>">
+	<div id="post<?php echo $row['id_post'] ?>" class="post">
 		<p class="author">
 			<a class="id" href="#post<?php echo $row['id_post'] ?>">#</a>
 			<span class="user">
@@ -170,7 +170,7 @@ function display_post_add() {
 			<h3>
 				<label for="textarea">Reply</label>
 			</h3>
-			<textarea name="post[add][body]" rows="5" cols="57"
+			<textarea name="post[add][body]" rows="18" cols="100"
 				id="textarea"></textarea><br>
 			<button name="post[add][submit]" value="true">Post reply</button>
 		</div>
@@ -188,7 +188,7 @@ function display_topic_add() {
 ?>
 	<form action="<?php echo current_page(true); ?>" method="post">
 		<input name="topic[add][title]" type="text" class="page_title"><br><br>
-		<textarea name="topic[add][body]" rows="10" cols="57"
+		<textarea name="topic[add][body]" rows="18" cols="100"
 			id="textarea"></textarea><br>
 		<button name="topic[add][submit]" value="true">Submit</button>
 	</form>

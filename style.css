@@ -88,23 +88,18 @@ td, th {
 	clear: both;
 }
 
-#forum, #pages {
-	clear: both;
-}
-
 #forum h2, #pages h2 {
 	margin: 0 0 1em 0;
 }
 
-/*
-#topics, #posts, #page_list, #page {
-	width: 50%;
-	float: left;
+#page_list, #topic_list {
+	margin-bottom: 2em;
+	padding: 1em;
+	background: #eee;
 }
-*/
-#topics, #posts {
-	width: 50%;
-	float: left;
+
+#page, #post_list {
+	width: 85%;
 }
 
 .author {
@@ -130,4 +125,12 @@ td, th {
 }
 
 button {
+}
+
+.post {
+	padding: .5em;
+}
+
+.post:hover {
+	background: #DBEBF9;
 }
