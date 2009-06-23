@@ -7,6 +7,8 @@
 	$html_filter = new InputFilter($tags, $attr);
 	$page['edit']['req'] =
 		filter_var($_POST['page']['edit']['req'], FILTER_VALIDATE_INT);
+	$page['add']['req'] =
+		$_POST['page']['add']['req'];
 
 /**
  * Edit page
@@ -14,7 +16,7 @@
  */
 function input_page_edit() {
 	global $html_filter;
-	if($_SESSION['login'] && $page['edit']['req']) {
+	if($_SESSION['login']) {
 		$page['edit']['title'] =
 			filter_var($_POST['page']['edit']['title'], FILTER_UNSAFE_RAW);
 		$page['edit']['body'] =
@@ -33,10 +35,44 @@ function input_page_edit() {
 			'body = "'.esc($page['edit']['body']).'" '.
 			'where id_page='.$page['edit']['submit']
 		);
+		// redirect to edited page after edit.
+		header('Location: ?p='.$_GET['p'].'&pag='.$page['edit']['submit']);
 	}
 	return;
 }
 input_page_edit();
+
+/**
+ * Add page.
+ * @return null
+ */
+function input_page_add() {
+	global $html_filter;
+	if($_SESSION['login']) {
+		$page['add']['title'] =
+			filter_var($_POST['page']['add']['title'], FILTER_UNSAFE_RAW);
+		$page['add']['body'] =
+			$html_filter->process($_POST['page']['add']['body']);
+		$page['add']['submit'] =
+			$_POST['page']['add']['submit'];
+	}
+	if($page['add']['title']
+	&& $page['add']['body']
+	&& $page['add']['submit']) {
+		mysql_query(
+			'insert into pages
+			values (
+				null,'.
+				$_SESSION['id_user'].',
+				"'.Date::to_sql('now').'",
+				"'.esc($page['add']['title']).'",
+				"'.esc($page['add']['body']).'"
+			)'
+		);
+	}
+	return;
+}
+input_page_add();
 
 /**
  * Delete page.

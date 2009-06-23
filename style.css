@@ -24,7 +24,7 @@ textarea {
 	margin: .3em 0 2.6em 0;
 }
 
-h2, #home_edit_title {
+h2, .page_title {
 	font: normal 2em "Trebuchet MS";
 }
 
@@ -96,7 +96,13 @@ td, th {
 	margin: 0 0 1em 0;
 }
 
+/*
 #topics, #posts, #page_list, #page {
+	width: 50%;
+	float: left;
+}
+*/
+#topics, #posts {
 	width: 50%;
 	float: left;
 }
@@ -121,4 +127,7 @@ td, th {
 	position: absolute;
 	top: 4.2em;
 	width: 82em;
+}
+
+button {
 }

@@ -97,7 +97,7 @@ function display_files() {
 		} else {
 		echo
 		'	<tr>' .
-		'		<td><a href="?page=files&amp;download=' .
+		'		<td><a href="?p=files&amp;download=' .
 				$row['id_file'] . '">' . $row['title'] . '</a></td>' .
 		'		<td>' . $row['first_name'] . ' ' . $row['fam_name'] . '</td>' .
 		'		<td>' . Date::from_sql($row['date_modified']) . '</td>';

@@ -4,6 +4,7 @@
  * Display page.
  */
 ?>
+
 <div id="pages">
 <?php
 /**
@@ -22,6 +23,9 @@ function display_page_list() {
 		<th>Title</th>
 		<th>Started by</th>
 		<th>Last post</th>
+		<?php if($_SESSION['login']) { ?>
+			<th>Manage</th>
+		<?php } ?>
 	</tr>
 	</thead>
 	<tbody>
@@ -44,19 +48,57 @@ while ($row = mysql_fetch_array($result)) {
 		$row['id_page'] . '">' . trim_title($row['title'], 20) . '</a>' ."\n".
 	'		</td>' . "\n" .
 	'		<td>' . $row['first_name'] . ' ' . $row['fam_name'] . '</td>' ."\n".
-	'		<td>' . Date::from_sql($row['date_modified']) . '</td>' . "\n" .
-	'	</tr>' . "\n";
+	'		<td>' . Date::from_sql($row['date_modified']) . '</td>' . "\n";
+	if ($_SESSION['login']) {
+		echo '<td>
+			<button name="page[edit][req]"
+				value="'.$row['id_page'].'">Edit</button>'."\n".
+			'<button name="page[delete][req]"
+				value="'.$row['id_page'].'">Delete</button>
+			</td>'."\n";
+	}
+	echo '	</tr>' . "\n";
 }
-	display_page_add();
+	// add page request
+	if ($_SESSION['login']) {
 ?>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>
+		<button name="page[add][req]" value="Add page">Add page</button>
+		</td>
+	</tr>
+<?php } ?>
 	</tbody>
 </table>
 </form>
+<br>
 </div>
 <?php
 	return;
 }
 display_page_list();
+
+
+?>
+<div id="page">
+<?php
+// display page, page add, page edit.
+if ($page['add']['req']) {
+	display_page_add();
+} else
+if ($page['edit']['req']) {
+	display_page_edit();
+} else
+if ($pag) {
+	display_page();
+}
+?>
+</div>
+<?php
+
 
 /**
  * Display page.
@@ -64,12 +106,6 @@ display_page_list();
  */
 function display_page() {
 	global $pag;
-?>
-<div id="page">
-<?php
-	if ($page['edit']['req']) {
-		display_page_edit();
-	} else if ($pag) {
 		$result = mysql_query(
 			'select pages.id_page, pages.id_user, pages.date_modified,
 				pages.title, pages.body, users.id_user, users.first_name,
@@ -80,6 +116,10 @@ function display_page() {
 			where id_page='.$pag
 		);
 		$row = mysql_fetch_array($result);
+		// redirect to page list if page is deleted, or page 1 requested
+		if ($row == false || $pag == 1) {
+			header('Location: ?p=' . $_GET['p']);
+		}
 		// View page title.
 		echo '<h2>' . $row['title'] . '</h2>' ."\n";
 
@@ -99,7 +139,8 @@ function display_page() {
 		?>
 		<form action="<?php echo current_page(true); ?>" method="post">
 		<?php
-		if ($_SESSION['id_group'] == 1) {
+		// Edit, Delete buttons
+		if ($_SESSION['login']) {
 			echo '<p>
 				<button name="page[edit][req]"
 					value="'.$row['id_page'].'">Edit</button>'."\n".
@@ -108,33 +149,23 @@ function display_page() {
 		}
 		?>
 		</form>
-		<?php
-	}
-?>
-</div>
 <?php
 	return;
 }
-display_page();
 
 /**
  * Display page add.
  * @return null
  */
 function display_page_add() {
-		global $pag;
-
-		if ($_SESSION['login']) {
 ?>
-	<tr>
-		<td></td>
-		<td></td>
-		<td>
-		<input type="submit" name="page[add][req]" value="Add page">
-		</td>
-	</tr>
+<form action="<?php echo current_page(true); ?>" method="post">
+	<input name="page[add][title]" type="text" class="page_title"><br><br>
+	<textarea name="page[add][body]" rows="18" cols="100" id="textarea">
+		</textarea><br>
+	<button name="page[add][submit]" value="Submit">Submit</button>
+</form>
 <?php
-		}
 	return;
 }
 
@@ -143,6 +174,7 @@ function display_page_add() {
  * @return null
  */
 function display_page_edit() {
+	global $page;
 	$result = mysql_query(
 		'select *
 		from pages
@@ -150,12 +182,14 @@ function display_page_edit() {
 	);
 	$row = mysql_fetch_array($result);
 ?>
-	<input name="page[edit][title]" type="text"
+<form action="<?php echo current_page(true); ?>" method="post">
+	<input name="page[edit][title]" type="text" class="page_title"
 		value="<?php echo $row['title'] ?>"><br><br>
-	<textarea name="page[edit][body]" rows="18" cols="80">
-		<?php echo $row['body'] ?></textarea><br><br>
+	<textarea name="page[edit][body]" rows="18" cols="100" id="textarea">
+		<?php echo $row['body'] ?></textarea><br>
 	<button name="page[edit][submit]"
 		value="<?php echo $row['id_page'] ?>">Submit</button>
+</form>
 <?php
 	return;
 }
