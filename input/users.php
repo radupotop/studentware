@@ -129,6 +129,7 @@ function input_users_delete() {
 	$delete_user = filter_input(INPUT_POST, 'delete_user', FILTER_VALIDATE_INT);
 	// do not allow deletion of id_user = 1
 	if ($_SESSION['login'] && $delete_user && $delete_user != 1) {
+		// delete user
 		mysql_query(
 			'delete from users
 			where id_user = ' . $delete_user

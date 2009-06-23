@@ -7,6 +7,9 @@
 		filter_input(INPUT_GET, 'topic', FILTER_VALIDATE_INT); // topic number
 	$topic['add']['req'] =
 		$_POST['topic']['add']['req'];
+	$post['edit']['req'] =
+		filter_var($_POST['post']['edit']['req'], FILTER_VALIDATE_INT);
+
 	$html_filter = new InputFilter($tags, $attr);
 
 /**
@@ -43,6 +46,31 @@ function input_post_add() {
 	return;
 }
 input_post_add();
+
+/**
+ * Input post edit.
+ * @return null
+ */
+function input_post_edit() {
+	global $html_filter;
+
+	$post['edit']['body'] =
+		$html_filter->process($_POST['post']['edit']['body']);
+	$post['edit']['submit'] =
+		filter_var($_POST['post']['edit']['submit'], FILTER_VALIDATE_INT);
+
+	if($_SESSION['login']
+	&& $post['edit']['body']
+	&& $post['edit']['submit']) {
+		mysql_query(
+			'update posts set
+			body="'.esc($post['edit']['body']).'"
+			where id_post='.$post['edit']['submit']
+		);
+	}
+	return;
+}
+input_post_edit();
 
 
 /**

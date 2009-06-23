@@ -18,7 +18,9 @@
 	} else
 	if ($topic['id']) {
 		display_post_list();
-		display_post_add();
+		if ($post['edit']['req'] == false) {
+			display_post_add();
+		}
 	}
 ?>
 </div>
@@ -100,7 +102,7 @@ if ($_SESSION['login']) {
  * @return null
  */
 function display_post_list() {
-	global $topic;
+	global $topic, $post;
 
 	// display topic title.
 	$result = mysql_query('
@@ -122,6 +124,10 @@ function display_post_list() {
 		order by date_created
 	');
 	while ($row = mysql_fetch_array($result)) {
+		// display edit?
+		if ($post['edit']['req'] == $row['id_post']) {
+			display_post_edit();
+		} else {
 		// display individual post
 ?>
 	<div id="post<?php echo $row['id_post'] ?>" class="post">
@@ -153,6 +159,7 @@ function display_post_list() {
 		<?php } ?>
 	</div>
 <?php
+		}
 	}
 	return;
 }
@@ -193,6 +200,36 @@ function display_topic_add() {
 		<button name="topic[add][submit]" value="true">Submit</button>
 	</form>
 <?php
+	return;
+}
+
+
+/**
+ * Display post edit.
+ * @return null
+ */
+function display_post_edit() {
+	global $post;
+
+	if ($_SESSION['login']) {
+		$result = mysql_query (
+			'select *
+			from posts
+			where id_post='.$post['edit']['req']
+		);
+		$row = mysql_fetch_array($result);
+?>
+	<form action="<?php echo current_page(true); ?>" method="post">
+		<div>
+			<textarea name="post[edit][body]" rows="8" cols="100"
+				id="textarea"><?php echo $row['body'] ?></textarea><br>
+			<button name="post[edit][submit]"
+				value="<?php echo $row['id_post'] ?>">Submit</button>
+			<button value="true">Cancel</button>
+		</div>
+	</form>
+<?php
+	}
 	return;
 }
 ?>
