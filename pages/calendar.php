@@ -54,6 +54,20 @@ function display_calendar() {
 		echo '	</tr>'."\n";
 	}
 ?>
+	<tr>
+		<td>
+			<input type="text" name="calendar[add][title]">
+		</td>
+		<td>
+			<input type="text" name="calendar[add][date_start]">
+		</td>
+		<td>
+			<input type="text" name="calendar[add][date_end]">
+		</td>
+		<td>
+			<button name="calendar[add][submit]" value="true">Add event</button>
+		</td>
+	</tr>
 </tbody>
 </table>
 </form>
