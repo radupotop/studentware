@@ -53,6 +53,8 @@ function display_calendar() {
 		}
 		echo '	</tr>'."\n";
 	}
+
+if($_SESSION['login']) {
 ?>
 	<tr>
 		<td>
@@ -68,6 +70,7 @@ function display_calendar() {
 			<button name="calendar[add][submit]" value="true">Add event</button>
 		</td>
 	</tr>
+<?php } ?>
 </tbody>
 </table>
 </form>
