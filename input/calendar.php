@@ -4,6 +4,9 @@
  * Calendar input.
  */
 
+	$calendar['edit']['req'] =
+		filter_var($_POST['calendar']['edit']['req'], FILTER_VALIDATE_INT);
+
 /**
  * Input add calendar
  * @return null
@@ -35,6 +38,39 @@ function input_add_calendar() {
 	return;
 }
 input_add_calendar();
+
+
+/**
+ * Input edit calendar
+ * @return null
+ */
+function input_edit_calendar() {
+	$calendar['edit']['title'] =
+		filter_var($_POST['calendar']['edit']['title'],FILTER_UNSAFE_RAW);
+	$calendar['edit']['date_start'] =
+		$_POST['calendar']['edit']['date_start'];
+	$calendar['edit']['date_end'] =
+		$_POST['calendar']['edit']['date_end'];
+	$calendar['edit']['submit'] =
+		$_POST['calendar']['edit']['submit'];
+
+	if($_SESSION['login']
+	&& $calendar['edit']['title']
+	&& $calendar['edit']['date_start']
+	&& $calendar['edit']['submit']) {
+		mysql_query (
+			'update calendars set
+			date_start="'.Date::to_sql($calendar['edit']['date_start']).'",
+			date_end="'.Date::to_sql($calendar['edit']['date_end']).'",
+			title="'.esc($calendar['edit']['title']).'"
+			where id_calendar='.$calendar['edit']['submit']
+		);
+	}
+
+	return;
+}
+input_edit_calendar();
+
 
 
 /**

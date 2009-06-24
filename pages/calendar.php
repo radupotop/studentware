@@ -9,6 +9,7 @@
  * @return null
  */
 function display_calendar() {
+	global $calendar;
 ?>
 <h2>Calendar</h2>
 <form action="<?php echo current_page(true); ?>" method="post"
@@ -32,6 +33,9 @@ function display_calendar() {
 		order by date_start'
 	);
 	while ($row = mysql_fetch_array($result)) {
+		if($row['id_calendar'] == $calendar['edit']['req']) {
+			display_calendar_edit();
+		} else {
 		echo
 		'	<tr>'."\n".
 		'		<td>'.$row['title'].'</td>'."\n".
@@ -52,6 +56,7 @@ function display_calendar() {
 		'</td>';
 		}
 		echo '	</tr>'."\n";
+		}
 	}
 
 if($_SESSION['login']) {
@@ -78,4 +83,39 @@ if($_SESSION['login']) {
 	return;
 }
 display_calendar();
+
+/**
+ * Display calendar edit.
+ * @return null
+ */
+function display_calendar_edit() {
+	global $calendar;
+	$result = mysql_query(
+		'select *
+		from calendars
+		where id_calendar='.$calendar['edit']['req']
+	);
+	$row = mysql_fetch_array($result);
+?>
+<tr class="editing">
+	<td>
+		<input type="text" name="calendar[edit][title]"
+			value="<?php echo $row['title'] ?>">
+	</td>
+	<td>
+		<input type="text" name="calendar[edit][date_start]"
+			value="<?php echo Date::from_sql($row['date_start']) ?>">
+	</td>
+	<td>
+		<input type="text" name="calendar[edit][date_end]"
+			value="<?php echo Date::from_sql($row['date_end']) ?>">
+	</td>
+	<td>
+		<button name="calendar[edit][submit]"
+			value="<?php echo $row['id_calendar'] ?>">Edit event</button>
+	</td>
+</tr>
+<?php
+}
+
 ?>

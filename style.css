@@ -128,13 +128,14 @@ td, th {
 	width: 82em;
 }
 
-button {
-}
-
 .post {
 	padding: .5em;
 }
 
 .post:hover {
 	background: #DBEBF9;
+}
+
+input, button {
+	font-size: .8em;
 }
