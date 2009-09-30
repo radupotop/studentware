@@ -99,4 +99,12 @@ $db = array (
 	'char' => 'utf8',
 	'pref' => '' //database prefix - not working yet
 );
+
+/**
+ * Application config.
+ */
+$app = array (
+	'site' => 'http://bitbucket.org/wooptoo/studentware/',
+	'ver' => 0.2
+);
 ?>
