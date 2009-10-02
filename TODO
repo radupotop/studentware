@@ -1,9 +1,5 @@
 studentware
 
-design:
-alb/verde/albastru
-culori pastelate
-
 module:
 calendar
 orar
@@ -12,11 +8,18 @@ pagini statice
 fisiere
 poll
 
-note:
-email discutii <> email atentionare
-orar/calendar ajax
-permissions
-linking system
-
-bugs:
+Bugs
+====
 * files: upload la acelasi fisier, sterge fisierul
+* users: input filters too restrictive
+* calendar: edit/delete buttons for events
+* forum: users should not edit/delete topics
+* pages: users should not delete pages
+
+Todo
+====
+* schedule
+* mailing list
+* permisiuni
+* linking system
+* versioning (sau macar history) pt pages
