@@ -20,7 +20,7 @@ function display_calendar() {
 		<th>Event</th>
 		<th>Starts on</th>
 		<th>Ends on</th>
-		<?php if($_SESSION['id_group'] == 1) { ?>
+		<?php if($_SESSION['login']) { ?>
 		<th>Manage</th>
 		<?php } ?>
 	</tr>
@@ -46,7 +46,11 @@ function display_calendar() {
 		}
 		echo
 				'</td>'."\n";
-		if($_SESSION['id_group'] == 1) {
+		if (
+			// if users owns element or if user is admin display edit & delete
+			$_SESSION['id_user'] == $row['id_user'] ||
+			$_SESSION['id_group'] == 1
+		) {
 		echo
 		'<td>'.
 		'		<button name="calendar[edit][req]" value="'
@@ -54,6 +58,9 @@ function display_calendar() {
 		'		<button name="calendar[delete][req]" value="'
 					.$row['id_calendar'].'">Delete</button>'.
 		'</td>';
+		} else if ($_SESSION['login']) {
+			echo
+			'<td></td>';
 		}
 		echo '	</tr>'."\n";
 		}

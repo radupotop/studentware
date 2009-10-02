@@ -70,6 +70,8 @@ drop table if exists calendars;
 create table calendars (
 	id_calendar int unsigned not null auto_increment,
 	primary key (id_calendar),
+	id_user int unsigned,
+	foreign key (id_user) references users(id_user),
 	date_start datetime,
 	date_end datetime,
 	title varchar(255)
@@ -79,6 +81,8 @@ drop table if exists schedules;
 create table schedules (
 	id_schedule int unsigned not null auto_increment,
 	primary key (id_schedule),
+	id_user int unsigned,
+	foreign key (id_user) references users(id_user),
 	time_start time,
 	time_end time,
 	weekday int unsigned,

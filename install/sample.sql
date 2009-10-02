@@ -154,11 +154,11 @@ Wooptoo 17:32, 19 March 2009 (EET)
 
 /* calendars */
 
-insert into calendars values(null, '2009-04-29 13:00', '2009-04-29 15:00',
+insert into calendars values(null, 1, '2009-04-29 13:00', '2009-04-29 15:00',
 	'Cercetari operationale');
-insert into calendars values(null, '2009-04-30 08:00', '2009-05-01 08:00',
+insert into calendars values(null, 3, '2009-04-30 08:00', '2009-05-01 08:00',
 	'Limbaje formale');
-insert into calendars values(null, '2009-05-12 16:00', '2009-05-13 16:00',
+insert into calendars values(null, 5, '2009-05-12 16:00', '2009-05-13 16:00',
 	'Statistica');
-insert into calendars values(null, '2009-05-14 16:00', '2009-05-16 16:00',
+insert into calendars values(null, 4, '2009-05-14 16:00', '2009-05-16 16:00',
 	'Sesiunea de comunicari');
