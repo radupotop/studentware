@@ -107,4 +107,15 @@ $app = array (
 	'site' => 'http://bitbucket.org/wooptoo/studentware/',
 	'ver' => 0.2
 );
+
+/**
+ * Mailing list config. & credentials
+ */
+$mailing_list = array (
+	'server' => 'imap.gmail.com',
+	'user' => '',
+	'pass' => '',
+	// Do not change this if you don't know what you are doing
+	'param' => '/notls/norsh/novalidate-cert/ssl'
+);
 ?>
