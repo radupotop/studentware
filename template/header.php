@@ -4,7 +4,7 @@
 <html lang="en">
 
 <head>
-	<title>Studentware</title>
+	<title><?php echo $site['name']; ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<link rel="stylesheet" type="text/css" media="screen" href="style.css">
 	<link rel="stylesheet" type="text/css" media="print" href="print.css">
