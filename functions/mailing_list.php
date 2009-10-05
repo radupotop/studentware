@@ -8,6 +8,7 @@ include('functions.php');
 
 function mailing_list() {
 	global $mailing_list;
+	if($mailing_list['enabled']==false) return(false);
 
 	// Connect to IMAP
 	$conn = imap_open (
@@ -16,27 +17,37 @@ function mailing_list() {
 		$mailing_list['pass']
 	);
 
+	// Put all emails in an array
+	$result = mysql_query('select email from users');
+	$num_rows = mysql_num_rows($result);
+	for($i=0; $i<$num_rows ;$i++) {
+		$row = mysql_fetch_array($result);
+		$emails[$i] = $row[0];
+	}
+	sort($emails);
 
 	$headers = imap_headers($conn);
-	$numEmails = sizeof($headers);
+	$num_emails = sizeof($headers);
 
-	for ($i = 1; $i < $numEmails+1; $i++) {
-		$mailHeader = imap_headerinfo($conn, $i);
-		$from = $mailHeader->fromaddress;
-		$subject = $mailHeader->subject;
-		$date = $mailHeader->date;
+	for ($i = 1; $i < $num_emails+1; $i++) {
+		$mail_header = imap_headerinfo($conn, $i);
+
+/*
+		$from = $mail_header->fromaddress;
+		$subject = $mail_header->subject;
+		$date = $mail_header->date;
 
 		echo "Email from $from, subject $subject, date $date";
 		echo "\n";
 
 		echo imap_body($conn, $i);
-		echo "\n";
+*/
 	}
 
 
 	// Close connection
 	imap_close($conn);
-	return;
+	return(true);
 }
 mailing_list();
 ?>
