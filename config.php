@@ -112,6 +112,8 @@ $app = array (
  * Mailing list config. & credentials
  */
 $mailing_list = array (
+	'enabled' => true,
+	'mail' => 'example@gmail.com',
 	'server' => 'imap.gmail.com',
 	'user' => '',
 	'pass' => '',
