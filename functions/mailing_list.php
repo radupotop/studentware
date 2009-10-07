@@ -38,18 +38,10 @@ function mailing_list() {
 
 		$from_email = $from->mailbox.'@'.$from->host;
 
-		$content_type = 'Content-Type: text/html';
-/*
-		// Yahoo hack
-		if($from->host == 'yahoo.com') {
-			$content_type = 'Content-Type: multipart/alternative; boundary="0-1953086045-1254883701=:64565"';
-		}
-*/
-
 		foreach($emails as $email) {
 			// Send to all except original sender
 			if ($email != $from_email) {
-				imap_mail($email, $subject, $body, $content_type);
+				imap_mail($email, $subject, strip_tags($body));
 			}
 		}
 
