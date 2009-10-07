@@ -24,24 +24,35 @@ function mailing_list() {
 		$row = mysql_fetch_array($result);
 		$emails[$i] = $row[0];
 	}
-	sort($emails);
 
+	// Email all users
 	$headers = imap_headers($conn);
 	$num_emails = sizeof($headers);
 
 	for ($i = 1; $i < $num_emails+1; $i++) {
 		$mail_header = imap_headerinfo($conn, $i);
-
-/*
-		$from = $mail_header->fromaddress;
+		// $from is an object
+		$from = $mail_header->from[0];
 		$subject = $mail_header->subject;
-		$date = $mail_header->date;
+		$body = imap_body($conn, $i);
 
-		echo "Email from $from, subject $subject, date $date";
-		echo "\n";
+		$from_email = $from->mailbox.'@'.$from->host;
 
-		echo imap_body($conn, $i);
+		$content_type = 'Content-Type: text/html';
+/*
+		// Yahoo hack
+		if($from->host == 'yahoo.com') {
+			$content_type = 'Content-Type: multipart/alternative; boundary="0-1953086045-1254883701=:64565"';
+		}
 */
+
+		foreach($emails as $email) {
+			// Send to all except original sender
+			if ($email != $from_email) {
+				imap_mail($email, $subject, $body, $content_type);
+			}
+		}
+
 	}
 
 
