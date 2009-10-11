@@ -150,8 +150,8 @@ function input_users_edit() {
 		if ($_SESSION['login'] && $submit_edit_user) {
 			$input_data = array(
 				'x_id_group' => FILTER_VALIDATE_INT,
-				'x_first_name' => FILTER_SANITIZE_ENCODED,
-				'x_fam_name' => FILTER_SANITIZE_ENCODED,
+				'x_first_name' => FILTER_UNSAFE_RAW,
+				'x_fam_name' => FILTER_UNSAFE_RAW,
 				'x_email' => FILTER_VALIDATE_EMAIL,
 				'x_pass' => FILTER_UNSAFE_RAW,
 				'x_about' => FILTER_UNSAFE_RAW,
