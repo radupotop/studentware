@@ -12,7 +12,7 @@ Bugs
 ====
 * files: upload la acelasi fisier, sterge fisierul
 * forum: users should not edit/delete topics
-* pages: users should not delete pages
+* fix permissions/user check
 
 Todo
 ====
@@ -25,3 +25,4 @@ Todo
 	http://www.phpbuilder.com/columns/kartic20000807.php3
 	http://articles.sitepoint.com/article/advanced-email-php
 )
+* proper input filters

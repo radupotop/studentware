@@ -49,13 +49,20 @@ while ($row = mysql_fetch_array($result)) {
 	'		</td>' . "\n" .
 	'		<td>' . $row['first_name'] . ' ' . $row['fam_name'] . '</td>' ."\n".
 	'		<td>' . Date::from_sql($row['date_modified']) . '</td>' . "\n";
-	if ($_SESSION['login']) {
+	if (
+		// if users owns element or if user is admin display edit & delete
+		$_SESSION['id_user'] == $row['id_user'] ||
+		$_SESSION['id_group'] == 1
+	) {
 		echo '<td>
 			<button name="page[edit][req]"
 				value="'.$row['id_page'].'">Edit</button>'."\n".
 			'<button name="page[delete][req]"
 				value="'.$row['id_page'].'">Delete</button>
 			</td>'."\n";
+	} else if ($_SESSION['login']) {
+		echo
+		'<td></td>';
 	}
 	echo '	</tr>' . "\n";
 }
@@ -140,7 +147,11 @@ function display_page() {
 		<form action="<?php echo current_page(true); ?>" method="post">
 		<?php
 		// Edit, Delete buttons
-		if ($_SESSION['login']) {
+		if (
+			// if users owns element or if user is admin display edit & delete
+			$_SESSION['id_user'] == $row['id_user'] ||
+			$_SESSION['id_group'] == 1
+		) {
 			echo '<p>
 				<button name="page[edit][req]"
 					value="'.$row['id_page'].'">Edit</button>'."\n".
