@@ -72,14 +72,26 @@ while ($row = mysql_fetch_array($result)) {
 	</td>
 	<td><?php echo $row['first_name'].' '.$row['fam_name'] ?></td>
 	<td><?php echo Date::from_sql($row['date_modified']) ?></td>
-	<?php if ($_SESSION['login']) { ?>
+	<?php
+	if (
+		// if users owns element or if user is admin display edit & delete
+		$_SESSION['id_user'] == $row['id_user'] ||
+		$_SESSION['id_group'] == 1
+	) {
+	?>
 	<td>
 		<button name="topic[edit][req]"
 			value="<?php echo $row['id_topic'] ?>">Edit</button>
 		<button name="topic[delete][req]"
 			value="<?php echo $row['id_topic'] ?>">Delete</button>
 	</td>
-	<?php } ?>
+	<?php
+	} else if ($_SESSION['login']) {
+		echo
+		'<td></td>';
+	}
+
+	?>
 </tr>
 <?php
 	}

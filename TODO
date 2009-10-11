@@ -11,7 +11,6 @@ poll
 Bugs
 ====
 * files: upload la acelasi fisier, sterge fisierul
-* forum: users should not edit/delete topics
 * fix permissions/user check
 
 Todo
@@ -26,3 +25,4 @@ Todo
 	http://articles.sitepoint.com/article/advanced-email-php
 )
 * proper input filters
+* localization
