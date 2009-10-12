@@ -29,7 +29,7 @@ function input_page_edit() {
 	&& $page['edit']['submit']) {
 		mysql_query(
 			'update pages set '.
-			'date_modified = "'.Date::to_sql('now').'", '.
+			'date_modified = NOW(), '.
 			'title = "'.esc($page['edit']['title']).'", '.
 			'body = "'.esc($page['edit']['body']).'" '.
 			'where id_page='.$page['edit']['submit']
@@ -63,7 +63,7 @@ function input_page_add() {
 			values (
 				null,'.
 				$_SESSION['id_user'].',
-				"'.Date::to_sql('now').'",
+				NOW(),
 				"'.esc($page['add']['title']).'",
 				"'.esc($page['add']['body']).'"
 			)'

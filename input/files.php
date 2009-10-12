@@ -27,7 +27,7 @@ function input_files_add() {
 		mysql_query(
 			'insert into files
 			values (null, "' . $_SESSION['id_user'] . '",
-			"'.Date::to_sql('now').'", "'.esc($title).'", "'.esc($hash).'")'
+			NOW(), "'.esc($title).'", "'.esc($hash).'")'
 		);
 		return true;
 	}
@@ -65,7 +65,7 @@ function input_files_edit() {
 				$_FILES['upload_edit']['name']);
 			mysql_query(
 				'update files set '.
-				'date_modified = "'.Date::to_sql('now').'", '.
+				'date_modified = NOW(), '.
 				'title = "'.esc($title).'", '.
 				'filename = "'.esc($hash).'" '.
 				'where id_file = '.$submit

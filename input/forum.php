@@ -35,13 +35,13 @@ function input_post_add() {
 				null,'.
 				$topic['id'].','.
 				$_SESSION['id_user'].',
-				"'.Date::to_sql('now').'",
+				NOW(),
 				"'.esc($post['add']['body']).'"
 			)'
 		);
 		mysql_query(
 			'update topics
-			set date_modified="' . Date::to_sql('now') . '"
+			set date_modified=NOW()
 			where id_topic=' . $topic['id']
 		);
 	}
@@ -121,7 +121,7 @@ function input_topic_add() {
 			values (
 				null,'.
 				$_SESSION['id_user'].',
-				"'.Date::to_sql('now').'",
+				NOW(),
 				"'.esc($topic['add']['title']).'"
 			)'
 		);
@@ -139,7 +139,7 @@ function input_topic_add() {
 				null,'.
 				$row['id_topic'].','.
 				$_SESSION['id_user'].',
-				"'.Date::to_sql('now').'",
+				NOW(),
 				"'.esc($topic['add']['body']).'"
 			)'
 		);
