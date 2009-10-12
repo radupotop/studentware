@@ -6,7 +6,7 @@
 ?>
 
 <div id="pages">
-<h2>Pages</h2>
+<h2 class="cat_title">Pages</h2>
 
 <?php
 /**

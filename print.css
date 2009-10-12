@@ -5,7 +5,8 @@ a {
 }
 
 #sidebar, #debug, #reply, #textarea, #page_list, #topic_list,
-	select, textarea, button, input {
+	select, textarea, button, input,
+	#pages .cat_title, #forum .cat_title {
 	display: none;
 }
 

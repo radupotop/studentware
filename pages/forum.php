@@ -5,7 +5,7 @@
  */
 ?>
 <div id="forum">
-<h2>Topics</h2>
+<h2 class="cat_title">Discussion forum</h2>
 
 <div id="topic_list">
 	<?php display_topic_list(); ?>
