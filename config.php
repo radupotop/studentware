@@ -113,7 +113,7 @@ $db = array (
  */
 $app = array (
 	'site' => 'http://bitbucket.org/wooptoo/studentware/',
-	'ver' => '0.2.5'
+	'ver' => '0.3'
 );
 
 /**
