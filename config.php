@@ -10,7 +10,7 @@
 $site = array (
 	'name' => 'Info 3',
 	'desc' => 'grupa 2231',
-	'url'  => 'http://cmyk.wooptoo.com/studentware/',
+	'url'  => '.',
 	'home' => '1' // id of home page
 );
 

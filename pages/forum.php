@@ -5,9 +5,9 @@
  */
 ?>
 <div id="forum">
+<h2>Topics</h2>
 
 <div id="topic_list">
-	<h2>Topics</h2>
 	<?php display_topic_list(); ?>
 </div>
 

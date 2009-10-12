@@ -6,6 +6,8 @@
 ?>
 
 <div id="pages">
+<h2>Pages</h2>
+
 <?php
 /**
  * Display list of pages.
@@ -15,7 +17,6 @@ function display_page_list() {
 	global $site;
 ?>
 <div id="page_list">
-<h2>Pages</h2>
 <form action="<?php echo current_page(true); ?>" method="post">
 <table>
 	<thead>

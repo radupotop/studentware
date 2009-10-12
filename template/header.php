@@ -16,7 +16,7 @@
 <body>
 
 <h1 id="header">
-	<a href="<?php echo $site['url']; ?>">
+	<a href=".">
 		<?php echo $site['name']; ?>
 		<span id="desc"><?php echo $site['desc']; ?></span>
 	</a>
