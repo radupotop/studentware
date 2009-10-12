@@ -29,7 +29,6 @@ function input_page_edit() {
 	&& $page['edit']['submit']) {
 		mysql_query(
 			'update pages set '.
-			'id_user = "'.$_SESSION['id_user'].'", '.
 			'date_modified = "'.Date::to_sql('now').'", '.
 			'title = "'.esc($page['edit']['title']).'", '.
 			'body = "'.esc($page['edit']['body']).'" '.

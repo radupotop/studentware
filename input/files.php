@@ -65,7 +65,6 @@ function input_files_edit() {
 				$_FILES['upload_edit']['name']);
 			mysql_query(
 				'update files set '.
-				'id_user = '.$_SESSION['id_user'].', '.
 				'date_modified = "'.Date::to_sql('now').'", '.
 				'title = "'.esc($title).'", '.
 				'filename = "'.esc($hash).'" '.

@@ -28,6 +28,7 @@ function input_add_calendar() {
 	$query ='insert into calendars
 		values(
 			null,
+			'.$_SESSION['id_user'].',
 			"'.Date::to_sql($calendar['add']['date_start']).'",
 			"'.Date::to_sql($calendar['add']['date_end']).'",
 			"'.esc($calendar['add']['title']).'"

@@ -23,7 +23,6 @@ function input_home_edit() {
 	if($title && $body && $submit) {
 		mysql_query(
 			'update pages set '.
-			'id_user = "'.$_SESSION['id_user'].'", '.
 			'date_modified = "'.Date::to_sql('now').'", '.
 			'title = "'.esc($title).'", '.
 			'body = "'.esc($body).'" '.
