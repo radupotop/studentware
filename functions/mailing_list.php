@@ -6,9 +6,13 @@
 include('../config.php');
 include('functions.php');
 
+/**
+ * Send emails to all users
+ * @param null
+ * @return null
+ */
 function mailing_list() {
 	global $mailing_list;
-	if($mailing_list['enabled']==false) return(false);
 
 	// Connect to IMAP
 	$conn = imap_open (
@@ -47,10 +51,12 @@ function mailing_list() {
 
 	}
 
-
 	// Close connection
 	imap_close($conn);
-	return(true);
+	return;
 }
-mailing_list();
+
+if ($mailing_list['enabled']) {
+	mailing_list();
+}
 ?>
