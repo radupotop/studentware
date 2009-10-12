@@ -10,7 +10,9 @@ require('config.php');
 include('functions/functions.php');
 
 $p = $_GET['p'];
-$allowed = array('pages', 'forum', 'files', 'calendar', 'schedule', 'users');
+$allowed = array(
+	'pages', 'forum', 'files', 'calendar', 'schedule', 'users', 'register'
+);
 
 /**
  * Input

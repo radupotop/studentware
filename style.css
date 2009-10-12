@@ -139,3 +139,19 @@ td, th {
 input, button {
 	font-size: .8em;
 }
+
+#register label {
+	display: block;
+	float: left;
+	margin-top: .5em;
+	width: 7em;
+}
+
+#register input {
+	margin: .2em;
+	font-size: 1em;
+}
+
+#register pre {
+	font: normal 1em Verdana, sans-serif;
+}

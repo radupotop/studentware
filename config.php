@@ -11,7 +11,14 @@ $site = array (
 	'name' => 'Info 3',
 	'desc' => 'grupa 2231',
 	'url'  => '.',
-	'home' => '1' // id of home page
+	// id of home page
+	'home' => '1',
+	// Registration
+	'reg' => array (
+		'enabled' => true,
+		// sha1sum of code
+		'code' => ''
+	)
 );
 
 /**
@@ -97,7 +104,8 @@ $db = array (
 	'pass' => '',
 	'name' => 'licenta',
 	'char' => 'utf8',
-	'pref' => '' //database prefix - not working yet
+	//database prefix - not working yet
+	'pref' => ''
 );
 
 /**

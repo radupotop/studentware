@@ -15,6 +15,7 @@
  * @return null
  */
 function display_menu() {
+	global $site;
 ?>
 <ul id="menu">
 	<li><a href=".">Home</a></li>
@@ -26,6 +27,10 @@ function display_menu() {
 
 	<?php if ($_SESSION['login']) { ?>
 	<li><a href="?p=users">Users</a></li>
+	<?php } ?>
+
+	<?php if ($_SESSION['login']==false && $site['reg']['enabled']) { ?>
+	<li><a href="?p=register">Register</a></li>
 	<?php } ?>
 </ul>
 <?php
