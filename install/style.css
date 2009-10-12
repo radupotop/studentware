@@ -1,0 +1,23 @@
+html {
+	font: normal .75em Verdana, sans-serif;
+}
+
+h1 {
+	font: normal 3em "Trebuchet MS", sans-serif;
+}
+
+label {
+	display: block;
+	float: left;
+	margin-top: .5em;
+	width: 7em;
+}
+
+input {
+	margin: .2em;
+	font-size: 1em;
+}
+
+pre {
+	font: normal 1em Verdana, sans-serif;
+}

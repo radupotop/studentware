@@ -1,4 +1,7 @@
-/* mysql -u root licenta < create_db.sql */
+/*
+This is the default db scheme. This file should run first.
+You can add other sql files after it.
+*/
 
 /* create tables */
 
@@ -97,12 +100,10 @@ insert into groups values(2,'Teacher');
 insert into groups values(3,'Student');
 
 
-/* create users */
+/* The admin user is created during install. */
 
-insert into users values(1, 1, null, null, 'admin@example.org',
-	'd033e22ae348aeb5660fc2140aec35850c4da997', null);
 
 /* create home page */
 
-insert into pages values(null, 1, '2009-05-01 14:50', 'Welcome',
+insert into pages values(null, 1, NOW(), 'Welcome',
 	'Home page, edit me!');
