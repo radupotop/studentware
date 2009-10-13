@@ -4,9 +4,9 @@
  * Display page.
  */
 ?>
-
 <div id="pages">
 <h2 class="cat_title">Pages</h2>
+<p class="cat_desc">Wiki-like pages. May contain articles, how-tos, instructions, course notes, etc.</p>
 
 <?php
 /**

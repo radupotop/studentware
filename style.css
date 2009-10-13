@@ -155,3 +155,6 @@ input, button {
 #register pre {
 	font: normal 1em Verdana, sans-serif;
 }
+.cat_desc {
+	margin-top: -1em;
+}

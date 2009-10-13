@@ -5,7 +5,8 @@
  */
 ?>
 <div id="forum">
-<h2 class="cat_title">Discussion forum</h2>
+<h2 class="cat_title">Forum</h2>
+<p class="cat_desc">Discussion forum. Announcements, discussions, notifications belong here.</p>
 
 <div id="topic_list">
 	<?php display_topic_list(); ?>

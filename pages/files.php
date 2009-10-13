@@ -68,6 +68,8 @@ function display_files() {
 	global $upload;
 ?>
 <h2>Files</h2>
+<p class="cat_desc">File manager. Upload courses, books, media, etc.</p>
+
 <form action="<?php echo current_page(true); ?>" method="post"
 	enctype="multipart/form-data">
 <table>

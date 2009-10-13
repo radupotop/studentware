@@ -12,6 +12,8 @@ function display_calendar() {
 	global $calendar;
 ?>
 <h2>Calendar</h2>
+<p class="cat_desc">Events calendar. Non-weekly events or events that span across multiple days belong here.</p>
+
 <form action="<?php echo current_page(true); ?>" method="post"
 	enctype="multipart/form-data">
 <table>
