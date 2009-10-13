@@ -28,3 +28,5 @@ Todo
 * localization
 * url rewrite
 * profile page
+* users last login (show new stuff)
+* change mootools to jquery

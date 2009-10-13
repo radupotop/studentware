@@ -29,30 +29,96 @@ function mailing_list() {
 		$emails[$i] = $row[0];
 	}
 
-	// Email all users
 	$headers = imap_headers($conn);
 	$num_emails = sizeof($headers);
 
+	// Parse each email
 	for ($i = 1; $i < $num_emails+1; $i++) {
 		$mail_header = imap_headerinfo($conn, $i);
 		// $from is an object
 		$from = $mail_header->from[0];
-		$subject = $mail_header->subject;
+		$subject = esc($mail_header->subject);
 		$body = imap_body($conn, $i);
 
 		$from_email = $from->mailbox.'@'.$from->host;
 
-		foreach($emails as $email) {
-			// Send to all except original sender
-			if ($email != $from_email) {
-				imap_mail($email, $subject, strip_tags($body));
+		// Anti-spam. Do not allow users that are not registered to send emails
+		if (in_array($from_email, $emails)) {
+
+			// Get id of user that sent email
+			$result = mysql_query('
+				select id_user from users where email="'.$from_email.'";
+			');
+			$row = mysql_fetch_array($result);
+			$id_user = $row[0];
+
+			// Select the topic that has the same subject as the email
+			$result = mysql_query('
+				select * from topics where title="'.$subject.'"
+			');
+			$row = mysql_fetch_array($result);
+
+			if ($row) {
+				// found topic, make post
+
+				make_post($id_user, $body, $subject);
+
+				// Email users (Re: )
+				foreach($emails as $email) {
+					// Send to all except original sender
+					if ($email != $from_email) {
+						imap_mail($email, 'Re: '.$subject, strip_tags($body));
+					}
+				}
+
+			} else {
+				// create topic & make post
+
+				mysql_query ('
+					insert into topics values (
+						null,
+						'.$id_user.',
+						NOW(),
+						"'.$subject.'"
+					);
+				');
+
+				make_post($id_user, $body, $subject);
+
+				// Email users
+				foreach($emails as $email) {
+					// Send to all except original sender
+					if ($email != $from_email) {
+						imap_mail($email, $subject, strip_tags($body));
+					}
+				}
 			}
 		}
-
+		// Delete emails
 	}
 
 	// Close connection
 	imap_close($conn);
+	return;
+}
+
+function make_post($id_user, $body, $subject) {
+	$result = mysql_query ('
+		select id_topic from topics where title="'.$subject.'"
+	');
+	$row = mysql_fetch_array($result);
+	$id_topic=$row[0];
+
+	mysql_query('
+		insert into posts values (
+			null,
+			'.$id_topic.',
+			'.$id_user.',
+			NOW(),
+			'.$body.'
+		);
+	');
+
 	return;
 }
 
