@@ -66,7 +66,8 @@ tbody tr:hover {
 
 td, th {
 	padding: .2em;
-	width: 12em;
+	width: 19em;
+	height: 2.2em;
 }
 
 #login {

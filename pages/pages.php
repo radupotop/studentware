@@ -46,7 +46,7 @@ while ($row = mysql_fetch_array($result)) {
 	'	<tr>' . "\n" .
 	'		<td>' . "\n" .
 	'		<a href="?p=' . $_GET['p'] . '&amp;pag=' .
-		$row['id_page'] . '">' . trim_title($row['title'], 20) . '</a>' ."\n".
+		$row['id_page'] . '">' . trim_title($row['title'], 30) . '</a>' ."\n".
 	'		</td>' . "\n" .
 	'		<td>' . $row['first_name'] . ' ' . $row['fam_name'] . '</td>' ."\n".
 	'		<td>' . Date::from_sql($row['date_modified']) . '</td>' . "\n";
