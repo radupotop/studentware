@@ -38,6 +38,8 @@ function mailing_list() {
 		// $from is an object
 		$from = $mail_header->from[0];
 		$subject = esc($mail_header->subject);
+		$subject = preg_replace('/^[Re: ]+/i', '', $subject);
+
 		$body = imap_body($conn, $i);
 
 		$from_email = $from->mailbox.'@'.$from->host;
@@ -94,8 +96,11 @@ function mailing_list() {
 				}
 			}
 		}
-		// Delete emails
+		// Mark email for deletion
+		imap_delete($conn, $i);
 	}
+	// Delete all marked emails
+	imap_expunge($conn);
 
 	// Close connection
 	imap_close($conn);
