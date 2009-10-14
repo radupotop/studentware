@@ -38,9 +38,9 @@ function mailing_list() {
 		// $from is an object
 		$from = $mail_header->from[0];
 		$subject = esc($mail_header->subject);
-		$subject = preg_replace('/^[Re: ]+/i', '', $subject);
+		$subject = preg_replace('/^[Re: ?]+/i', '', $subject);
 
-		$body = imap_body($conn, $i);
+		$body = strip_tags(imap_body($conn, $i));
 
 		$from_email = $from->mailbox.'@'.$from->host;
 
@@ -69,7 +69,7 @@ function mailing_list() {
 				foreach($emails as $email) {
 					// Send to all except original sender
 					if ($email != $from_email) {
-						imap_mail($email, 'Re: '.$subject, strip_tags($body));
+						imap_mail($email, 'Re: '.$subject, $body);
 					}
 				}
 
@@ -91,7 +91,7 @@ function mailing_list() {
 				foreach($emails as $email) {
 					// Send to all except original sender
 					if ($email != $from_email) {
-						imap_mail($email, $subject, strip_tags($body));
+						imap_mail($email, $subject, $body);
 					}
 				}
 			}
@@ -120,7 +120,7 @@ function make_post($id_user, $body, $subject) {
 			'.$id_topic.',
 			'.$id_user.',
 			NOW(),
-			'.$body.'
+			"'.esc($body).'"
 		);
 	');
 
