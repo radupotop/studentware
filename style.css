@@ -1,6 +1,5 @@
 @charset "UTF-8";
-@import url('scripts/mooeditable/MooEditable.css');
-@import url('scripts/mooeditable/MooEditable.Extras.css');
+@import url('scripts/script.css');
 
 html {
 	font: normal .75em Verdana, sans-serif;
