@@ -6,11 +6,9 @@
 <head>
 	<title><?php echo $site['name']; ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="stylesheet" type="text/css" media="screen" href="style.css">
-	<link rel="stylesheet" type="text/css" media="print" href="print.css">
+	<link rel="stylesheet" type="text/css" href="styles/loader.css">
 	<link rel="shortcut icon" type="image/vnd.microsoft.icon"
 		href="favicon.ico">
-	<script type="text/javascript" src="scripts/loader.js"></script>
 </head>
 
 <body>

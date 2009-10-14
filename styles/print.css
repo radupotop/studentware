@@ -1,4 +1,9 @@
 @charset "UTF-8";
+@media print {
+
+html {
+	font-size: 1em;
+}
 
 a {
 	text-decoration: none;
@@ -10,6 +15,12 @@ a {
 	display: none;
 }
 
+#header {
+	margin-bottom: 1em;
+}
+
 .author .user {
 	font-weight: bold;
+}
+
 }
