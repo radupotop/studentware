@@ -9,6 +9,9 @@
 		$_POST['topic']['add']['req'];
 	$topic['edit']['req'] =
 		filter_var($_POST['topic']['edit']['req'], FILTER_VALIDATE_INT);
+
+	$post['add']['submit'] =
+		$_POST['post']['add']['submit'];
 	$post['edit']['req'] =
 		filter_var($_POST['post']['edit']['req'], FILTER_VALIDATE_INT);
 
@@ -20,6 +23,26 @@
  */
 function input_post_add() {
 	global $topic, $html_filter;
+
+/*
+	global $topic, $post, $html_filter, $mailing_list;
+
+	if (
+		$mailing_list['enabled'] &&
+		$post['add']['submit']
+	) {
+		$result = mysql_query(
+			'select title from topics where id_topic='.$topic['id']
+		);
+		$row = mysql_fetch_array($result);
+		$subject = $row[0];
+		mail(
+			$mailing_list['email'],
+			esc($subject),
+			strip_tags($post['add']['body'])
+		);
+	}
+*/
 
 	$post['add']['body'] =
 		$html_filter->process($_POST['post']['add']['body']);

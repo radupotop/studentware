@@ -118,4 +118,21 @@ function get_permissions($page) {
 	return $perm;
 }
 
+/**
+ * Log message to a file.
+ *
+ * @param string $msg - message to log
+ * @param string $log - log file
+ * @return null
+ */
+function _log ($msg, $log='all.log') {
+	if (trim(strtolower($msg))==='clear')
+		unlink ($log);
+	else if ($logfile = fopen($log, 'a')) {
+		fwrite($logfile, date('Y-m-d H:i:s - ').$msg."\n");
+		fclose($logfile);
+	}
+	return;
+}
+
 ?>
