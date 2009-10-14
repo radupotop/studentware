@@ -41,6 +41,7 @@ function mailing_list() {
 		$subject = preg_replace('/^[Re: ?]+/i', '', $subject);
 
 		$body = strip_tags(imap_body($conn, $i));
+		$body = preg_replace('/\n.*\n.*\n[>]+.*/', '', $body);
 
 		$from_email = $from->mailbox.'@'.$from->host;
 
