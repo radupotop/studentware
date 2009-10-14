@@ -5,5 +5,7 @@
 
 <script type="text/javascript" src="scripts/loader.js"></script>
 
+<?php //include('debug/debug.php'); ?>
+
 </body>
 </html>

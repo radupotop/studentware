@@ -37,6 +37,5 @@ if (in_array($p, $allowed)) {
 }
 
 include('template/sidebar.php');
-//include('debug/debug.php');
 include('template/footer.php');
 ?>
