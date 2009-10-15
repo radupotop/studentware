@@ -120,6 +120,7 @@ class MailingList {
 	function __destruct() {
 		global $conn;
 
+		if (imap_delete($conn,'1:*')) _log('ml: deleted all messages');
 		if (imap_expunge($conn)) _log('ml: expunged');
 		if (imap_close($conn)) _log('ml: closed');
 	}
