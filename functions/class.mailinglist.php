@@ -80,13 +80,18 @@ class MailingList {
 	 * Send messages to all users.
 	 */
 	function massSend() {
+		global $mailing_list;
+
 		$addr = $this->addrArray();
 		$msg = $this->msgArray();
 
 		if ($addr && $msg)
 			foreach($addr as $address)
 				foreach ($msg as $message)
-					if($address != $message['from'])
+					if(
+						$address != $message['from'] &&
+						$address != $mailing_list['email']
+					)
 						$this->send(
 							$address, $message['subject'], $message['body']
 						);
