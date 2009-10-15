@@ -46,7 +46,7 @@ class MailingList {
 		$headers = imap_headers($conn);
 		$num_emails = sizeof($headers);
 
-		_log('ml: '.$num_emails.' messages');
+		_log('ml: '.$num_emails.' messages in total');
 
 		for ($i = 1; $i < $num_emails+1; $i++) {
 			$mail_header = imap_headerinfo($conn, $i);
@@ -63,15 +63,49 @@ class MailingList {
 
 			$emails = $this->addrArray();
 
-			// Get only the messages from registered users.
-			if(in_array($from_email, $emails))
+			// Get messages only from registered users.
+			if(in_array($from_email, $emails)) :
 				$messages[$i] = array (
 					'from' => $from_email,
 					'subject' => $subject,
 					'body' => $body
 				);
+			endif;
 		}
+		_log('ml: '.count($messages).' messages from registered users');
 		return $messages;
+	}
+
+	/**
+	 * Send messages to all users.
+	 */
+	function massSend() {
+		$addr = $this->addrArray();
+		$msg = $this->msgArray();
+
+		if ($addr && $msg)
+			foreach($addr as $address)
+				foreach ($msg as $message)
+					if($address != $message['from'])
+						$this->send(
+							$address, $message['subject'], $message['body']
+						);
+		return;
+	}
+
+	/**
+	 * Send one email.
+	 *
+	 * @param string $to
+	 * @param string $subject
+	 * @param string $body
+	 * @param string $headers
+	 */
+	function send($to, $subject, $body, $headers = null) {
+		$send = imap_mail($to, $subject, $body, $headers);
+		if ($send)
+			_log('ml: sent '.$subject.' to '.$to);
+		return;
 	}
 
 
@@ -86,6 +120,6 @@ class MailingList {
 	}
 }
 $mail = new MailingList();
-$msg = $mail->msgArray();
-var_dump($msg);
+$msg = $mail->massSend();
+//var_dump($msg);
 ?>
