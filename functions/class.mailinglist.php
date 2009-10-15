@@ -87,7 +87,7 @@ class MailingList {
 
 		if ($addr && $msg)
 			foreach($addr as $address)
-				foreach ($msg as $message)
+				foreach ($msg as $message) {
 					if(
 						$address != $message['from'] &&
 						$address != $mailing_list['email']
@@ -95,6 +95,15 @@ class MailingList {
 						$this->send(
 							$address, $message['subject'], $message['body']
 						);
+					/**
+					 * makeTopic, makePost
+					 *
+					 * makeTopic($from_email, $subject);
+					 * @return id_topic ?
+					 *
+					 * makePost($id_topic, $id_user, $body);
+					 */
+				}
 		return;
 	}
 
