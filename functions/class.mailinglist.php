@@ -98,8 +98,8 @@ class MailingList {
 					/**
 					 * makeTopic, makePost
 					 *
-					 * makeTopic($from_email, $subject);
-					 * @return id_topic ?
+					 * makeTopic($id_user, $subject);
+					 * @return id_topic
 					 *
 					 * makePost($id_topic, $id_user, $body);
 					 */
