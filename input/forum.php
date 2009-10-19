@@ -16,33 +16,14 @@
 		filter_var($_POST['post']['edit']['req'], FILTER_VALIDATE_INT);
 
 	$html_filter = new InputFilter($tags, $attr);
+	$forum = new ForumInput();
 
 /**
  * Input posts add.
  * @return null
  */
 function input_post_add() {
-	global $topic, $html_filter;
-
-/*
-	global $topic, $post, $html_filter, $mailing_list;
-
-	if (
-		$mailing_list['enabled'] &&
-		$post['add']['submit']
-	) {
-		$result = mysql_query(
-			'select title from topics where id_topic='.$topic['id']
-		);
-		$row = mysql_fetch_array($result);
-		$subject = $row[0];
-		mail(
-			$mailing_list['email'],
-			esc($subject),
-			strip_tags($post['add']['body'])
-		);
-	}
-*/
+	global $topic, $html_filter, $forum;
 
 	$post['add']['body'] =
 		$html_filter->process($_POST['post']['add']['body']);
@@ -52,21 +33,8 @@ function input_post_add() {
 	if ($_SESSION['login']
 	&& $post['add']['body']
 	&& $post['add']['submit']) {
-		mysql_query (
-			'insert into posts
-			values (
-				null,'.
-				$topic['id'].','.
-				$_SESSION['id_user'].',
-				NOW(),
-				"'.esc($post['add']['body']).'"
-			)'
-		);
-		mysql_query(
-			'update topics
-			set date_modified=NOW()
-			where id_topic=' . $topic['id']
-		);
+		$forum->addPost($topic['id'], $_SESSION['id_user'], esc($post['add']['body']));
+		$forum->updateTopic($topic['id']);
 	}
 	return;
 }
