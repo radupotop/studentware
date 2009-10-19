@@ -52,8 +52,10 @@ class ForumInput {
 			);
 			$row = mysql_fetch_array($result);
 			$id_post = $row[0];
-			if ($id_post)
+			if ($id_post) {
+				_log('forum: added post with id='.$id_post);
 				return $id_post;
+			}
 		}
 		return false;
 	}
