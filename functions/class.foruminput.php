@@ -124,6 +124,10 @@ class ForumInput {
 	 * @return int $id_topic
 	 */
 	function addTopic($id_user, $title) {
+		//check if topic exists
+		if($id_topic = $this->idTopic($title))
+			return $id_topic;
+
 		if(!is_numeric($id_user))
 			$id_user = $this->idUser($id_user);
 
@@ -137,19 +141,9 @@ class ForumInput {
 		);
 		queryCount();
 
-		// select id topic
+		//check again if topic exists and return its ID
 		if($result) {
-			$result = mysql_query(
-				'select id_topic
-				from topics
-				where id_user='.$id_user.' and title="'.$title.'"
-				order by id_topic desc
-				limit 0,1'
-			);
-			queryCount();
-			$row = mysql_fetch_array($result);
-			$id_topic = $row['id_topic'];
-			if ($id_topic) {
+			if ($id_topic = $this->idTopic($title)) {
 				_log('forum: added topic with id='.$id_topic);
 				return $id_topic;
 			}
