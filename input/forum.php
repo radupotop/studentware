@@ -97,7 +97,7 @@ input_topic_edit();
  * @return null
  */
 function input_topic_add() {
-	global $html_filter;
+	global $topic, $html_filter, $forum;
 
 	$topic['add']['title'] =
 		filter_var($_POST['topic']['add']['title'], FILTER_UNSAFE_RAW);
@@ -109,39 +109,16 @@ function input_topic_add() {
 	if($topic['add']['title']
 	&& $topic['add']['body']
 	&& $topic['add']['submit']) {
-		// create topic
-		mysql_query (
-			'insert into topics
-			values (
-				null,'.
-				$_SESSION['id_user'].',
-				NOW(),
-				"'.esc($topic['add']['title']).'"
-			)'
-		);
-		queryCount();
-		// select created topic
-		$result = mysql_query (
-			'select id_topic
-			from topics
-			where title="'.$topic['add']['title'].'"'
-		);
-		queryCount();
-		$row = mysql_fetch_array($result);
-		// insert first post into topic
-		mysql_query (
-			'insert into posts
-			values (
-				null,'.
-				$row['id_topic'].','.
-				$_SESSION['id_user'].',
-				NOW(),
-				"'.esc($topic['add']['body']).'"
-			)'
-		);
-		queryCount();
+
+		$id_topic =
+			$forum->addTopic($_SESSION['id_user'], $topic['add']['title']);
+
+		$forum->addPost($id_topic, $_SESSION['id_user'],
+			esc($topic['add']['body']));
+
+
 		// redirect to newly created topic
-		header('Location: ?p='.$_GET['p'].'&topic='.$row['id_topic']);
+		header('Location: ?p='.$_GET['p'].'&topic='.$id_topic);
 	}
 	return;
 }
