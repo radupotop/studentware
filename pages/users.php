@@ -40,6 +40,7 @@ function display_groups_edit() {
 		from groups
 		where id_group = ' . $groups['edit']['req']
 	);
+	queryCount();
 	$row = mysql_fetch_array($result);
 ?>
 	<tr class="editing">
@@ -80,6 +81,7 @@ function display_groups() {
 		'select *
 		from groups'
 	);
+	queryCount();
 	while ($row = mysql_fetch_array($result)) {
 		if($row['id_group'] == $groups['edit']['req']) {
 			display_groups_edit();
@@ -128,6 +130,7 @@ function display_groups_dropdown($select) {
 		'select *
 		from groups'
 	);
+	queryCount();
 	while ($row = mysql_fetch_array($result)) {
 		echo '			<option ';
 		if($row['id_group'] == $select) {
@@ -184,6 +187,7 @@ function display_users_edit() {
 		from users
 		where id_user=' . $edit_user
 	);
+	queryCount();
 	$row = mysql_fetch_array($result);
 ?>
 	<tr class="editing">
@@ -251,6 +255,7 @@ function display_users() {
 	on users.id_group = groups.id_group
 	order by id_user
 	');
+	queryCount();
 
 while ($row = mysql_fetch_array($result)) {
 	if ($row['id_user'] == $edit_user) {

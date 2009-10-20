@@ -34,6 +34,7 @@ function input_add_calendar() {
 			"'.esc($calendar['add']['title']).'"
 		)';
 		mysql_query ($query);
+		queryCount();
 	}
 
 	return;
@@ -66,6 +67,7 @@ function input_edit_calendar() {
 			title="'.esc($calendar['edit']['title']).'"
 			where id_calendar='.$calendar['edit']['submit']
 		);
+		queryCount();
 	}
 
 	return;
@@ -86,6 +88,7 @@ function input_delete_calendar() {
 			'delete from calendars
 			where id_calendar='.$calendar['delete']['req']
 		);
+		queryCount();
 	}
 	return;
 }

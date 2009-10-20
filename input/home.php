@@ -28,6 +28,7 @@ function input_home_edit() {
 			'body = "'.esc($body).'" '.
 			'where id_page='.$submit
 		);
+		queryCount();
 	}
 	return;
 }

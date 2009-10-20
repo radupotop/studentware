@@ -28,6 +28,7 @@ class MailingList {
 	 */
 	function addrArray() {
 		$result = mysql_query('select email from users');
+		queryCount();
 		$num_rows = mysql_num_rows($result);
 		for($i=0; $i<$num_rows ;$i++) {
 			$row = mysql_fetch_array($result);

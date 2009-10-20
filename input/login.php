@@ -35,6 +35,7 @@ function input_login() {
 					where email = "' . $filtered_data['email'] .
 					'" and pass = "' . $filtered_data['pass'] . '"'
 				);
+				queryCount();
 				$row = mysql_fetch_array($result);
 				if ($row) {
 					$_SESSION['login'] = true;

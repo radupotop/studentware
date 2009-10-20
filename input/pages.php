@@ -34,6 +34,7 @@ function input_page_edit() {
 			'body = "'.esc($page['edit']['body']).'" '.
 			'where id_page='.$page['edit']['submit']
 		);
+		queryCount();
 		// redirect to edited page after edit.
 		header('Location: ?p='.$_GET['p'].'&pag='.$page['edit']['submit']);
 	}
@@ -68,6 +69,7 @@ function input_page_add() {
 				"'.esc($page['add']['body']).'"
 			)'
 		);
+		queryCount();
 	}
 	return;
 }
@@ -85,6 +87,7 @@ function input_page_delete() {
 			'delete from pages
 			where id_page='.$page['delete']['req']
 		);
+		queryCount();
 	}
 	return;
 }

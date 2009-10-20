@@ -62,6 +62,7 @@ function input_post_edit() {
 			body="'.esc($post['edit']['body']).$edit_tag.'"
 			where id_post='.$post['edit']['submit']
 		);
+		queryCount();
 	}
 	return;
 }
@@ -84,6 +85,7 @@ function input_topic_edit() {
 			title="'.esc($topic['edit']['title']).'"
 			where id_topic='.$topic['edit']['submit']
 		);
+		queryCount();
 	}
 	return;
 }
@@ -116,12 +118,14 @@ function input_topic_add() {
 				"'.esc($topic['add']['title']).'"
 			)'
 		);
+		queryCount();
 		// select created topic
 		$result = mysql_query (
 			'select id_topic
 			from topics
 			where title="'.$topic['add']['title'].'"'
 		);
+		queryCount();
 		$row = mysql_fetch_array($result);
 		// insert first post into topic
 		mysql_query (
@@ -134,6 +138,7 @@ function input_topic_add() {
 				"'.esc($topic['add']['body']).'"
 			)'
 		);
+		queryCount();
 		// redirect to newly created topic
 		header('Location: ?p='.$_GET['p'].'&topic='.$row['id_topic']);
 	}
@@ -155,12 +160,14 @@ function input_post_delete() {
 			'delete from posts
 			where id_post='.$post['delete']['req']
 		);
+		queryCount();
 		// check if topic contains more posts
 		$result = mysql_query (
 			'select *
 			from posts
 			where id_topic='.$topic['id']
 		);
+		queryCount();
 		$row = mysql_fetch_array($result);
 		// delete if topic is empty
 		if ($row == false) {
@@ -168,6 +175,7 @@ function input_post_delete() {
 				'delete from topics
 				where id_topic='.$topic['id']
 			);
+			queryCount();
 			// redirect to list of topics
 			header('Location: ?p='.$_GET['p']);
 		}
@@ -190,11 +198,13 @@ function input_topic_delete() {
 			'delete from topics
 			where id_topic='.$topic['delete']['req']
 		);
+		queryCount();
 		// and also delete posts from that topic
 		mysql_query (
 			'delete from posts
 			where id_topic='.$topic['delete']['req']
 		);
+		queryCount();
 		// redirect to list of topics
 		header('Location: ?p='.$_GET['p']);
 	}

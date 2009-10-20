@@ -29,6 +29,7 @@ function input_files_add() {
 			values (null, "' . $_SESSION['id_user'] . '",
 			NOW(), "'.esc($title).'", "'.esc($hash).'")'
 		);
+		queryCount();
 		return true;
 	}
 	else
@@ -52,6 +53,7 @@ function input_files_edit() {
 			from files
 			where id_file = '.$submit
 		);
+		queryCount();
 		$row = mysql_fetch_array($result);
 
 		if (
@@ -70,6 +72,7 @@ function input_files_edit() {
 				'filename = "'.esc($hash).'" '.
 				'where id_file = '.$submit
 			);
+			queryCount();
 			@unlink($files['path'] . $row['filename']);
 			return true;
 		} else {
@@ -92,12 +95,14 @@ function input_files_delete() {
 			from files
 			where id_file=' . $delete
 		);
+		queryCount();
 		$row = mysql_fetch_array($result);
 		@unlink($files['path'] . $row['filename']);
 		mysql_query(
 			'delete from files
 			where id_file=' . $delete
 		);
+		queryCount();
 	}
 	return;
 }
@@ -116,6 +121,7 @@ function input_files_download() {
 			from files
 			where id_file=' . $download
 		);
+		queryCount();
 		$row = mysql_fetch_array($result);
 		$download_name = $row['title'] . extension($row['filename']);
 		$file = $files['path'] . $row['filename'];

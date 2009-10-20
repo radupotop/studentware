@@ -40,6 +40,7 @@ $result = mysql_query('
 		where pages.id_page !='.$site['home'].'
 		order by date_modified desc
 	');
+	queryCount();
 
 while ($row = mysql_fetch_array($result)) {
 	echo
@@ -123,6 +124,7 @@ function display_page() {
 			on pages.id_user = users.id_user
 			where id_page='.$pag
 		);
+		queryCount();
 		$row = mysql_fetch_array($result);
 		// redirect to page list if page is deleted, or page 1 requested
 		if ($row == false || $pag == 1) {
@@ -192,6 +194,7 @@ function display_page_edit() {
 		from pages
 		where id_page='.$page['edit']['req']
 	);
+	queryCount();
 	$row = mysql_fetch_array($result);
 ?>
 <form action="<?php echo current_page(true); ?>" method="post">

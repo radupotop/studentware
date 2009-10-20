@@ -12,6 +12,7 @@
 	mysql_set_charset($db['char']);
 	mysql_select_db($db['name']);
 	session_start();
+	$queryCount = 0;
 }
 
 /**
@@ -135,6 +136,15 @@ function _log ($msg, $log='all.log') {
 			fclose($logfile);
 		}
 	endif;
+	return;
+}
+
+/**
+ * Count SQL queries.
+ */
+function queryCount() {
+	global $queryCount;
+	$queryCount++;
 	return;
 }
 

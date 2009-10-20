@@ -21,6 +21,7 @@ function display_home_edit() {
 		from pages
 		where id_page='.$site['home']
 	);
+	queryCount();
 	$row = mysql_fetch_array($result);
 ?>
 	<input name="home[edit][title]" type="text" class="page_title"
@@ -47,6 +48,7 @@ function display_home() {
 		from pages
 		where id_page='.$site['home']
 	);
+	queryCount();
 	$row = mysql_fetch_array($result);
 	//title
 	echo '<h2>' . $row['title'] . '</h2>' ."\n";

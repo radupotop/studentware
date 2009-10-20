@@ -45,6 +45,7 @@ function input_register() {
 				null
 			);'
 		);
+		queryCount();
 		header('Location: .');
 	}
 

@@ -34,6 +34,7 @@ function display_calendar() {
 		from calendars
 		order by date_start'
 	);
+	queryCount();
 	while ($row = mysql_fetch_array($result)) {
 		if($row['id_calendar'] == $calendar['edit']['req']) {
 			display_calendar_edit();
@@ -104,6 +105,7 @@ function display_calendar_edit() {
 		from calendars
 		where id_calendar='.$calendar['edit']['req']
 	);
+	queryCount();
 	$row = mysql_fetch_array($result);
 ?>
 <tr class="editing">

@@ -24,6 +24,7 @@ function input_groups_add() {
 		'insert into groups
 		values (null, "'. esc($title) .'")'
 		);
+		queryCount();
 	}
 	return;
 }
@@ -42,11 +43,13 @@ function input_groups_delete() {
 			'delete from groups
 			where id_group = ' . $delete
 		);
+		queryCount();
 		// also delete users from group
 		mysql_query(
 			'delete from users
 			where id_group='.$delete
 		);
+		queryCount();
 	}
 	return;
 }
@@ -70,6 +73,7 @@ function input_groups_edit() {
 			set title = "'. esc($title) .'"
 			where id_group = '. $submit
 		);
+		queryCount();
 	}
 	return;
 }
@@ -116,6 +120,7 @@ function input_users_add() {
 				$filtered_data['pass'] . '", "' .
 				esc($filtered_data['about']) . '")'
 			);
+			queryCount();
 		}
 	return;
 }
@@ -134,6 +139,7 @@ function input_users_delete() {
 			'delete from users
 			where id_user = ' . $delete_user
 		);
+		queryCount();
 	}
 	return;
 }
@@ -185,6 +191,7 @@ function input_users_edit() {
 				'about= "' . esc($filtered_data['x_about']) . '" ' .
 				'where id_user = ' . $submit_edit_user;
 			mysql_query($query);
+			queryCount();
 			if ($_SESSION['id_user'] == $submit_edit_user) {
 
 				$_SESSION['id_group'] = $filtered_data['x_id_group'];

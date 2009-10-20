@@ -59,6 +59,7 @@ $result = mysql_query('
 		on topics.id_user=users.id_user
 		order by date_modified desc
 	');
+	queryCount();
 
 while ($row = mysql_fetch_array($result)) {
 	if($topic['edit']['req'] == $row['id_topic']) {
@@ -130,6 +131,7 @@ function display_post_list() {
 		from topics
 		where id_topic=' . $topic['id'] . '
 	');
+	queryCount();
 	$row = mysql_fetch_array($result);
 	echo '<h2>' . $row['title'] . '</h2>' ."\n";
 
@@ -143,6 +145,7 @@ function display_post_list() {
 		where id_topic=' . $topic['id'] . '
 		order by date_created
 	');
+	queryCount();
 	while ($row = mysql_fetch_array($result)) {
 		// display edit?
 		if ($post['edit']['req'] == $row['id_post']) {
@@ -236,6 +239,7 @@ function display_topic_edit() {
 			from topics
 			where id_topic='.$topic['edit']['req']
 		);
+		queryCount();
 		$row = mysql_fetch_array($result);
 ?>
 <tr class="editing">
@@ -266,6 +270,7 @@ function display_post_edit() {
 			from posts
 			where id_post='.$post['edit']['req']
 		);
+		queryCount();
 		$row = mysql_fetch_array($result);
 ?>
 	<form action="<?php echo current_page(true); ?>" method="post">

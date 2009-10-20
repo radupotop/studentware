@@ -39,6 +39,7 @@ function display_files_edit() {
 		from files
 		where id_file = '.$upload['edit']['req']
 	);
+	queryCount();
 	$row = mysql_fetch_array($result);
 	if($_SESSION['login'] && $upload) {
 ?>
@@ -93,6 +94,7 @@ function display_files() {
 		on files.id_user = users.id_user
 		order by date_modified desc'
 	);
+	queryCount();
 	while ($row = mysql_fetch_array($result)) {
 		if($row['id_file'] == $upload['edit']['req']) {
 			display_files_edit();
