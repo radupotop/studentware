@@ -7,7 +7,8 @@
 class ForumInput {
 
 	/**
-	 * Get id of topic with given title.
+	 * Identify topic.
+	 * Find ID of topic from title.
 	 * Also used to verify if topic exists.
 	 *
 	 * @param string $title
@@ -19,10 +20,35 @@ class ForumInput {
 		queryCount();
 		while($row = mysql_fetch_array($result)) {
 			$query_title = strtolower(trim($row['title']));
-			if($title == $query_title)
+			if($title == $query_title) {
 				$id_topic = $row['id_topic'];
+				break;
+			}
 		}
 		return $id_topic;
+	}
+
+	/**
+	 * Identify user.
+	 * Find ID of user from email address.
+	 *
+	 * @param string $addr
+	 * @return int $id_user
+	 */
+	function idUser($addr) {
+		$addr = strtolower(trim($addr));
+		$result = mysql_query ('select * from users');
+		queryCount();
+
+		while($row = mysql_fetch_array($result)) {
+			$query_addr = strtolower(trim($row['email']));
+			if($addr == $query_addr) {
+				$id_user = $row['id_user'];
+				break;
+			}
+		}
+
+		return $id_user;
 	}
 
 	/**
@@ -34,6 +60,12 @@ class ForumInput {
 	 * @return int $id_post
 	 */
 	function addPost($id_topic, $id_user, $body) {
+		if(!is_numeric($id_topic))
+			$id_topic = $this->idTopic($id_topic);
+
+		if(!is_numeric($id_user))
+			$id_user = $this->idUser($id_user);
+
 		$result = mysql_query (
 			'insert into posts values (
 				null,'.
@@ -60,8 +92,8 @@ class ForumInput {
 				_log('forum: added post with id='.$id_post);
 				return $id_post;
 			}
-		}
-		return false;
+		} else
+			return false;
 	}
 
 	/**
@@ -86,6 +118,4 @@ class ForumInput {
 	}
 
 }
-
-
 ?>

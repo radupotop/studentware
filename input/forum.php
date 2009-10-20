@@ -33,7 +33,8 @@ function input_post_add() {
 	if ($_SESSION['login']
 	&& $post['add']['body']
 	&& $post['add']['submit']) {
-		$forum->addPost($topic['id'], $_SESSION['id_user'], esc($post['add']['body']));
+		$forum->addPost($topic['id'], $_SESSION['id_user'],
+			esc($post['add']['body']));
 		$forum->updateTopic($topic['id']);
 	}
 	return;
