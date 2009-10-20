@@ -95,14 +95,6 @@ class MailingList {
 						$this->send(
 							$address, $message['subject'], $message['body']
 						);
-					/**
-					 * makeTopic, makePost
-					 *
-					 * makeTopic($id_user, $subject);
-					 * @return id_topic
-					 *
-					 * makePost($id_topic, $id_user, $body);
-					 */
 				}
 		return;
 	}
@@ -113,12 +105,23 @@ class MailingList {
 	 * @param string $to
 	 * @param string $subject
 	 * @param string $body
-	 * @param string $headers
 	 */
-	function send($to, $subject, $body, $headers = null) {
+	function send($to, $subject, $body) {
+		$headers = null;
 		$send = imap_mail($to, $subject, $body, $headers);
 		if ($send)
 			_log('ml: sent '.$subject.' to '.$to);
+		return;
+	}
+
+	/**
+	 * Delete emails.
+	 * @param string $msgNo - message no. to delete, or null to delete all
+	 */
+	function delete($msgNo = '1:*') {
+		global $conn;
+
+		if (imap_delete($conn, $msgNo)) _log('ml: deleted message='.$msgNo);
 		return;
 	}
 
@@ -129,12 +132,11 @@ class MailingList {
 	function __destruct() {
 		global $conn;
 
-		if (imap_delete($conn,'1:*')) _log('ml: deleted all messages');
 		if (imap_expunge($conn)) _log('ml: expunged');
 		if (imap_close($conn)) _log('ml: closed');
 	}
 }
 $mail = new MailingList();
-$msg = $mail->massSend();
-//var_dump($msg);
+$mail->massSend();
+$mail->delete();
 ?>
