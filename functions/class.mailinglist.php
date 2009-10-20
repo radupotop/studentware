@@ -136,8 +136,6 @@ class MailingList {
 		if (imap_expunge($conn)) _log('ml: expunged');
 		if (imap_close($conn)) _log('ml: closed');
 	}
+
 }
-$mail = new MailingList();
-$mail->massSend();
-$mail->delete();
 ?>

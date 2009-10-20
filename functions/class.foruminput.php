@@ -28,8 +28,8 @@ class ForumInput {
 	/**
 	 * Add post to topic.
 	 *
-	 * @param int $id_topic
-	 * @param int $id_user
+	 * @param string $id_topic
+	 * @param string $id_user
 	 * @param string $body
 	 * @return int $id_post
 	 */
@@ -44,6 +44,7 @@ class ForumInput {
 			)'
 		);
 		queryCount();
+		// select id_post
 		if ($result) {
 			$result = mysql_query (
 				'select id_post
@@ -65,15 +66,19 @@ class ForumInput {
 
 	/**
 	 * Update date of given topic.
-	 * @param int $id_topic
+	 * @param string $id_topic - can be an id or a topic title
 	 */
 	function updateTopic($id_topic) {
+		if(!is_numeric($id_topic))
+			$id_topic = $this->idTopic($id_topic);
+
 		$result = mysql_query(
 			'update topics
 			set date_modified=NOW()
 			where id_topic='.$id_topic
 		);
 		queryCount();
+
 		if($result)
 			return true;
 		else

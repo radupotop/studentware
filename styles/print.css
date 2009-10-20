@@ -9,7 +9,7 @@ a {
 	text-decoration: none;
 }
 
-#sidebar, #debug, #reply, #textarea, #page_list, #topic_list,
+#sidebar, #debug, #reply, #textarea, #page_list, #topic_list, #queries,
 	select, textarea, button, input,
 	#pages .cat_title, #forum .cat_title, .cat_desc {
 	display: none;
