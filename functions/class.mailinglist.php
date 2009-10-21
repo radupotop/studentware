@@ -3,8 +3,6 @@
  * Send emails to registered users, post to forum.
  * @class MailingList
  */
-include('../config.php');
-include('functions.php');
 
 class MailingList {
 
