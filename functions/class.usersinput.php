@@ -8,7 +8,7 @@ class UsersInput {
 	 * @param string $addr
 	 * @return int $id_user
 	 */
-	static function idUser($addr) {
+	function identifyUser($addr) {
 		$addr = strtolower(trim($addr));
 		$result = mysql_query ('select * from users');
 		queryCount();

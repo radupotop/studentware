@@ -1,6 +1,6 @@
 <?php
 /**
- * Send emails to registered users, post to forum.
+ * Mailing list. Send emails to registered users.
  * @class MailingList
  */
 
@@ -54,10 +54,9 @@ class MailingList {
 			$from = $mail_header->from[0];
 			$from_email = $from->mailbox.'@'.$from->host;
 
-			$subject = esc($mail_header->subject);
-			$subject = preg_replace('/^[Re: ?]+/i', '', $subject);
+			$subject = $mail_header->subject;
 
-			$body = strip_tags(imap_body($conn, $i));
+			$body = imap_body($conn, $i);
 			$body = preg_replace('/\n.*\n.*\n[>]+.*/', '', $body);
 
 			$emails = $this->addrArray();
@@ -106,6 +105,7 @@ class MailingList {
 	 * @param string $body
 	 */
 	function send($to, $subject, $body) {
+		$body = strip_tags($body);
 		$headers = null;
 		$send = imap_mail($to, $subject, $body, $headers);
 		if ($send)

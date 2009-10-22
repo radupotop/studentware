@@ -144,4 +144,28 @@ function queryCount() {
 	return;
 }
 
+/**
+ * Mailing list.
+ */
+function mailingList() {
+	$mail = new MailingList();
+	$forum = new ForumInput();
+
+	// mass email
+	$mail->massSend();
+
+	// post to forum
+	$messages = $mail->msgArray();
+	foreach ($messages as $msg) {
+		// subject 'Re: ' stripping
+		$msg['subject'] = preg_replace('/^[Re: ?]+/i', '', $msg['subject']);
+
+		$forum->addTopic($msg['email'], $msg['subject']);
+		$forum->addPost($msg['subject'], $msg['email'], $msg['body']);
+		$forum->updateTopic($msg['subject']);
+	}
+
+	return;
+}
+
 ?>
