@@ -30,3 +30,8 @@ Todo
 * profile page
 * users last login (show new stuff)
 * change mootools to jquery
+* group si teachers in aceeasi app
+	* peering intre mai multe studentwares
+	* request/accept system - pentru inreg. intre peers
+	* hashuri pentru auths intre peers
+* files fara db (or revise files db scheme)

@@ -3,6 +3,8 @@ class UsersInput {
 
 	/**
 	 * Identify user by id or email.
+	 * Can be used to verify if user exists.
+	 *
 	 * Input id - get email.
 	 * or:
 	 * Input email - get id.
@@ -20,22 +22,20 @@ class UsersInput {
 			);
 			queryCount();
 			$row = mysql_fetch_array($result);
-			$id = $row['email'];
+			if ($row)
+				$id = $row['email'];
 		} else {
 			// input email, output id
-			$user = strtolower(trim($user));
-			$result = mysql_query ('select * from users');
+			$result = mysql_query(
+				'select id_user
+				from users
+				where lower(trim(email))='.strtolower(trim($user))
+			);
 			queryCount();
-
-			while($row = mysql_fetch_array($result)) {
-				$email = strtolower(trim($row['email']));
-				if($user == $email) {
-					$id = $row['id_user'];
-					break;
-				}
-			}
+			$row = mysql_fetch_array($result);
+			if ($row)
+				$id = $row['id_user'];
 		}
-
 		return $id;
 	}
 

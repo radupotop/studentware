@@ -7,25 +7,41 @@
 class ForumInput {
 
 	/**
-	 * Identify topic.
-	 * Find ID of topic from title.
-	 * Also used to verify if topic exists.
+	 * Identify topic by id or title.
+	 * Can be used to verify if topic exists.
 	 *
-	 * @param string $title
-	 * @return int $id_topic
+	 * Input id - get title.
+	 * or:
+	 * Input title - get id.
+	 *
+	 * @param $topic
+	 * @return $id
 	 */
-	function identifyTopic($title) {
-		$title = strtolower(trim($title));
-		$result = mysql_query('select * from topics');
-		queryCount();
-		while($row = mysql_fetch_array($result)) {
-			$query_title = strtolower(trim($row['title']));
-			if($title == $query_title) {
-				$id_topic = $row['id_topic'];
-				break;
-			}
+	function identifyTopic($topic) {
+		// input id, output title
+		if (is_numeric($topic)) {
+			$result = mysql_query(
+				'select title
+				from topics
+				where id_topic='.$topic
+			);
+			queryCount();
+			$row = mysql_fetch_array($result);
+			if ($row)
+				$id = $row['title'];
+		} else {
+			// input title, output id
+			$result = mysql_query(
+				'select id_topic
+				from topics
+				where lower(trim(title))='.strtolower(trim($topic))
+			);
+			queryCount();
+			$row = mysql_fetch_array($result);
+			if ($row)
+				$id = $row['id_topic'];
 		}
-		return $id_topic;
+		return $id;
 	}
 
 	/**
