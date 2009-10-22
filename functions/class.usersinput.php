@@ -2,26 +2,41 @@
 class UsersInput {
 
 	/**
-	 * Identify user.
-	 * Find ID of user from email address.
+	 * Identify user by id or email.
+	 * Input id - get email.
+	 * or:
+	 * Input email - get id.
 	 *
-	 * @param string $addr
-	 * @return int $id_user
+	 * @param string $user
+	 * @return string $id
 	 */
-	function identifyUser($addr) {
-		$addr = strtolower(trim($addr));
-		$result = mysql_query ('select * from users');
-		queryCount();
+	function identifyUser($user) {
+		// input id, output email
+		if(is_numeric($user)) {
+			$result = mysql_query(
+				'select email
+				from users
+				where id_user='.$user
+			);
+			queryCount();
+			$row = mysql_fetch_array($result);
+			$id = $row['email'];
+		} else {
+			// input email, output id
+			$user = strtolower(trim($user));
+			$result = mysql_query ('select * from users');
+			queryCount();
 
-		while($row = mysql_fetch_array($result)) {
-			$query_addr = strtolower(trim($row['email']));
-			if($addr == $query_addr) {
-				$id_user = $row['id_user'];
-				break;
+			while($row = mysql_fetch_array($result)) {
+				$email = strtolower(trim($row['email']));
+				if($user == $email) {
+					$id = $row['id_user'];
+					break;
+				}
 			}
 		}
 
-		return $id_user;
+		return $id;
 	}
 
 }
