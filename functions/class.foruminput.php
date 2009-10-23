@@ -7,41 +7,41 @@
 class ForumInput {
 
 	/**
-	 * Identify topic by id or title.
-	 * Can be used to verify if topic exists.
+	 * Get topic ID from title.
 	 *
-	 * Input id - get title.
-	 * or:
-	 * Input title - get id.
-	 *
-	 * @param $topic
-	 * @return $id
+	 * @param string $title
+	 * @return int @id
 	 */
-	function identifyTopic($topic) {
-		// input id, output title
-		if (is_numeric($topic)) {
-			$result = mysql_query(
-				'select title
-				from topics
-				where id_topic='.$topic
-			);
-			queryCount();
-			$row = mysql_fetch_array($result);
-			if ($row)
-				$id = $row['title'];
-		} else {
-			// input title, output id
-			$result = mysql_query(
-				'select id_topic
-				from topics
-				where lower(trim(title))='.strtolower(trim($topic))
-			);
-			queryCount();
-			$row = mysql_fetch_array($result);
-			if ($row)
-				$id = $row['id_topic'];
-		}
+	function getTopicId($title) {
+		$result = mysql_query(
+			'select id_topic
+			from topics
+			where lower(trim(title))="'.strtolower(trim($title)).'"'
+		);
+		queryCount();
+		$row = mysql_fetch_array($result);
+		if ($row)
+			$id = $row['id_topic'];
 		return $id;
+	}
+
+	/**
+	 * Get topic title from ID.
+	 *
+	 * @param int $id
+	 * @return string $title
+	 */
+	function getTopicTitle($id) {
+		$result = mysql_query(
+			'select title
+			from topics
+			where id_topic='.$id
+		);
+		queryCount();
+		$row = mysql_fetch_array($result);
+		if ($row)
+			$title = $row['title'];
+		return $title;
 	}
 
 	/**
@@ -54,11 +54,11 @@ class ForumInput {
 	 */
 	function addPost($id_topic, $id_user, $body) {
 		if(!is_numeric($id_topic))
-			$id_topic = $this->identifyTopic($id_topic);
+			$id_topic = $this->getTopicId($id_topic);
 
 		if(!is_numeric($id_user)) {
 			$users = new UsersInput();
-			$id_user = $users->identifyUser($id_user);
+			$id_user = $users->getUserId($id_user);
 		}
 
 		$result = mysql_query (
@@ -97,7 +97,7 @@ class ForumInput {
 	 */
 	function updateTopic($id_topic) {
 		if(!is_numeric($id_topic))
-			$id_topic = $this->identifyTopic($id_topic);
+			$id_topic = $this->getTopicId($id_topic);
 
 		$result = mysql_query(
 			'update topics
@@ -120,12 +120,12 @@ class ForumInput {
 	 */
 	function addTopic($id_user, $title) {
 		//check if topic exists
-		if($id_topic = $this->identifyTopic($title))
+		if($id_topic = $this->getTopicId($title))
 			return $id_topic;
 
 		if(!is_numeric($id_user)) {
 			$users = new UsersInput();
-			$id_user = $users->identifyUser($id_user);
+			$id_user = $users->getUserId($id_user);
 		}
 
 		$result = mysql_query (
@@ -140,7 +140,7 @@ class ForumInput {
 
 		//check again if topic exists and return its ID
 		if($result) {
-			if ($id_topic = $this->identifyTopic($title)) {
+			if ($id_topic = $this->getTopicId($title)) {
 				_log('forum: added topic with id='.$id_topic);
 				return $id_topic;
 			}
