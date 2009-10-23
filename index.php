@@ -28,14 +28,14 @@ if (in_array($p, $allowed)) {
 /**
  * Pages
  */
-include('template/header.php');
+include('template/_header.php');
 
 if (in_array($p, $allowed)) {
-	include ('pages/' . $p . '.php');
+	include ('template/' . $p . '.php');
 } else {
-	include ('pages/home.php');
+	include ('template/home.php');
 }
 
-include('template/sidebar.php');
-include('template/footer.php');
+include('template/login.php');
+include('template/_footer.php');
 ?>
