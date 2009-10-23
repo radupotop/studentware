@@ -83,12 +83,10 @@ class ForumInput {
 			queryCount();
 			$row = mysql_fetch_array($result);
 			$id_post = $row['id_post'];
-			if ($id_post) {
+			if ($id_post)
 				_log('forum: added post with id='.$id_post);
-				return $id_post;
-			}
-		} else
-			return false;
+		}
+		return $id_post;
 	}
 
 	/**
@@ -139,13 +137,10 @@ class ForumInput {
 		queryCount();
 
 		//check again if topic exists and return its ID
-		if($result) {
-			if ($id_topic = $this->getTopicId($title)) {
+		if($result)
+			if ($id_topic = $this->getTopicId($title))
 				_log('forum: added topic with id='.$id_topic);
-				return $id_topic;
-			}
-		} else
-			return false;
+		return $id_topic;
 	}
 
 }
