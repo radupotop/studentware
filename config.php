@@ -117,7 +117,9 @@ $app = array (
 	'log' => array (
 		'enabled' => false,
 		'path' => 'all.log'
-	)
+	),
+	'debug' => false,
+	'queryCount' => false
 );
 
 /**
