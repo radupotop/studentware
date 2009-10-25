@@ -42,31 +42,18 @@ function trim_title($title, $len) {
 }
 
 /**
- * Get the GET string of the current page.
+ * Get the query string of the current page.
  * This is used by forms to stay on the same page after submitting.
  *
  * @param bool $escape - whether to escape ampersands or not
- * @return string $get_string - complete GET string
+ * @return string $get_string - complete query string
  */
-function current_page($escape) {
-	if($escape) {
-		$amp = '&amp;';
-	} else {
-		$amp = '&';
-	}
-	$keys = array_keys($_GET);
-	$values = array_values($_GET);
-	$count = count($_GET);
-	$get_string = '?';
-	for ($i=0; $i<$count; $i++) {
-		$get_string = $get_string . $keys[$i] . '=' . $values[$i];
-		if ($i<$count-1) {
-			$get_string = $get_string . $amp;
-		}
-	}
-	if ($get_string == '?') {
+function current_page($escape=true) {
+	$get_string = '?' . $_SERVER['QUERY_STRING'];
+	if ($escape)
+		$get_string = preg_replace('/&/', '&amp;', $get_string);
+	if ($get_string == '?')
 		$get_string = '.';
-	}
 	return $get_string;
 }
 
