@@ -53,22 +53,19 @@ class MailingList {
 			// $from is an object
 			$from = $mail_header->from[0];
 			$from_email = $from->mailbox.'@'.$from->host;
-
 			$subject = $mail_header->subject;
-
 			$body = imap_body($conn, $i);
 			$body = preg_replace('/\n.*\n.*\n[>]+.*/', '', $body);
 
-			$emails = $this->addrArray();
-
 			// Get messages only from registered users.
-			if(in_array($from_email, $emails)) :
+			$emails = $this->addrArray();
+			if(in_array($from_email, $emails)) {
 				$messages[$i] = array (
 					'from' => $from_email,
 					'subject' => $subject,
 					'body' => $body
 				);
-			endif;
+			}
 		}
 		_log('ml: '.count($messages).' messages from registered users');
 		return $messages;
@@ -83,17 +80,31 @@ class MailingList {
 		$addr = $this->addrArray();
 		$msg = $this->msgArray();
 
-		if ($addr && $msg)
-			foreach($addr as $address)
-				foreach ($msg as $message) {
-					if(
+		$forum = new ForumInput;
+
+		if ($addr && $msg) {
+			foreach ($msg as $message) {
+				foreach($addr as $address) {
+					if (
 						$address != $message['from'] &&
 						$address != $mailing_list['email']
-					)
+						) {
 						$this->send(
-							$address, $message['subject'], $message['body']
+							$address,
+							$message['subject'],
+							strip_tags($message['body'])
 						);
+					}
 				}
+
+				// post to forum
+				$subject = preg_replace('/^[Re: ?]+/i', '', $message['subject']);
+
+				$forum->addTopic($message['email'], $subject);
+				$forum->addPost($subject, $message['email'], $message['body']);
+				$forum->updateTopic($subject);
+			}
+		}
 		return;
 	}
 
@@ -105,8 +116,12 @@ class MailingList {
 	 * @param string $body
 	 */
 	function send($to, $subject, $body) {
-		$body = strip_tags($body);
-		$headers = null;
+		global $mailing_list;
+
+		$headers  =
+			'From: '. $mailing_list['email'] . "\r\n".
+			'Reply-To: '. $mailing_list['email'];
+
 		$send = imap_mail($to, $subject, $body, $headers);
 		if ($send)
 			_log('ml: sent '.$subject.' to '.$to);

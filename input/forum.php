@@ -23,7 +23,7 @@
  * @return null
  */
 function input_post_add() {
-	global $topic, $html_filter, $forum;
+	global $topic, $html_filter, $forum, $mailing_list;
 
 	$post['add']['body'] =
 		$html_filter->process($_POST['post']['add']['body']);
@@ -33,9 +33,21 @@ function input_post_add() {
 	if ($_SESSION['login']
 	&& $post['add']['body']
 	&& $post['add']['submit']) {
+
 		$forum->addPost($topic['id'], $_SESSION['id_user'],
 			esc($post['add']['body']));
 		$forum->updateTopic($topic['id']);
+
+/*
+		$mail = new MailingList;
+		$mail->send(
+			$mailing_list['email'],
+			$forum->getTopicTitle($topic['id']),
+			$post['add']['body']
+		);
+		$mail->massSend();
+		$mail->delete();
+*/
 	}
 	return;
 }
