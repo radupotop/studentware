@@ -34,20 +34,23 @@ function input_post_add() {
 	&& $post['add']['body']
 	&& $post['add']['submit']) {
 
-		$forum->addPost($topic['id'], $_SESSION['id_user'],
-			esc($post['add']['body']));
-		$forum->updateTopic($topic['id']);
+		if($mailing_list['enabled']) {
+			$mail = new MailingList;
+			$mail->send(
+				$mailing_list['email'],
+				$forum->getTopicTitle($topic['id']),
+				$post['add']['body'],
+				'From: '.$_SESSION['email']
+			);
+			unset($mail);
 
-/*
-		$mail = new MailingList;
-		$mail->send(
-			$mailing_list['email'],
-			$forum->getTopicTitle($topic['id']),
-			$post['add']['body']
-		);
-		$mail->massSend();
-		$mail->delete();
-*/
+			mailingList();
+		} else {
+			$forum->addPost($topic['id'], $_SESSION['id_user'],
+			esc($post['add']['body']));
+			$forum->updateTopic($topic['id']);
+		}
+
 	}
 	return;
 }

@@ -6,4 +6,6 @@
 include('../config.php');
 include('functions.php');
 
+mailingList();
+
 ?>
