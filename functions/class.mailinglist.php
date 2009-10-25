@@ -90,7 +90,7 @@ class MailingList {
 						$this->send(
 							$address,
 							$message['subject'],
-							strip_tags($message['body'])
+							$message['body']
 						);
 					}
 		return;
@@ -104,12 +104,28 @@ class MailingList {
 	 * @param string $body
 	 */
 	function send($to, $subject, $body, $headers=null) {
-		global $mailing_list;
+		global $mailing_list, $app, $site;
 
-		if(!$headers) {
+		if (!$headers) {
+		$boundary = 'Studentware-'.md5(time());
 		$headers  =
-			'From: '. $mailing_list['email'] . "\r\n".
-			'Reply-To: '. $mailing_list['email'];
+			'X-Mailer: Studentware '.$app['ver']."\n".
+			'From: '.$site['name'].' <'.$mailing_list['email'].'>'."\n".
+			'Reply-To: '.$site['name'].' <'.$mailing_list['email'].'>'."\n".
+			'MIME-Version: 1.0'."\n".
+			'Content-Type: multipart/alternative; boundary="'.$boundary.'"'."\n"
+		;
+		$body =
+			'--'.$boundary."\n".
+			'Content-Type: text/plain; charset=utf-8'."\n".
+			"\n".
+			strip_tags($body)."\n".
+			'--'.$boundary."\n".
+			'Content-Type: text/html; charset=utf-8'."\n".
+			"\n".
+			$body."\n".
+			'--'.$boundary.'--'."\n"
+		;
 		}
 
 		$send = imap_mail($to, $subject, $body, $headers);
