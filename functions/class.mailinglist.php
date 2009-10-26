@@ -55,7 +55,11 @@ class MailingList {
 			$from_email = $from->mailbox.'@'.$from->host;
 			$subject = $mail_header->subject;
 			$body = imap_body($this->conn, $i);
-			$body = preg_replace('/\n.*\n.*\n[>]+.*/', '', $body);
+
+			// get content-type (and boundary) line:
+			$full_headers=imap_fetchheader($this->conn, $i);
+			preg_match('/\nContent-Type.*/i', $full_headers, $match);
+			$content_type = trim($match[0]);
 
 			// Get messages only from registered users.
 			$emails = $this->addrArray();
@@ -63,7 +67,8 @@ class MailingList {
 				$messages[$i] = array (
 					'from' => $from_email,
 					'subject' => $subject,
-					'body' => $body
+					'body' => $body,
+					'headers' => $content_type
 				);
 			}
 		}
@@ -90,7 +95,8 @@ class MailingList {
 						$this->send(
 							$address,
 							$message['subject'],
-							$message['body']
+							$message['body'],
+							$message['headers']
 						);
 					}
 		return;
@@ -103,29 +109,39 @@ class MailingList {
 	 * @param string $subject
 	 * @param string $body
 	 */
-	function send($to, $subject, $body, $headers=null) {
+	function send($to, $subject, $body, $headers) {
 		global $mailing_list, $app, $site;
 
-		if (!$headers) {
-		$boundary = 'Studentware-'.md5(time());
-		$headers  =
-			'X-Mailer: Studentware '.$app['ver']."\n".
-			'From: '.$site['name'].' <'.$mailing_list['email'].'>'."\n".
-			'Reply-To: '.$site['name'].' <'.$mailing_list['email'].'>'."\n".
-			'MIME-Version: 1.0'."\n".
-			'Content-Type: multipart/alternative; boundary="'.$boundary.'"'."\n"
-		;
-		$body =
-			'--'.$boundary."\n".
-			'Content-Type: text/plain; charset=utf-8'."\n".
-			"\n".
-			strip_tags($body)."\n".
-			'--'.$boundary."\n".
-			'Content-Type: text/html; charset=utf-8'."\n".
-			"\n".
-			$body."\n".
-			'--'.$boundary.'--'."\n"
-		;
+		$external = preg_match('/\nContent-Type.*/i', $headers);
+
+		if ($external) {
+			$headers =
+				'X-Mailer: Studentware '.$app['ver']."\n".
+				'From: '.$site['name'].' <'.$mailing_list['email'].'>'.
+				'Reply-To: '.$site['name'].' <'.$mailing_list['email'].'>'."\n".
+				'MIME-Version: 1.0'."\n".
+				$headers."\n"
+			;
+		} else {
+			$boundary = 'Studentware-'.md5(time());
+			$headers  =
+				'X-Mailer: Studentware '.$app['ver']."\n".
+				$headers."\n".
+				'MIME-Version: 1.0'."\n".
+				'Content-Type: multipart/alternative; boundary="'.$boundary.'"'.
+				"\n"
+			;
+			$body =
+				'--'.$boundary."\n".
+				'Content-Type: text/plain; charset=utf-8'."\n".
+				"\n".
+				strip_tags($body)."\n".
+				'--'.$boundary."\n".
+				'Content-Type: text/html; charset=utf-8'."\n".
+				"\n".
+				$body."\n".
+				'--'.$boundary.'--'."\n"
+			;
 		}
 
 		$send = imap_mail($to, $subject, $body, $headers);

@@ -140,9 +140,11 @@ function mailingList() {
 	foreach ($msg as $message) {
 		// post to forum
 		$subject = preg_replace('/^[Re: ?]+/i', '', $message['subject']);
+		$body = preg_replace('/\n.*\n.*\n[>]+.*/', '', $message['body']);
+		$from = $message['from'];
 
-		$forum->addTopic($message['from'], $subject);
-		$forum->addPost($subject, $message['from'], $message['body']);
+		$forum->addTopic($from, $subject);
+		$forum->addPost($subject, $from, $body);
 		$forum->updateTopic($subject);
 	}
 
