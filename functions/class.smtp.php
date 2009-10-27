@@ -6,12 +6,12 @@
  */
 class Smtp {
 	public $server;
-	public $port = '25';
+	public $port;
 	public $crypto; // can be null, ssl, tls
-	public $username;
-	public $password;
-	public $timeout = '45';
+	public $user;
+	public $pass;
 
+	private $timeout = '45';
 	private $localhost = 'localhost';
 	private $nl = "\r\n";
 	private $conn;
@@ -19,7 +19,13 @@ class Smtp {
 	/**
 	 * Connect and Auth to server.
 	 */
-	function __construct() {
+	function __construct($server, $port, $crypto, $user, $pass) {
+		$this->server = $server;
+		$this->port = $port;
+		$this->crypto = $crypto;
+		$this->user = $user;
+		$this->pass = $pass;
+
 		$this->connect();
 		$this->auth();
 	}
@@ -58,8 +64,8 @@ class Smtp {
 		}
 		if($this->server != 'localhost') {
 			fputs($this->conn, 'AUTH LOGIN' . $this->nl);
-			fputs($this->conn, base64_encode($this->username) . $this->nl);
-			fputs($this->conn, base64_encode($this->password) . $this->nl);
+			fputs($this->conn, base64_encode($this->user) . $this->nl);
+			fputs($this->conn, base64_encode($this->pass) . $this->nl);
 		}
 		return;
 	}
