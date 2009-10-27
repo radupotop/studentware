@@ -19,7 +19,7 @@ class Smtp {
 	/**
 	 * Connect and Auth to server.
 	 */
-	private function __construct() {
+	function __construct() {
 		$this->connect();
 		$this->auth();
 	}
@@ -27,8 +27,10 @@ class Smtp {
 	/**
 	 * Connect to server.
 	 */
-	private function connect() {
+	function connect() {
 		$this->crypto = strtolower(trim($this->crypto));
+		$this->server = strtolower(trim($this->server));
+
 		if($this->crypto == 'ssl')
 			$this->server = 'ssl://' . $this->server;
 		$this->conn = fsockopen(
@@ -40,18 +42,25 @@ class Smtp {
 	/**
 	 * Auth.
 	 */
-	private function auth() {
+	function auth() {
 		fputs($this->conn, 'HELO ' . $this->localhost . $this->nl);
 		if($this->crypto == 'tls') {
 			fputs($this->conn, 'STARTTLS' . $this->nl);
+			/**
+			 * You have to get the output after STARTTLS or
+			 * stream_socket_enable_crypto() won't work. Bug #50025
+			 */
+			fgets($this->conn);
 			stream_socket_enable_crypto(
 				$this->conn, true, STREAM_CRYPTO_METHOD_TLS_CLIENT
 			);
 			fputs($this->conn, 'HELO ' . $this->localhost . $this->nl);
 		}
-		fputs($this->conn, 'AUTH LOGIN' . $this->nl);
-		fputs($this->conn, base64_encode($this->username) . $this->nl);
-		fputs($this->conn, base64_encode($this->password) . $this->nl);
+		if($this->server != 'localhost') {
+			fputs($this->conn, 'AUTH LOGIN' . $this->nl);
+			fputs($this->conn, base64_encode($this->username) . $this->nl);
+			fputs($this->conn, base64_encode($this->password) . $this->nl);
+		}
 		return;
 	}
 
@@ -77,7 +86,7 @@ class Smtp {
 	/**
 	 * Quit and disconnect.
 	 */
-	private function __destruct() {
+	function __destruct() {
 		fputs($this->conn, 'QUIT' . $this->nl);
 		fclose($this->conn);
 	}
