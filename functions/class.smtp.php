@@ -3,11 +3,13 @@
  * Send messages using a local or remote SMTP server.
  * It supports TLS and SSL crypto.
  * @class Smtp
+ * @author wooptoo, http://wooptoo.com
+ * @license BSD
  */
 class Smtp {
 	public $server;
 	public $port;
-	public $crypto; // can be null, ssl, tls
+	public $crypto;
 	public $user;
 	public $pass;
 
@@ -18,8 +20,14 @@ class Smtp {
 
 	/**
 	 * Connect and Auth to server.
+	 *
+	 * @param string $server - remote server address or 'localhost'
+	 * @param int $port
+	 * @param string $crypto - can be null, ssl, tls
+	 * @param string $user - optional for localhost server
+	 * @param string $pass - optional for localhost server
 	 */
-	function __construct($server, $port, $crypto, $user, $pass) {
+	function __construct($server, $port, $crypto=null, $user=null, $pass=null) {
 		$this->server = $server;
 		$this->port = $port;
 		$this->crypto = $crypto;
@@ -74,6 +82,12 @@ class Smtp {
 
 	/**
 	 * Send an email.
+	 *
+	 * @param string $from
+	 * @param string $to
+	 * @param string $subject
+	 * @param string $message
+	 * @param string $headers - optional
 	 */
 	function send($from, $to, $subject, $message, $headers=null) {
 		fputs($this->conn, 'MAIL FROM: <'. $from .'>'. $this->nl);
