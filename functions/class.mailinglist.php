@@ -5,25 +5,39 @@
  */
 
 class MailingList {
+	public $email;
+	public $server;
+	public $param;
+	public $user;
+	public $pass;
+
 	private $conn;
 
 	/**
 	 * Connect to server.
+	 *
+	 * @param string $email - email address of mailing list
+	 * @param string $server
+	 * @param string $param - imap parameters, eg: '/imap/ssl'
+	 * @param string $user
+	 * @param string $pass
 	 */
-	function __construct() {
-		global $mailing_list;
+	function __construct($email, $server, $param, $user, $pass) {
+		$this->email = $email;
+		$this->server = $server;
+		$this->param = $param;
+		$this->user = $user;
+		$this->pass = $pass;
 
 		$this->conn = imap_open (
-			'{'.$mailing_list['server'].$mailing_list['param'].'}Inbox',
-			$mailing_list['user'],
-			$mailing_list['pass']
+			'{'.$this->server.$this->param.'}Inbox', $this->user, $this->pass
 		);
 		if ($this->conn) _log('ml: logged in');
 	}
 
 	/**
 	 * Get email addresses of registered users.
-	 * @return array $emails
+	 * @return array $addresses
 	 */
 	function addrArray() {
 		$result = mysql_query('select email from users');
@@ -31,9 +45,9 @@ class MailingList {
 		$num_rows = mysql_num_rows($result);
 		for($i=0; $i<$num_rows ;$i++) {
 			$row = mysql_fetch_array($result);
-			$emails[$i] = $row[0];
+			$addresses[$i] = $row[0];
 		}
-		return $emails;
+		return $addresses;
 	}
 
 	/**
@@ -41,7 +55,6 @@ class MailingList {
 	 * @return array $messages
 	 */
 	function msgArray() {
-
 		$headers = imap_headers($this->conn);
 		$num_emails = sizeof($headers);
 
@@ -80,8 +93,6 @@ class MailingList {
 	 * Send messages to all users.
 	 */
 	function massSend() {
-		global $mailing_list;
-
 		$addr = $this->addrArray();
 		$msg = $this->msgArray();
 
@@ -90,7 +101,7 @@ class MailingList {
 				foreach ($msg as $message)
 					if (
 						$address != $message['from'] &&
-						$address != $mailing_list['email']
+						$address != $this->email
 					) {
 						$this->send(
 							$address,
@@ -110,15 +121,15 @@ class MailingList {
 	 * @param string $body
 	 */
 	function send($to, $subject, $body, $headers) {
-		global $mailing_list, $app, $site;
+		global $app, $site;
 
 		$external = preg_match('/\nContent-Type.*/i', $headers);
 
 		if ($external) {
 			$headers =
 				'X-Mailer: Studentware '.$app['ver']."\n".
-				'From: '.$site['name'].' <'.$mailing_list['email'].'>'.
-				'Reply-To: '.$site['name'].' <'.$mailing_list['email'].'>'."\n".
+				'From: '.$site['name'].' <'.$this->email.'>'.
+				'Reply-To: '.$site['name'].' <'.$this->email.'>'."\n".
 				'MIME-Version: 1.0'."\n".
 				$headers."\n"
 			;

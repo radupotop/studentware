@@ -130,9 +130,8 @@ $mailing_list = array (
 	'enabled' => false,
 	'email' => 'example@gmail.com',
 	'server' => 'imap.gmail.com',
+	'param' => '/notls/norsh/novalidate-cert/ssl',
 	'user' => '',
-	'pass' => '',
-	// Do not change this if you don't know what you are doing
-	'param' => '/notls/norsh/novalidate-cert/ssl'
+	'pass' => ''
 );
 ?>
