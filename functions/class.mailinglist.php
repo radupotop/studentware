@@ -82,23 +82,25 @@ class ReadEmails {
 			if ($boundary && $content_type != $boundary)
 				$headers .= $boundary . "\r\n";
 
-			// Get messages only from registered users.
+			// Get messages only from registered users or from ml email address
 			$allowedEmails = $this->addrArray();
-			if(in_array($from_email, $allowedEmails)) {
-
-				//compose bcc header
-				foreach($allowedEmails as $address) {
+			if (
+				in_array($from_email, $allowedEmails) ||
+				$from_email == $this->email
+			) {
+				// do not resend to sender or ml
+				$to = $allowedEmails;
+				foreach($to as $key => $value) {
 					if (
-						$address != $from_email &&
-						$address != $this->email
+						$value == $from_email ||
+						$value == $this->email
 					) {
-						$bcc .=$address.'; ';
+						unset($to[$key]);
 					}
 				}
-				$headers .= 'Bcc: '.$bcc."\r\n";
-
 				$messages[$i] = array (
 					'from' => $from_email,
+					'to' => $to,
 					'subject' => $subject,
 					'body' => $body,
 					'headers' => $headers
