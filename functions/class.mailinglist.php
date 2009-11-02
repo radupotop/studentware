@@ -106,7 +106,13 @@ class MailingList {
 	 */
 	function dist() {
 		global $mailing_list;
-		// $mail = new Smtp('smtp.gmail.com', '25', 'tls', 'user', 'pass');
+		$mail = new Smtp(
+			$mailing_list['smtp']['server'],
+			$mailing_list['smtp']['port'],
+			$mailing_list['smtp']['crypto'],
+			$mailing_list['user'],
+			$mailing_list['pass']
+		);
 
 		$addr = $this->addrArray();
 		$msg = $this->msgArray();
@@ -115,12 +121,35 @@ class MailingList {
 			foreach ($addr as $address)
 				foreach ($msg as $message)
 					if (
+						// do not resend to original sender or to ml
 						$address != $message['from'] &&
 						$address != $this->email
 					) {
-						// $mail->send($address, ...);
+						$mail->send(
+							$this->email,
+							$address,
+							$message['subject'],
+							$message['body'],
+							$headers
+						);
 					}
+		unset($mail);
 		return;
+	}
+
+	/**
+	 * Template for dist() headers
+	 * @return string $headers
+	 */
+	function distHeaders() {
+		global $app;
+		$headers =
+			'X-Mailer: Studentware '.$app['ver']."\r\n".
+			'From: '.$this->email."\r\n".
+			'Reply-To: '.$this->email."\r\n".
+			'MIME-Version: 1.0'."\r\n"
+		;
+		return $headers;
 	}
 
 	/**
