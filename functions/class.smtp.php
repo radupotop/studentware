@@ -84,20 +84,16 @@ class Smtp {
 	 * Send an email.
 	 *
 	 * @param string $from
-	 * @param array  $to
+	 * @param string $to
 	 * @param string $subject
 	 * @param string $message
 	 * @param string $headers - optional
 	 */
-	function send($from, $to=array(), $subject, $message, $headers=null) {
+	function send($from, $to, $subject, $message, $headers=null) {
 		fputs($this->conn, 'MAIL FROM: <'. $from .'>'. $this->nl);
 		fgets($this->conn);
-
-		// multiple receipts
-		foreach($to as $rcpt) {
-			fputs($this->conn, 'RCPT TO: <'. $rcpt .'>'. $this->nl);
-			fgets($this->conn);
-		}
+		fputs($this->conn, 'RCPT TO: <'. $to .'>'. $this->nl);
+		fgets($this->conn);
 		fputs($this->conn, 'DATA'. $this->nl);
 		fgets($this->conn);
 		fputs($this->conn,

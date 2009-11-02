@@ -129,8 +129,15 @@ $app = array (
 $mailing_list = array (
 	'enabled' => false,
 	'email' => 'example@gmail.com',
-	'server' => 'imap.gmail.com',
-	'param' => '/notls/norsh/novalidate-cert/ssl',
+	imap => array(
+		'server' => 'imap.gmail.com',
+		'param' => '/notls/norsh/novalidate-cert/ssl',
+	),
+	smtp => array (
+		'server' => 'smtp.gmail.com',
+		'port' => '25',
+		'crypto' => 'tls',
+	),
 	'user' => '',
 	'pass' => ''
 );

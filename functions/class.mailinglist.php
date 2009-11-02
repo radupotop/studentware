@@ -1,10 +1,10 @@
 <?php
 /**
- * Read and give info about emails from Inbox.
- * @class ReadEmails
+ * Send emails to subscribed users.
+ * @class MailingList
  */
 
-class ReadEmails {
+class MailingList {
 	public $email;
 	public $server;
 	public $param;
@@ -53,7 +53,7 @@ class ReadEmails {
 	/**
 	 * Get messages.
 	 * The email bodies are left intact (even if they're multipart).
-	 * Headers will contain: content-type, boundary, bcc
+	 * Headers will contain content-type and boundary.
 	 * @return array $messages
 	 */
 	function msgArray() {
@@ -82,25 +82,14 @@ class ReadEmails {
 			if ($boundary && $content_type != $boundary)
 				$headers .= $boundary . "\r\n";
 
-			// Get messages only from registered users or from ml email address
+			// Get messages only from subscribed users or from ml email address
 			$allowedEmails = $this->addrArray();
 			if (
 				in_array($from_email, $allowedEmails) ||
 				$from_email == $this->email
 			) {
-				// do not resend to sender or ml
-				$to = $allowedEmails;
-				foreach($to as $key => $value) {
-					if (
-						$value == $from_email ||
-						$value == $this->email
-					) {
-						unset($to[$key]);
-					}
-				}
 				$messages[$i] = array (
 					'from' => $from_email,
-					'to' => $to,
 					'subject' => $subject,
 					'body' => $body,
 					'headers' => $headers
@@ -109,6 +98,29 @@ class ReadEmails {
 		}
 		_log('ml: '.count($messages).' messages from registered users');
 		return $messages;
+	}
+
+	/**
+	 * Distribute:
+	 * Sends emails to ml subscribers.
+	 */
+	function dist() {
+		global $mailing_list;
+		// $mail = new Smtp('smtp.gmail.com', '25', 'tls', 'user', 'pass');
+
+		$addr = $this->addrArray();
+		$msg = $this->msgArray();
+
+		if($addr && $msg)
+			foreach ($addr as $address)
+				foreach ($msg as $message)
+					if (
+						$address != $message['from'] &&
+						$address != $this->email
+					) {
+						// $mail->send($address, ...);
+					}
+		return;
 	}
 
 	/**
