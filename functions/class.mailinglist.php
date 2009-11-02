@@ -1,10 +1,10 @@
 <?php
 /**
- * Mailing list. Send emails to registered users.
- * @class MailingList
+ * Read and give info about emails from Inbox.
+ * @class ReadEmails
  */
 
-class MailingList {
+class ReadEmails {
 	public $email;
 	public $server;
 	public $param;
@@ -52,11 +52,13 @@ class MailingList {
 
 	/**
 	 * Get messages.
+	 * The email bodies are left intact (even if they're multipart).
+	 * Headers will contain: content-type, boundary, bcc
 	 * @return array $messages
 	 */
 	function msgArray() {
-		$headers = imap_headers($this->conn);
-		$num_emails = sizeof($headers);
+		$imap_headers = imap_headers($this->conn);
+		$num_emails = sizeof($imap_headers);
 
 		_log('ml: '.$num_emails.' messages in total');
 
@@ -70,95 +72,41 @@ class MailingList {
 			$body = imap_body($this->conn, $i);
 
 			// get content-type (and boundary) line:
-			$full_headers=imap_fetchheader($this->conn, $i);
-			preg_match('/\nContent-Type.*/i', $full_headers, $match);
-			$content_type = trim($match[0]);
+			$fullHeaders=imap_fetchheader($this->conn, $i);
+			preg_match('/.*Content-Type.*/i', $fullHeaders, $match1);
+			preg_match('/.*boundary.*/i', $fullHeaders, $match2);
+			$content_type = trim($match1[0]);
+			$boundary = trim($match2[0]);
+
+			$headers .= $content_type . "\r\n";
+			if ($boundary && $content_type != $boundary)
+				$headers .= $boundary . "\r\n";
 
 			// Get messages only from registered users.
-			$emails = $this->addrArray();
-			if(in_array($from_email, $emails)) {
+			$allowedEmails = $this->addrArray();
+			if(in_array($from_email, $allowedEmails)) {
+
+				//compose bcc header
+				foreach($allowedEmails as $address) {
+					if (
+						$address != $from_email &&
+						$address != $this->email
+					) {
+						$bcc .=$address.'; ';
+					}
+				}
+				$headers .= 'Bcc: '.$bcc."\r\n";
+
 				$messages[$i] = array (
 					'from' => $from_email,
 					'subject' => $subject,
 					'body' => $body,
-					'headers' => $content_type
+					'headers' => $headers
 				);
 			}
 		}
 		_log('ml: '.count($messages).' messages from registered users');
 		return $messages;
-	}
-
-	/**
-	 * Send messages to all users.
-	 */
-	function massSend() {
-		$addr = $this->addrArray();
-		$msg = $this->msgArray();
-
-		if ($addr && $msg)
-			foreach($addr as $address)
-				foreach ($msg as $message)
-					if (
-						$address != $message['from'] &&
-						$address != $this->email
-					) {
-						$this->send(
-							$address,
-							$message['subject'],
-							$message['body'],
-							$message['headers']
-						);
-					}
-		return;
-	}
-
-	/**
-	 * Send one email.
-	 *
-	 * @param string $to
-	 * @param string $subject
-	 * @param string $body
-	 */
-	function send($to, $subject, $body, $headers) {
-		global $app, $site;
-
-		$external = preg_match('/\nContent-Type.*/i', $headers);
-
-		if ($external) {
-			$headers =
-				'X-Mailer: Studentware '.$app['ver']."\n".
-				'From: '.$site['name'].' <'.$this->email.'>'.
-				'Reply-To: '.$site['name'].' <'.$this->email.'>'."\n".
-				'MIME-Version: 1.0'."\n".
-				$headers."\n"
-			;
-		} else {
-			$boundary = 'Studentware-'.md5(time());
-			$headers  =
-				'X-Mailer: Studentware '.$app['ver']."\n".
-				$headers."\n".
-				'MIME-Version: 1.0'."\n".
-				'Content-Type: multipart/alternative; boundary="'.$boundary.'"'.
-				"\n"
-			;
-			$body =
-				'--'.$boundary."\n".
-				'Content-Type: text/plain; charset=utf-8'."\n".
-				"\n".
-				strip_tags($body)."\n".
-				'--'.$boundary."\n".
-				'Content-Type: text/html; charset=utf-8'."\n".
-				"\n".
-				$body."\n".
-				'--'.$boundary.'--'."\n"
-			;
-		}
-
-		$send = imap_mail($to, $subject, $body, $headers);
-		if ($send)
-			_log('ml: sent '.$subject.' to '.$to);
-		return;
 	}
 
 	/**
