@@ -79,11 +79,19 @@ class MailingList {
 			$content_type = trim($match1[0]);
 			$boundary = trim($match2[0]);
 
-			$headers .= $content_type . "\r\n";
+			global $app, $site;
+			$headers =
+				'X-Mailer: Studentware '.$app['ver']."\r\n".
+				'From: '.$fromName.' <'.$from_email.'>'."\r\n".
+				'To: '.$site['name'].' <'.$this->email.'>'."\r\n".
+				'Reply-To: '.$site['name'].' <'.$this->email.'>'."\r\n".
+				'MIME-Version: 1.0'."\r\n"
+			;
+
+			if ($content_type)
+				$headers .= $content_type . "\r\n";
 			if ($boundary && $content_type != $boundary)
 				$headers .= $boundary . "\r\n";
-
-			$headers .= 'From: '.$fromName.' <'.$from_email.'>'."\r\n";
 
 			// Get messages only from subscribed users or from ml email address
 			$allowedEmails = $this->addrArray();
@@ -128,34 +136,16 @@ class MailingList {
 						$address != $message['from'] &&
 						$address != $this->email
 					) {
-						$headers = $this->distHeaders($message['headers']);
 						$mail->send(
 							$this->email,
 							$address,
 							$message['subject'],
 							$message['body'],
-							$headers
+							$message['headers']
 						);
 					}
 		unset($mail);
 		return;
-	}
-
-	/**
-	 * Template for dist() headers.
-	 * @param string $extraHeaders
-	 * @return string $headers
-	 */
-	function distHeaders($extraHeaders) {
-		global $app, $site;
-		$headers =
-			'X-Mailer: Studentware '.$app['ver']."\r\n".
-			'Reply-To: '.$site['name'].' <'.$this->email.'>'."\r\n".
-			'To: '.$site['name'].' <'.$this->email.'>'."\r\n".
-			'MIME-Version: 1.0'."\r\n".
-			$extraHeaders
-		;
-		return $headers;
 	}
 
 	/**
