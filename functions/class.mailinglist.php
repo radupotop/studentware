@@ -53,7 +53,7 @@ class MailingList {
 	/**
 	 * Get messages.
 	 * The email bodies are left intact (even if they're multipart).
-	 * Headers will contain content-type and boundary.
+	 * Headers will contain: content-type, boundary, from
 	 * @return array $messages
 	 */
 	function msgArray() {
@@ -67,6 +67,7 @@ class MailingList {
 
 			// $from is an object
 			$from = $mail_header->from[0];
+			$fromName = $from->personal;
 			$from_email = $from->mailbox.'@'.$from->host;
 			$subject = $mail_header->subject;
 			$body = imap_body($this->conn, $i);
@@ -81,6 +82,8 @@ class MailingList {
 			$headers .= $content_type . "\r\n";
 			if ($boundary && $content_type != $boundary)
 				$headers .= $boundary . "\r\n";
+
+			$headers .= 'From: '.$fromName.' <'.$from_email.'>'."\r\n";
 
 			// Get messages only from subscribed users or from ml email address
 			$allowedEmails = $this->addrArray();
@@ -125,6 +128,7 @@ class MailingList {
 						$address != $message['from'] &&
 						$address != $this->email
 					) {
+						$headers = $this->distHeaders($message['headers']);
 						$mail->send(
 							$this->email,
 							$address,
@@ -138,16 +142,18 @@ class MailingList {
 	}
 
 	/**
-	 * Template for dist() headers
+	 * Template for dist() headers.
+	 * @param string $extraHeaders
 	 * @return string $headers
 	 */
-	function distHeaders() {
-		global $app;
+	function distHeaders($extraHeaders) {
+		global $app, $site;
 		$headers =
 			'X-Mailer: Studentware '.$app['ver']."\r\n".
-			'From: '.$this->email."\r\n".
-			'Reply-To: '.$this->email."\r\n".
-			'MIME-Version: 1.0'."\r\n"
+			'Reply-To: '.$site['name'].' <'.$this->email.'>'."\r\n".
+			'To: '.$site['name'].' <'.$this->email.'>'."\r\n".
+			'MIME-Version: 1.0'."\r\n".
+			$extraHeaders
 		;
 		return $headers;
 	}
