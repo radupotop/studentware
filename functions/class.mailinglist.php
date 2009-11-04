@@ -91,7 +91,7 @@ class MailingList {
 			if ($content_type)
 				$headers .= $content_type . "\r\n";
 			if ($boundary && $content_type != $boundary)
-				$headers .= $boundary . "\r\n";
+				$headers .= ' '.$boundary . "\r\n";
 
 			// Get messages only from subscribed users or from ml email address
 			$allowedEmails = $this->addrArray();
