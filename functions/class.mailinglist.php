@@ -5,7 +5,7 @@
  */
 
 class MailingList {
-	public $email;
+	public $mlEmail;
 	public $server;
 	public $param;
 	public $user;
@@ -16,14 +16,14 @@ class MailingList {
 	/**
 	 * Connect to server.
 	 *
-	 * @param string $email - email address of mailing list
+	 * @param string $mlEmail - mailing list email address
 	 * @param string $server
-	 * @param string $param - imap parameters, eg: '/imap/ssl'
+	 * @param string $param - connection parameters, eg: '/imap/ssl/'
 	 * @param string $user
 	 * @param string $pass
 	 */
-	function __construct($email, $server, $param, $user, $pass) {
-		$this->email = $email;
+	function __construct($mlEmail, $server, $param, $user, $pass) {
+		$this->mlEmail = $mlEmail;
 		$this->server = $server;
 		$this->param = $param;
 		$this->user = $user;
@@ -83,8 +83,8 @@ class MailingList {
 			$headers =
 				'X-Mailer: Studentware '.$app['ver']."\r\n".
 				'From: '.$fromName.' <'.$from_email.'>'."\r\n".
-				'To: '.$site['name'].' <'.$this->email.'>'."\r\n".
-				'Reply-To: '.$site['name'].' <'.$this->email.'>'."\r\n".
+				'To: '.$site['name'].' <'.$this->mlEmail.'>'."\r\n".
+				'Reply-To: '.$site['name'].' <'.$this->mlEmail.'>'."\r\n".
 				'MIME-Version: 1.0'."\r\n"
 			;
 
@@ -97,7 +97,7 @@ class MailingList {
 			$allowedEmails = $this->addrArray();
 			if (
 				in_array($from_email, $allowedEmails) ||
-				$from_email == $this->email
+				$from_email == $this->mlEmail
 			) {
 				$messages[$i] = array (
 					'from' => $from_email,
@@ -136,7 +136,7 @@ class MailingList {
 				foreach($to as $key => $toAddr) {
 					if (
 						$toAddr == $message['from'] ||
-						$toAddr == $this->email
+						$toAddr == $this->mlEmail
 					) {
 						unset($to[$key]);
 					}
@@ -145,7 +145,7 @@ class MailingList {
 				// send to remaining receipts
 				if ($to)
 					$mail->send(
-						$this->email,
+						$this->mlEmail,
 						$to,
 						$message['subject'],
 						$message['body'],
