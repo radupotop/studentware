@@ -99,7 +99,6 @@ class Smtp {
 		fputs($this->conn,
 			'Subject: '. $subject .$this->nl.
 			$headers .$this->nl.
-			$this->nl.
 			$message . $this->nl.
 			'.' .$this->nl
 		);

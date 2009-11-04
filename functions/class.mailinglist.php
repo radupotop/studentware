@@ -74,7 +74,7 @@ class MailingList {
 
 			// get content-type (and boundary) line:
 			$fullHeaders=imap_fetchheader($this->conn, $i);
-			preg_match('/.*Content-Type.*/i', $fullHeaders, $match1);
+			preg_match('/\nContent-Type.*/i', $fullHeaders, $match1);
 			preg_match('/.*boundary.*/i', $fullHeaders, $match2);
 			$content_type = trim($match1[0]);
 			$boundary = trim($match2[0]);
