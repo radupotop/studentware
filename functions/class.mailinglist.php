@@ -125,25 +125,33 @@ class MailingList {
 			$mailing_list['pass']
 		);
 
-		$addr = $this->addrArray();
-		$msg = $this->msgArray();
+		$addrArray = $this->addrArray();
+		$msgArray = $this->msgArray();
 
-		if($addr && $msg)
-			foreach ($addr as $address)
-				foreach ($msg as $message)
+		if($msgArray)
+			foreach ($msgArray as $message) {
+				$to = $addrArray;
+
+				// remove sender and ml from receipts
+				foreach($to as $key => $toAddr) {
 					if (
-						// do not resend to original sender or to ml
-						$address != $message['from'] &&
-						$address != $this->email
+						$toAddr == $message['from'] ||
+						$toAddr == $this->email
 					) {
-						$mail->send(
-							$this->email,
-							$address,
-							$message['subject'],
-							$message['body'],
-							$message['headers']
-						);
+						unset($to[$key]);
 					}
+				}
+
+				// send to remaining receipts
+				if ($to)
+					$mail->send(
+						$this->email,
+						$to,
+						$message['subject'],
+						$message['body'],
+						$message['headers']
+					);
+			}
 		unset($mail);
 		return;
 	}
