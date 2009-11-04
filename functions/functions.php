@@ -131,27 +131,4 @@ function queryCount() {
 	return;
 }
 
-function mailingList() {
-	$mail = new MailingList;
-	$forum = new ForumInput;
-
-	$msg = $mail->msgArray();
-	if ($msg)
-	foreach ($msg as $message) {
-		// post to forum
-		$subject = preg_replace('/^[Re: ?]+/i', '', $message['subject']);
-		$body = preg_replace('/\n.*\n.*\n[>]+.*/', '', $message['body']);
-		$from = $message['from'];
-
-		$forum->addTopic($from, $subject);
-		$forum->addPost($subject, $from, $body);
-		$forum->updateTopic($subject);
-	}
-
-	$mail->massSend();
-	$mail->delete();
-	return;
-}
-
-
 ?>
