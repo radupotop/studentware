@@ -8,8 +8,8 @@
  * Site config.
  */
 $site = array (
-	'name' => 'Info 3',
-	'desc' => 'grupa 2231',
+	'name' => 'My Group',
+	'desc' => 'group description',
 	'url'  => '.',
 	// id of home page
 	'home' => '1',
@@ -113,7 +113,7 @@ $db = array (
  */
 $app = array (
 	'site' => 'http://bitbucket.org/wooptoo/studentware/',
-	'ver' => '0.3.8',
+	'ver' => '0.3.9',
 	'log' => array (
 		'enabled' => false,
 		// absolute path to log file
