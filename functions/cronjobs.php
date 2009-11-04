@@ -10,8 +10,8 @@ include('functions.php');
 
 $mail = new MailingList (
 	$mailing_list['email'],
-	$mailing_list['imap']['server'],
-	$mailing_list['imap']['param'],
+	$mailing_list['mbox']['server'],
+	$mailing_list['mbox']['param'],
 	$mailing_list['user'],
 	$mailing_list['pass']
 );

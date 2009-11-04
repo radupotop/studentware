@@ -129,9 +129,11 @@ $app = array (
 $mailing_list = array (
 	'enabled' => false,
 	'email' => 'example@gmail.com',
-	imap => array(
+	mbox => array (
+		// Server can pe POP3 or IMAP
 		'server' => 'imap.gmail.com',
-		'param' => '/notls/norsh/novalidate-cert/ssl',
+		'param' => '/imap/ssl/novalidate-cert',
+	//	'param' => '/pop3/ssl/novalidate-cert',
 	),
 	smtp => array (
 		'server' => 'smtp.gmail.com',
