@@ -6,10 +6,16 @@
  * \mainpage
  * Studentware is a groupware for students.
  */
-require('config.php');
-include('functions/functions.php');
+require_once('config.php');
+require_once('functions/functions.php');
 
 $p = $_GET['p'];
+
+if (($p || $argv[1]) == 'cron') {
+	include('functions/cronjobs.php');
+	die;
+}
+
 $allowed = array(
 	'pages', 'forum', 'files', 'calendar', 'schedule', 'users', 'register'
 );
@@ -38,4 +44,5 @@ if (in_array($p, $allowed)) {
 
 include('template/login.php');
 include('template/_footer.php');
+
 ?>
