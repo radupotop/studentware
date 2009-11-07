@@ -1,10 +1,10 @@
 <?php
 /**
- * Send emails to subscribed users.
- * @class MailingList
+ * Read & process emails from mailbox.
+ * @class mlRead
  */
 
-class MailingList {
+class mlRead {
 	public $mlEmail;
 	public $server;
 	public $param;
@@ -109,51 +109,6 @@ class MailingList {
 		}
 		_log('ml: '.count($messages).' messages from registered users');
 		return $messages;
-	}
-
-	/**
-	 * Distribute:
-	 * Sends emails to ml subscribers.
-	 */
-	function dist() {
-		global $mailing_list;
-		$mail = new Smtp(
-			$mailing_list['smtp']['server'],
-			$mailing_list['smtp']['port'],
-			$mailing_list['smtp']['crypto'],
-			$mailing_list['user'],
-			$mailing_list['pass']
-		);
-
-		$addrArray = $this->addrArray();
-		$msgArray = $this->msgArray();
-
-		if($msgArray)
-			foreach ($msgArray as $message) {
-				$to = $addrArray;
-
-				// remove sender and ml from receipts
-				foreach($to as $key => $toAddr) {
-					if (
-						$toAddr == $message['from'] ||
-						$toAddr == $this->mlEmail
-					) {
-						unset($to[$key]);
-					}
-				}
-
-				// send to remaining receipts
-				if ($to)
-					$mail->send(
-						$this->mlEmail,
-						$to,
-						$message['subject'],
-						$message['body'],
-						$message['headers']
-					);
-			}
-		unset($mail);
-		return;
 	}
 
 	/**
