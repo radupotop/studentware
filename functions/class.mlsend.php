@@ -62,7 +62,7 @@ class mlSend {
 	 * @param string $subject
 	 * @param string $body
 	 */
-	function internalSend($userName, $subject, $body) {
+	function internal($userName, $subject, $body) {
 		global $app;
 
 		$boundary = 'Studentware-'.sha1(time() + rand());
@@ -96,6 +96,7 @@ class mlSend {
 			$body,
 			$headers
 		);
+		return;
 	}
 
 	function __destruct() {

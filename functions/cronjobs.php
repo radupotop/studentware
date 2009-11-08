@@ -5,5 +5,7 @@
  */
 
 // mailing list
+include('functions/ml.php');
+mailingList();
 
 ?>

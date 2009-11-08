@@ -11,7 +11,7 @@ require_once('functions/functions.php');
 
 $p = $_GET['p'];
 
-if (($p || $argv[1]) == 'cron') {
+if ($p == 'cron' || $argv[1] == 'cron') {
 	include('functions/cronjobs.php');
 	die;
 }
