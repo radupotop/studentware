@@ -47,20 +47,12 @@ class ForumInput {
 	/**
 	 * Add post to topic.
 	 *
-	 * @param string $id_topic
-	 * @param string $id_user
+	 * @param int $id_topic
+	 * @param int $id_user
 	 * @param string $body
 	 * @return int $id_post
 	 */
 	function addPost($id_topic, $id_user, $body) {
-		if(!is_numeric($id_topic))
-			$id_topic = $this->getTopicId($id_topic);
-
-		if(!is_numeric($id_user)) {
-			$users = new UsersInput();
-			$id_user = $users->getUserId($id_user);
-		}
-
 		$result = mysql_query (
 			'insert into posts values (
 				null,'.
@@ -91,12 +83,9 @@ class ForumInput {
 
 	/**
 	 * Update date of given topic.
-	 * @param string $id_topic - can be an id or a topic title
+	 * @param int $id_topic
 	 */
 	function updateTopic($id_topic) {
-		if(!is_numeric($id_topic))
-			$id_topic = $this->getTopicId($id_topic);
-
 		$result = mysql_query(
 			'update topics
 			set date_modified=NOW()
@@ -112,7 +101,7 @@ class ForumInput {
 
 	/**
 	 * Add topic.
-	 * @param string $id_user
+	 * @param int $id_user
 	 * @param string $title
 	 * @return int $id_topic
 	 */
@@ -120,11 +109,6 @@ class ForumInput {
 		//check if topic exists
 		if($id_topic = $this->getTopicId($title))
 			return $id_topic;
-
-		if(!is_numeric($id_user)) {
-			$users = new UsersInput();
-			$id_user = $users->getUserId($id_user);
-		}
 
 		$result = mysql_query (
 			'insert into topics values(
