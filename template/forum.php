@@ -68,7 +68,7 @@ while ($row = mysql_fetch_array($result)) {
 ?>
 <tr>
 	<td>
-		<a href="<?php echo '?p='.$_GET['p'].'&amp;topic='.$row['id_topic'] ?>">
+		<a href="<?php echo '?p='.$_GET['p'].'&amp;id='.$row['id_topic'] ?>">
 			<?php echo trim_title($row['title'], 30) ?>
 		</a>
 	</td>

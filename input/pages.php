@@ -3,7 +3,7 @@
  * @file
  * Input processing for pages.
  */
-	$pag = filter_input(INPUT_GET, 'pag', FILTER_VALIDATE_INT); // current page
+	$page['id'] = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT); // current page
 	$html_filter = new InputFilter($tags, $attr);
 	$page['edit']['req'] =
 		filter_var($_POST['page']['edit']['req'], FILTER_VALIDATE_INT);
@@ -36,7 +36,7 @@ function input_page_edit() {
 		);
 		queryCount();
 		// redirect to edited page after edit.
-		header('Location: ?p='.$_GET['p'].'&pag='.$page['edit']['submit']);
+		header('Location: ?p='.$_GET['p'].'&id='.$page['edit']['submit']);
 	}
 	return;
 }

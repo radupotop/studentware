@@ -4,7 +4,7 @@
  * Input forum.
  */
 	$topic['id'] =
-		filter_input(INPUT_GET, 'topic', FILTER_VALIDATE_INT); // topic number
+		filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT); // topic number
 	$topic['add']['req'] =
 		$_POST['topic']['add']['req'];
 	$topic['edit']['req'] =
@@ -119,7 +119,7 @@ function input_topic_add() {
 
 
 		// redirect to newly created topic
-		header('Location: ?p='.$_GET['p'].'&topic='.$id_topic);
+		header('Location: ?p='.$_GET['p'].'&id='.$id_topic);
 	}
 	return;
 }

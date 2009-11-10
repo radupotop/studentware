@@ -46,7 +46,7 @@ while ($row = mysql_fetch_array($result)) {
 	echo
 	'	<tr>' . "\n" .
 	'		<td>' . "\n" .
-	'		<a href="?p=' . $_GET['p'] . '&amp;pag=' .
+	'		<a href="?p=' . $_GET['p'] . '&amp;id=' .
 		$row['id_page'] . '">' . trim_title($row['title'], 30) . '</a>' ."\n".
 	'		</td>' . "\n" .
 	'		<td>' . $row['first_name'] . ' ' . $row['fam_name'] . '</td>' ."\n".
@@ -101,7 +101,7 @@ if ($page['add']['req']) {
 if ($page['edit']['req']) {
 	display_page_edit();
 } else
-if ($pag) {
+if ($page['id']) {
 	display_page();
 }
 ?>
@@ -114,7 +114,7 @@ if ($pag) {
  * @return null
  */
 function display_page() {
-	global $pag;
+	global $page;
 		$result = mysql_query(
 			'select pages.id_page, pages.id_user, pages.date_modified,
 				pages.title, pages.body, users.id_user, users.first_name,
@@ -122,12 +122,12 @@ function display_page() {
 			from pages
 			join users
 			on pages.id_user = users.id_user
-			where id_page='.$pag
+			where id_page='.$page['id']
 		);
 		queryCount();
 		$row = mysql_fetch_array($result);
 		// redirect to page list if page is deleted, or page 1 requested
-		if ($row == false || $pag == 1) {
+		if ($row == false || $page['id'] == 1) {
 			header('Location: ?p=' . $_GET['p']);
 		}
 		// View page title.
