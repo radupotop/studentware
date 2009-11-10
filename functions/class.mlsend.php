@@ -58,17 +58,18 @@ class mlSend {
 	/**
 	 * Internal send, eg: from forum to ml.
 	 *
-	 * @param string $userName - name of user that sent the email
+	 * @param string $userName - name of sender
+	 * @param string $email - email of sender
 	 * @param string $subject
 	 * @param string $body
 	 */
-	function internal($userName, $subject, $body) {
+	function internal($userName, $email, $subject, $body) {
 		global $app;
 
 		$boundary = 'Studentware-'.sha1(time() + rand());
 		$headers =
 			'X-Mailer: Studentware '.$app['ver']."\r\n".
-			'From: '.$userName.' <'.$this->mlEmail.'>'."\r\n".
+			'From: '.$userName.' <'.$email.'>'."\r\n".
 			'To: '.$this->mlEmail."\r\n".
 			'MIME-Version: 1.0'."\r\n".
 			'Content-Type: multipart/alternative; boundary="'.$boundary.'"'.

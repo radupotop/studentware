@@ -19,11 +19,6 @@ Todo
 * permisiuni
 * linking system
 * versioning (sau macar history) pt pages
-* html emails (
-	http://code.web-max.ca/misc_htmlemail.php
-	http://www.phpbuilder.com/columns/kartic20000807.php3
-	http://articles.sitepoint.com/article/advanced-email-php
-)
 * proper input filters
 * localization
 * url rewrite

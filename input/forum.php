@@ -37,6 +37,27 @@ function input_post_add() {
 		$forum->addPost($topic['id'], $_SESSION['id_user'],
 			esc($post['add']['body']));
 		$forum->updateTopic($topic['id']);
+
+		// also send to ml
+		if($mailing_list['enabled']) {
+			$subject = $forum->getTopicTitle($topic['id']);
+
+			$mlSend = new mlSend (
+				$mailing_list['email'],
+				$mailing_list['smtp']['server'],
+				$mailing_list['smtp']['port'],
+				$mailing_list['smtp']['crypto'],
+				$mailing_list['user'],
+				$mailing_list['pass']
+			);
+			$mlSend->internal(
+				$_SESSION['first_name'].' '.$_SESSION['fam_name'],
+				$_SESSION['email'],
+				$subject,
+				$post['add']['body']
+			);
+			unset($mlSend);
+		}
 	}
 	return;
 }
@@ -98,7 +119,7 @@ input_topic_edit();
  * @return null
  */
 function input_topic_add() {
-	global $topic, $html_filter, $forum;
+	global $topic, $html_filter, $forum, $mailing_list;
 
 	$topic['add']['title'] =
 		filter_var($_POST['topic']['add']['title'], FILTER_UNSAFE_RAW);
@@ -116,6 +137,25 @@ function input_topic_add() {
 
 		$forum->addPost($id_topic, $_SESSION['id_user'],
 			esc($topic['add']['body']));
+
+		// also send to ml
+		if($mailing_list['enabled']) {
+			$mlSend = new mlSend (
+				$mailing_list['email'],
+				$mailing_list['smtp']['server'],
+				$mailing_list['smtp']['port'],
+				$mailing_list['smtp']['crypto'],
+				$mailing_list['user'],
+				$mailing_list['pass']
+			);
+			$mlSend->internal(
+				$_SESSION['first_name'].' '.$_SESSION['fam_name'],
+				$_SESSION['email'],
+				$topic['add']['title'],
+				$topic['add']['body']
+			);
+			unset($mlSend);
+		}
 
 
 		// redirect to newly created topic
