@@ -62,8 +62,9 @@ class mlSend {
 	 * @param string $email - email of sender
 	 * @param string $subject
 	 * @param string $body
+	 * @param string $tag - optional, can be: nopost, nomail, null
 	 */
-	function internal($userName, $email, $subject, $body) {
+	function internal($userName, $email, $subject, $body, $tag=null) {
 		global $app;
 
 		$boundary = 'Studentware-'.sha1(time() + rand());
@@ -88,7 +89,19 @@ class mlSend {
 			'--'.$boundary.'--'."\r\n"
 		;
 
-		$subject = '[NOPOST] ' . $subject;
+		$tag = strtolower(trim($tag));
+		switch($tag) {
+			case 'nopost':
+				$tag = '[NOPOST] ';
+				break;
+			case 'nomail':
+				$tag = '[NOMAIL] ';
+				break;
+			default:
+				$tag = null;
+				break;
+		}
+		$subject = $tag . $subject;
 
 		$this->smtp->send(
 			$this->mlEmail,

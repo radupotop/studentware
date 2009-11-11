@@ -54,7 +54,8 @@ function input_post_add() {
 				$_SESSION['first_name'].' '.$_SESSION['fam_name'],
 				$_SESSION['email'],
 				$subject,
-				$post['add']['body']
+				$post['add']['body'],
+				'nopost'
 			);
 			unset($mlSend);
 		}
@@ -152,7 +153,8 @@ function input_topic_add() {
 				$_SESSION['first_name'].' '.$_SESSION['fam_name'],
 				$_SESSION['email'],
 				$topic['add']['title'],
-				$topic['add']['body']
+				$topic['add']['body'],
+				'nopost'
 			);
 			unset($mlSend);
 		}
