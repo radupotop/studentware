@@ -26,31 +26,37 @@ class mlSend {
 	/**
 	 * Distribute:
 	 * Sends emails to ml subscribers.
+	 * @param array $addrArray
+	 * @param array $msgArray
 	 */
 	function dist($addrArray, $msgArray) {
 		if($msgArray)
 			foreach ($msgArray as $message) {
-				$to = $addrArray;
+				// do not send NOMAIL messages
+				if(!preg_match('/\[NOMAIL]/', $message['subject'])) {
+					str_replace('[NOPOST] ', null, $message['subject']);
+					$to = $addrArray;
 
-				// remove sender and ml from receipts
-				foreach($to as $key => $toAddr) {
-					if (
-						$toAddr == $message['from'] ||
-						$toAddr == $this->mlEmail
-					) {
-						unset($to[$key]);
+					// remove sender and ml from receipts
+					foreach($to as $key => $toAddr) {
+						if (
+							$toAddr == $message['from'] ||
+							$toAddr == $this->mlEmail
+						) {
+							unset($to[$key]);
+						}
 					}
-				}
 
-				// send to remaining receipts
-				if ($to)
-					$this->smtp->send(
-						$this->mlEmail,
-						$to,
-						$message['subject'],
-						$message['body'],
-						$message['headers']
-					);
+					// send to remaining receipts
+					if ($to)
+						$this->smtp->send(
+							$this->mlEmail,
+							$to,
+							$message['subject'],
+							$message['body'],
+							$message['headers']
+						);
+				}
 			}
 		return;
 	}
