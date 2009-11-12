@@ -112,6 +112,56 @@ class mlRead {
 	}
 
 	/**
+	 * Parse message to forum post.
+	 * @return array
+	 */
+	function msgToPost() {
+		// from imap_fetchstructure() manual:
+		$typeArray = array (
+			0 => 'text',
+			1 => 'multipart',
+			2 => 'message',
+			3 => 'application',
+			4 => 'audio',
+			5 => 'image',
+			6 => 'video',
+			7 => 'other'
+		);
+		$encodingArray = array (
+			0 => '7BIT',
+			1 => '8BIT',
+			2 => 'BINARY',
+			3 => 'BASE64',
+			4 => 'QUOTED-PRINTABLE',
+			5 => 'OTHER'
+		);
+
+		$imapHeaders = imap_headers($this->conn);
+		$numEmails = count($imapHeaders);
+
+		for ($i=1; $i<$numEmails+1; $i++) {
+			$struct = imap_fetchstructure($this->conn, $i);
+			// get message type
+			foreach($typeArray as $key => $value) {
+				if($key == $struct->type) {
+					$type = $value;
+					break;
+				}
+			}
+			// get message subtype
+			$subtype = $struct->subtype;
+			// get message encoding
+			foreach($encodingArray as $key => $value) {
+				if($key == $struct->encoding) {
+					$encoding = $value;
+					break;
+				}
+			}
+		}
+		return;
+	}
+
+	/**
 	 * Delete emails.
 	 * @param string $msgNo - message no. to delete, or null to delete all
 	 */

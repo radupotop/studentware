@@ -5,7 +5,9 @@
  */
 
 // mailing list
-include('functions/ml.php');
-mailingList();
+if ($mailing_list['enabled']) {
+	include('functions/ml.php');
+	mailingList();
+}
 
 ?>
