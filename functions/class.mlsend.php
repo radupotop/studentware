@@ -34,7 +34,8 @@ class mlSend {
 			foreach ($msgArray as $message) {
 				// do not send NOMAIL messages
 				if(!preg_match('/\[NOMAIL]/', $message['subject'])) {
-					str_replace('[NOPOST] ', null, $message['subject']);
+					$message['subject'] =
+						str_replace('[NOPOST] ', null, $message['subject']);
 					$to = $addrArray;
 
 					// remove sender and ml from receipts

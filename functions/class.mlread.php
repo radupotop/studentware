@@ -113,52 +113,57 @@ class mlRead {
 
 	/**
 	 * Parse message to forum post.
-	 * @return array
+	 * @return array $post
 	 */
 	function msgToPost() {
-		// from imap_fetchstructure() manual:
-		$typeArray = array (
-			0 => 'text',
-			1 => 'multipart',
-			2 => 'message',
-			3 => 'application',
-			4 => 'audio',
-			5 => 'image',
-			6 => 'video',
-			7 => 'other'
-		);
-		$encodingArray = array (
-			0 => '7BIT',
-			1 => '8BIT',
-			2 => 'BINARY',
-			3 => 'BASE64',
-			4 => 'QUOTED-PRINTABLE',
-			5 => 'OTHER'
-		);
-
 		$imapHeaders = imap_headers($this->conn);
 		$numEmails = count($imapHeaders);
 
 		for ($i=1; $i<$numEmails+1; $i++) {
-			$struct = imap_fetchstructure($this->conn, $i);
-			// get message type
-			foreach($typeArray as $key => $value) {
-				if($key == $struct->type) {
-					$type = $value;
-					break;
+			$headerInfo = imap_headerinfo($this->conn, $i);
+			$title = $headerInfo->subject;
+
+			if(!preg_match('/\[NOPOST]/', $title)) {
+				$post[$i]['title'] = $title;
+				$post[$i]['title'] =
+					str_replace('[NOMAIL] ', null, $post[$i]['title']);
+				$post[$i]['title'] =
+					preg_replace('/^[Re: ?]+/i', null, $post[$i]['title']);
+
+				$struct = imap_fetchstructure($this->conn, $i);
+				// text/*
+				if($struct->type === 0) {
+					$post[$i]['body'] = imap_fetchbody($this->conn, $i, 1);
+					$post[$i]['body'] =
+						$this->filterBody($post[$i]['body'], $struct->subtype);
 				}
-			}
-			// get message subtype
-			$subtype = $struct->subtype;
-			// get message encoding
-			foreach($encodingArray as $key => $value) {
-				if($key == $struct->encoding) {
-					$encoding = $value;
-					break;
+				// multipart/*
+				if($struct->type === 1) {
+					if($struct->subtype == 'ALTERNATIVE') {
+						$post[$i]['body'] = imap_fetchbody($this->conn, $i, 2);
+						$post[$i]['body'] =
+							$this->filterBody($post[$i]['body'], 'html');
+					}
 				}
 			}
 		}
-		return;
+		return $post;
+	}
+
+
+	function filterBody($body, $subtype) {
+		$subtype == strtolower(trim($subtype));
+		switch($subtype) {
+			case 'plain':
+				$body = preg_replace('/\n.*\n.*\n[>]+.*/', null, $body);
+				$body = str_replace("\n", "<br>\n", $body);
+				break;
+			case 'html':
+				break;
+			default:
+				$body = false;
+		}
+		return $body;
 	}
 
 	/**
