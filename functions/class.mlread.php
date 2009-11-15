@@ -144,8 +144,25 @@ class mlRead {
 						$post[$i]['body'] =
 							$this->filterBody($post[$i]['body'], 'html');
 					}
+					if($struct->subtype == 'MIXED') {
+						$struct = $struct->parts[0];
+						// text/*
+						if($struct->type === 0) {
+							$post[$i]['body'] = imap_fetchbody($this->conn, $i, 1);
+							$post[$i]['body'] =
+								$this->filterBody($post[$i]['body'], $struct->subtype);
+						}
+						// multipart/*
+						if($struct->type === 1)
+							if($struct->subtype == 'ALTERNATIVE') {
+								$post[$i]['body'] = imap_fetchbody($this->conn, $i, 1.2);
+								$post[$i]['body'] =
+									$this->filterBody($post[$i]['body'], 'html');
+							}
+					}
 				}
 			}
+			// end msg
 		}
 		return $post;
 	}
