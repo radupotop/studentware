@@ -37,15 +37,16 @@ class mlRead {
 
 	/**
 	 * Get email addresses of registered users.
+	 * The array keys are the user IDs.
 	 * @return array $addresses
 	 */
 	function addrArray() {
-		$result = mysql_query('select email from users');
+		$result = mysql_query('select * from users');
 		queryCount();
-		$num_rows = mysql_num_rows($result);
-		for($i=0; $i<$num_rows ;$i++) {
+		$numRows = mysql_num_rows($result);
+		for($i=0; $i<$numRows; $i++) {
 			$row = mysql_fetch_array($result);
-			$addresses[$i] = $row[0];
+			$addresses[$row['id_user']] = $row['email'];
 		}
 		return $addresses;
 	}
@@ -94,9 +95,8 @@ class mlRead {
 				$headers .= ' '.$boundary . "\r\n";
 
 			// Get messages only from subscribed users or from ml email address
-			$allowedEmails = $this->addrArray();
 			if (
-				in_array($from_email, $allowedEmails) ||
+				in_array($from_email, $this->addrArray()) ||
 				$from_email == $this->mlEmail
 			) {
 				$messages[$i] = array (
@@ -161,24 +161,49 @@ class mlRead {
 							}
 					}
 				}
+				$post[$i]['body'] = trim($post[$i]['body']);
+
+				// $from is an object
+				$from = $headerInfo->from[0];
+				$fromEmail = $from->mailbox.'@'.$from->host;
+				$post[$i]['id_user'] =
+					array_search($fromEmail, $this->addrArray());
+
+				// unset post if one of the values is null
+				foreach($post[$i] as $value)
+					if (!$value)
+						unset($post[$i]);
 			}
-			// end msg
+			// end post
 		}
 		return $post;
 	}
 
-
+	/**
+	 * Filter post body.
+	 *
+	 * @param string $body
+	 * @param string @subtype - plain or html
+	 * @return string $body
+	 */
 	function filterBody($body, $subtype) {
-		$subtype == strtolower(trim($subtype));
-		switch($subtype) {
+		switch(strtolower($subtype)) {
 			case 'plain':
 				$body = preg_replace('/\n.*\n.*\n[>]+.*/', null, $body);
 				$body = str_replace("\n", "<br>\n", $body);
 				break;
 			case 'html':
+				global $tags, $attr;
+				// exclude blockquote from allowed tags
+				foreach($tags as $key => $tag)
+					if ($tag == 'blockquote')
+						unset($tags[$key]);
+				// filter html
+				$htmlFilter = new InputFilter($tags, $attr);
+				$body = $htmlFilter->process($body);
 				break;
 			default:
-				$body = false;
+				$body = null;
 		}
 		return $body;
 	}
