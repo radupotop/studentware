@@ -135,12 +135,17 @@ class mlRead {
 				if($struct->type === 0) {
 					$post[$i]['body'] = imap_fetchbody($this->conn, $i, 1);
 					$post[$i]['body'] =
+						decode($post[$i]['body'], $struct->encoding);
+					$post[$i]['body'] =
 						$this->filterBody($post[$i]['body'], $struct->subtype);
 				}
 				// multipart/*
 				if($struct->type === 1) {
 					if($struct->subtype == 'ALTERNATIVE') {
 						$post[$i]['body'] = imap_fetchbody($this->conn, $i, 2);
+						$struct = $struct->parts[1];
+						$post[$i]['body'] =
+							decode($post[$i]['body'], $struct->encoding);
 						$post[$i]['body'] =
 							$this->filterBody($post[$i]['body'], 'html');
 					}
@@ -150,12 +155,17 @@ class mlRead {
 						if($struct->type === 0) {
 							$post[$i]['body'] = imap_fetchbody($this->conn, $i, 1);
 							$post[$i]['body'] =
+								decode($post[$i]['body'], $struct->encoding);
+							$post[$i]['body'] =
 								$this->filterBody($post[$i]['body'], $struct->subtype);
 						}
 						// multipart/*
 						if($struct->type === 1)
 							if($struct->subtype == 'ALTERNATIVE') {
 								$post[$i]['body'] = imap_fetchbody($this->conn, $i, 1.2);
+								$struct = $struct->parts[1];
+								$post[$i]['body'] =
+									decode($post[$i]['body'], $struct->encoding);
 								$post[$i]['body'] =
 									$this->filterBody($post[$i]['body'], 'html');
 							}
@@ -177,6 +187,34 @@ class mlRead {
 			// end post
 		}
 		return $post;
+	}
+
+	/**
+	 * Decode MIME encoded body.
+	 *
+	 * @param string $body
+	 * @param int $encoding
+	 * @return string $body
+	 */
+	function decode($body, $encoding=int) {
+		// transfer encoding codes are found in imap_fetchstructure manual page
+		switch($encoding) {
+			case 0:
+			case 1:
+				// body is 7bit or 8bit, no decoding.
+				break;
+			case 3:
+				// decode base64
+				$body = base64_decode($body);
+				break;
+			case 4:
+				// decode quoted printable
+				$body = quoted_printable_decode($body);
+				break;
+			default:
+				$body = null;
+		}
+		return $body;
 	}
 
 	/**
