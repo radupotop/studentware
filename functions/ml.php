@@ -24,6 +24,17 @@ function mailingList() {
 
 	$mlSend->dist($addrArray, $msgArray);
 
+	// post to forum
+	$forum = new ForumInput;
+	$posts = $mlRead->msgToPost();
+	if($posts)
+		foreach($posts as $post) {
+			$idTopic = $forum->addTopic($post['id_user'], $post['title']);
+			$forum->addPost($idTopic, $post['id_user'], $post['body']);
+			$forum->updateTopic($idTopic);
+		}
+
+
 	$mlRead->delete();
 	return;
 }
