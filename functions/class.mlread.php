@@ -135,7 +135,7 @@ class mlRead {
 				if($struct->type === 0) {
 					$post[$i]['body'] = imap_fetchbody($this->conn, $i, 1);
 					$post[$i]['body'] =
-						decode($post[$i]['body'], $struct->encoding);
+						$this->decode($post[$i]['body'], $struct->encoding);
 					$post[$i]['body'] =
 						$this->filterBody($post[$i]['body'], $struct->subtype);
 				}
@@ -145,7 +145,7 @@ class mlRead {
 						$post[$i]['body'] = imap_fetchbody($this->conn, $i, 2);
 						$struct = $struct->parts[1];
 						$post[$i]['body'] =
-							decode($post[$i]['body'], $struct->encoding);
+							$this->decode($post[$i]['body'], $struct->encoding);
 						$post[$i]['body'] =
 							$this->filterBody($post[$i]['body'], 'html');
 					}
@@ -155,7 +155,7 @@ class mlRead {
 						if($struct->type === 0) {
 							$post[$i]['body'] = imap_fetchbody($this->conn, $i, 1);
 							$post[$i]['body'] =
-								decode($post[$i]['body'], $struct->encoding);
+								$this->decode($post[$i]['body'], $struct->encoding);
 							$post[$i]['body'] =
 								$this->filterBody($post[$i]['body'], $struct->subtype);
 						}
@@ -165,7 +165,7 @@ class mlRead {
 								$post[$i]['body'] = imap_fetchbody($this->conn, $i, 1.2);
 								$struct = $struct->parts[1];
 								$post[$i]['body'] =
-									decode($post[$i]['body'], $struct->encoding);
+									$this->decode($post[$i]['body'], $struct->encoding);
 								$post[$i]['body'] =
 									$this->filterBody($post[$i]['body'], 'html');
 							}
