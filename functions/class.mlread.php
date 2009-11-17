@@ -64,43 +64,86 @@ class mlRead {
 		_log('ml: '.$num_emails.' messages in total');
 
 		for ($i = 1; $i < $num_emails+1; $i++) {
-			$mail_header = imap_headerinfo($this->conn, $i);
+			$headerInfo = imap_headerinfo($this->conn, $i);
 
 			// $from is an object
-			$from = $mail_header->from[0];
+			$from = $headerInfo->from[0];
 			$fromName = $from->personal;
-			$from_email = $from->mailbox.'@'.$from->host;
-			$subject = $mail_header->subject;
+			$fromEmail = $from->mailbox.'@'.$from->host;
+			$subject = $headerInfo->subject;
 			$body = imap_body($this->conn, $i);
 
-			// get content-type (and boundary) line:
-			$fullHeaders=imap_fetchheader($this->conn, $i);
-			preg_match('/\nContent-Type.*/i', $fullHeaders, $match1);
-			preg_match('/.*boundary.*/i', $fullHeaders, $match2);
-			$content_type = trim($match1[0]);
-			$boundary = trim($match2[0]);
+			$struct = imap_fetchstructure($this->conn, $i);
 
+			// from imap_fetchstructure() manual:
+			$typeArray = array (
+				0 => 'TEXT',
+				1 => 'MULTIPART',
+				2 => 'MESSAGE',
+				3 => 'APPLICATION',
+				4 => 'AUDIO',
+				5 => 'IMAGE',
+				6 => 'VIDEO',
+				7 => 'OTHER'
+			);
+			$encodingArray = array (
+				0 => '7BIT',
+				1 => '8BIT',
+				2 => 'BINARY',
+				3 => 'BASE64',
+				4 => 'QUOTED-PRINTABLE',
+				5 => 'OTHER'
+			);
+
+			// get message type
+			foreach($typeArray as $key => $value) {
+				if($key == $struct->type) {
+					$type = $value;
+					break;
+				}
+			}
+			// get message subtype
+			$subtype = $struct->subtype;
+			// get message encoding
+			foreach($encodingArray as $key => $value) {
+				if($key == $struct->encoding) {
+					$encoding = $value;
+					break;
+				}
+			}
+			// get boundary, charset
+			$parameters = $struct->parameters;
+			foreach($parameters as $param) {
+				if($param->attribute == 'boundary')
+					$boundary = $param->value;
+				if($param->attribute == 'charset')
+					$charset = $param->value;
+			}
+			if($boundary)
+				$boundaryString = 'boundary="'.$boundary.'"; ';
+			if($charset)
+				$charsetString = 'charset='.$charset.'; ';
+
+			// compose headers
 			global $app, $site;
 			$headers =
 				'X-Mailer: Studentware '.$app['ver']."\r\n".
-				'From: '.$fromName.' <'.$from_email.'>'."\r\n".
+				'From: '.$fromName.' <'.$fromEmail.'>'."\r\n".
 				'To: '.$site['name'].' <'.$this->mlEmail.'>'."\r\n".
 				'Reply-To: '.$site['name'].' <'.$this->mlEmail.'>'."\r\n".
-				'MIME-Version: 1.0'."\r\n"
+				'MIME-Version: 1.0'."\r\n".
+				'Content-Type: '.$type.'/'.$subtype.'; '.
+					$charsetString . $boundaryString."\r\n".
+				'Content-Transfer-Encoding: '.$encoding."\r\n"
 			;
-
-			if ($content_type)
-				$headers .= $content_type . "\r\n";
-			if ($boundary && $content_type != $boundary)
-				$headers .= ' '.$boundary . "\r\n";
 
 			// Get messages only from subscribed users or from ml email address
 			if (
-				in_array($from_email, $this->addrArray()) ||
-				$from_email == $this->mlEmail
+				in_array($fromEmail, $this->addrArray()) ||
+				$fromEmail == $this->mlEmail
 			) {
 				$messages[$i] = array (
-					'from' => $from_email,
+					'from' => $fromEmail,
 					'subject' => $subject,
 					'body' => $body,
 					'headers' => $headers
