@@ -16,7 +16,7 @@ class ForumInput {
 		$result = mysql_query(
 			'select id_topic
 			from topics
-			where lower(trim(title))="'.strtolower(trim($title)).'"'
+			where lower(trim(title))="'.esc(strtolower(trim($title))).'"'
 		);
 		queryCount();
 		$row = mysql_fetch_array($result);

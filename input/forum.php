@@ -35,7 +35,7 @@ function input_post_add() {
 	&& $post['add']['submit']) {
 
 		$forum->addPost($topic['id'], $_SESSION['id_user'],
-			esc($post['add']['body']));
+			$post['add']['body']);
 		$forum->updateTopic($topic['id']);
 
 		// also send to ml
@@ -137,7 +137,7 @@ function input_topic_add() {
 			$forum->addTopic($_SESSION['id_user'], $topic['add']['title']);
 
 		$forum->addPost($id_topic, $_SESSION['id_user'],
-			esc($topic['add']['body']));
+			$topic['add']['body']);
 
 		// also send to ml
 		if($mailing_list['enabled']) {
