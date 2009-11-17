@@ -270,15 +270,10 @@ class mlRead {
 	function filterBody($body, $subtype) {
 		switch(strtolower($subtype)) {
 			case 'plain':
-				$body = preg_replace('/\n.*\n.*\n[>]+.*/', null, $body);
 				$body = str_replace("\n", "<br>\n", $body);
 				break;
 			case 'html':
 				global $tags, $attr;
-				// exclude blockquote from allowed tags
-				foreach($tags as $key => $tag)
-					if ($tag == 'blockquote')
-						unset($tags[$key]);
 				// filter html
 				$htmlFilter = new InputFilter($tags, $attr);
 				$body = $htmlFilter->process($body);
