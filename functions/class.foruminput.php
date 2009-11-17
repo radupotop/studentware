@@ -59,7 +59,7 @@ class ForumInput {
 				$id_topic.','.
 				$id_user.',
 				NOW(),
-				"'.$body.'"
+				"'.esc($body).'"
 			)'
 		);
 		queryCount();
@@ -115,7 +115,7 @@ class ForumInput {
 				null,
 				'.$id_user.',
 				NOW(),
-				"'.$title.'"
+				"'.esc($title).'"
 			)'
 		);
 		queryCount();
