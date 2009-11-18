@@ -30,3 +30,4 @@ Todo
 	* request/accept system - pentru inreg. intre peers
 	* hashuri pentru auths intre peers
 * files fara db (or revise files db scheme)
+* plus-addressing for ML
