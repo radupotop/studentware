@@ -270,6 +270,9 @@ class mlRead {
 	function filterBody($body, $subtype) {
 		switch(strtolower($subtype)) {
 			case 'plain':
+				// strip quoted messages
+				$body = preg_replace('/(\n.*){1,2}(\n ?>.*)+(\n.*)+/', null, $body);
+				$body = trim($body);
 				$body = str_replace("\n", "<br>\n", $body);
 				break;
 			case 'html':
@@ -277,6 +280,9 @@ class mlRead {
 				// filter html
 				$htmlFilter = new InputFilter($tags, $attr);
 				$body = $htmlFilter->process($body);
+				// strip blockquoted messages
+				$body = preg_replace('/(<\/span>.*)?(<div.*)?(<br.*)?(\n.*){0,2}(<blockquote.*)(\n.*)+/', null, $body);
+				$body = trim($body);
 				break;
 			default:
 				$body = null;
