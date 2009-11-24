@@ -137,11 +137,8 @@ class mlRead {
 				'Content-Transfer-Encoding: '.$encoding."\r\n"
 			;
 
-			// Get messages only from subscribed users or from ml email address
-			if (
-				in_array($fromEmail, $this->addrArray()) ||
-				$fromEmail == $this->mlEmail
-			) {
+			// Get messages only from subscribed users
+			if (in_array($fromEmail, $this->addrArray())) {
 				$messages[$i] = array (
 					'from' => $fromEmail,
 					'subject' => $subject,
@@ -291,6 +288,63 @@ class mlRead {
 	}
 
 	/**
+	 * Internal send, eg: from forum to ml.
+	 *
+	 * @param string $userName - name of sender
+	 * @param string $email - email of sender
+	 * @param string $subject
+	 * @param string $body
+	 * @param string $tag - optional, can be: nopost, nomail, null
+	 */
+	function internal($userName, $email, $subject, $body, $tag=null) {
+		global $app;
+
+		$boundary = 'Studentware-'.sha1(time() + rand());
+		$headers =
+			'X-Mailer: Studentware '.$app['ver']."\r\n".
+			'From: '.$userName.' <'.$email.'>'."\r\n".
+			'To: '.$this->mlEmail."\r\n".
+			'MIME-Version: 1.0'."\r\n".
+			'Content-Type: multipart/alternative; boundary="'.$boundary.'"'.
+			"\r\n".
+			"\r\n"
+		;
+
+		$body =
+			'--'.$boundary."\r\n".
+			'Content-Type: text/plain; charset=utf-8'."\r\n".
+			"\r\n".
+			strip_tags($body)."\r\n".
+			'--'.$boundary."\r\n".
+			'Content-Type: text/html; charset=utf-8'."\r\n".
+			"\r\n".
+			$body."\r\n".
+			'--'.$boundary.'--'."\r\n"
+		;
+
+		$tag = strtolower(trim($tag));
+		switch($tag) {
+			case 'nopost':
+				$tag = '[NOPOST] ';
+				break;
+			case 'nomail':
+				$tag = '[NOMAIL] ';
+				break;
+			default:
+				$tag = null;
+				break;
+		}
+		$subject = 'Subject: '.$tag.$subject."\r\n";
+
+		$message = $subject.$headers.$body;
+
+		$status = imap_append (
+			$this->conn, '{'.$this->server.$this->param.'}Inbox', $message
+		);
+		return $status;
+	}
+
+	/**
 	 * Delete emails.
 	 * @param string $msgNo - message no. to delete, or null to delete all
 	 */
@@ -299,7 +353,6 @@ class mlRead {
 			_log('ml: deleted message='.$msgNo);
 		return;
 	}
-
 
 	/**
 	 * Expunge emails and close connection.

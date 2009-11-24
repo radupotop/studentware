@@ -113,7 +113,7 @@ $db = array (
  */
 $app = array (
 	'site' => 'http://bitbucket.org/wooptoo/studentware/',
-	'ver' => '0.4',
+	'ver' => '0.4.1',
 	'log' => array (
 		'enabled' => false,
 		// absolute path to log file
