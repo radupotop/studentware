@@ -42,22 +42,22 @@ function input_post_add() {
 		if($mailing_list['enabled']) {
 			$subject = $forum->getTopicTitle($topic['id']);
 
-			$mlSend = new mlSend (
+			$mlRead = new mlRead (
 				$mailing_list['email'],
-				$mailing_list['smtp']['server'],
-				$mailing_list['smtp']['port'],
-				$mailing_list['smtp']['crypto'],
+				$mailing_list['mbox']['server'],
+				$mailing_list['mbox']['param'],
 				$mailing_list['user'],
 				$mailing_list['pass']
 			);
-			$mlSend->internal(
+
+			$mlRead->internal(
 				$_SESSION['first_name'].' '.$_SESSION['fam_name'],
 				$_SESSION['email'],
 				$subject,
 				$post['add']['body'],
 				'nopost'
 			);
-			unset($mlSend);
+			unset($mlRead);
 		}
 	}
 	return;
@@ -141,22 +141,23 @@ function input_topic_add() {
 
 		// also send to ml
 		if($mailing_list['enabled']) {
-			$mlSend = new mlSend (
+
+			$mlRead = new mlRead (
 				$mailing_list['email'],
-				$mailing_list['smtp']['server'],
-				$mailing_list['smtp']['port'],
-				$mailing_list['smtp']['crypto'],
+				$mailing_list['mbox']['server'],
+				$mailing_list['mbox']['param'],
 				$mailing_list['user'],
 				$mailing_list['pass']
 			);
-			$mlSend->internal(
+
+			$mlRead->internal(
 				$_SESSION['first_name'].' '.$_SESSION['fam_name'],
 				$_SESSION['email'],
 				$topic['add']['title'],
 				$topic['add']['body'],
 				'nopost'
 			);
-			unset($mlSend);
+			unset($mlRead);
 		}
 
 

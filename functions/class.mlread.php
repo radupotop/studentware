@@ -137,11 +137,8 @@ class mlRead {
 				'Content-Transfer-Encoding: '.$encoding."\r\n"
 			;
 
-			// Get messages only from subscribed users or from ml email address
-			if (
-				in_array($fromEmail, $this->addrArray()) ||
-				$fromEmail == $this->mlEmail
-			) {
+			// Get messages only from subscribed users
+			if (in_array($fromEmail, $this->addrArray())) {
 				$messages[$i] = array (
 					'from' => $fromEmail,
 					'subject' => $subject,
@@ -270,6 +267,9 @@ class mlRead {
 	function filterBody($body, $subtype) {
 		switch(strtolower($subtype)) {
 			case 'plain':
+				// strip quoted messages
+				$body = preg_replace('/(\n.*){1,2}(\n ?>.*)+(\n.*)+/', null, $body);
+				$body = trim($body);
 				$body = str_replace("\n", "<br>\n", $body);
 				break;
 			case 'html':
@@ -277,11 +277,71 @@ class mlRead {
 				// filter html
 				$htmlFilter = new InputFilter($tags, $attr);
 				$body = $htmlFilter->process($body);
+				// strip blockquoted messages
+				$body = preg_replace('/(<\/span>.*)?(<div.*)?(<br.*)?(\n.*){0,2}(<blockquote.*)(\n.*)+/', null, $body);
+				$body = trim($body);
 				break;
 			default:
 				$body = null;
 		}
 		return $body;
+	}
+
+	/**
+	 * Internal send, eg: from forum to ml.
+	 *
+	 * @param string $userName - name of sender
+	 * @param string $email - email of sender
+	 * @param string $subject
+	 * @param string $body
+	 * @param string $tag - optional, can be: nopost, nomail, null
+	 */
+	function internal($userName, $email, $subject, $body, $tag=null) {
+		global $app;
+
+		$boundary = 'Studentware-'.sha1(time() + rand());
+		$headers =
+			'X-Mailer: Studentware '.$app['ver']."\r\n".
+			'From: '.$userName.' <'.$email.'>'."\r\n".
+			'To: '.$this->mlEmail."\r\n".
+			'MIME-Version: 1.0'."\r\n".
+			'Content-Type: multipart/alternative; boundary="'.$boundary.'"'.
+			"\r\n".
+			"\r\n"
+		;
+
+		$body =
+			'--'.$boundary."\r\n".
+			'Content-Type: text/plain; charset=utf-8'."\r\n".
+			"\r\n".
+			strip_tags($body)."\r\n".
+			'--'.$boundary."\r\n".
+			'Content-Type: text/html; charset=utf-8'."\r\n".
+			"\r\n".
+			$body."\r\n".
+			'--'.$boundary.'--'."\r\n"
+		;
+
+		$tag = strtolower(trim($tag));
+		switch($tag) {
+			case 'nopost':
+				$tag = '[NOPOST] ';
+				break;
+			case 'nomail':
+				$tag = '[NOMAIL] ';
+				break;
+			default:
+				$tag = null;
+				break;
+		}
+		$subject = 'Subject: '.$tag.$subject."\r\n";
+
+		$message = $subject.$headers.$body;
+
+		$status = imap_append (
+			$this->conn, '{'.$this->server.$this->param.'}Inbox', $message
+		);
+		return $status;
 	}
 
 	/**
@@ -293,7 +353,6 @@ class mlRead {
 			_log('ml: deleted message='.$msgNo);
 		return;
 	}
-
 
 	/**
 	 * Expunge emails and close connection.
