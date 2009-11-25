@@ -13,6 +13,7 @@
 	mysql_select_db($db['name']);
 	session_start();
 	$queryCount = 0;
+	chdir($site['path']);
 }
 
 /**

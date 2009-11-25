@@ -11,8 +11,8 @@ $site = array (
 	'name' => 'My Group',
 	'desc' => 'group description',
 	'url'  => '.',
-	// id of home page
-	'home' => '1',
+	// absolute path to application, on server
+	'path' => '/home/wooptoo/http/studentware',
 	// Registration
 	'reg' => array (
 		'enabled' => true,
@@ -116,8 +116,7 @@ $app = array (
 	'ver' => '0.4.1',
 	'log' => array (
 		'enabled' => false,
-		// absolute path to log file
-		'path' => '/home/wooptoo/http/studentware/all.log'
+		'path' => 'all.log'
 	),
 	'debug' => false,
 	'queryCount' => false
