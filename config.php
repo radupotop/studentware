@@ -11,8 +11,8 @@ $site = array (
 	'name' => 'My Group',
 	'desc' => 'group description',
 	'url'  => '.',
-	// absolute path to application, on server
-	'path' => '/home/wooptoo/http/studentware',
+	// absolute path to application on server (with trailing slash)
+	'path' => '/home/wooptoo/http/studentware/',
 	// Registration
 	'reg' => array (
 		'enabled' => true,
