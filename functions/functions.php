@@ -13,6 +13,7 @@
 	mysql_select_db($db['name']);
 	session_start();
 	$queryCount = 0;
+	chdir($site['path']);
 }
 
 /**
@@ -111,10 +112,11 @@ function get_permissions($page) {
  * @param string $msg - message to log
  */
 function _log ($msg) {
-	global $app;
+	global $site, $app;
+	$path = $site['path'].$app['log']['path'];
 	if (
 		$app['log']['enabled'] &&
-		$log = fopen($app['log']['path'], 'a')
+		$log = fopen($path, 'a')
 	) {
 		fwrite($log, date('Y-m-d H:i:s - ').$msg."\n");
 		fclose($log);

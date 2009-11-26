@@ -15,11 +15,10 @@
  * @return null
  */
 function display_home_edit() {
-	global $site;
 	$result = mysql_query(
 		'select *
 		from pages
-		where id_page='.$site['home']
+		where id_page=1'
 	);
 	queryCount();
 	$row = mysql_fetch_array($result);
@@ -39,14 +38,14 @@ function display_home_edit() {
  * @return null
  */
 function display_home() {
-	global $site, $home;
+	global $home;
 	if($home['edit']['req']) {
 		display_home_edit();
 	} else {
 	$result = mysql_query(
 		'select *
 		from pages
-		where id_page='.$site['home']
+		where id_page=1'
 	);
 	queryCount();
 	$row = mysql_fetch_array($result);

@@ -14,7 +14,6 @@
  * @return null
  */
 function display_page_list() {
-	global $site;
 ?>
 <div id="page_list">
 <form action="<?php echo current_page(true); ?>" method="post">
@@ -37,7 +36,7 @@ $result = mysql_query('
 		from pages
 		join users
 		on pages.id_user=users.id_user
-		where pages.id_page !='.$site['home'].'
+		where pages.id_page != 1
 		order by date_modified desc
 	');
 	queryCount();

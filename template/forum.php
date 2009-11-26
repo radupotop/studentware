@@ -6,7 +6,12 @@
 ?>
 <div id="forum">
 <h2 class="cat_title">Forum</h2>
-<p class="cat_desc">Discussion forum. Announcements, discussions, notifications belong here.</p>
+<p class="cat_desc">Discussion forum. Announcements, discussions, notifications belong here.
+<?php if($_SESSION['login'] && $mailing_list['enabled']) { ?>
+The <a href="mailto:<?php echo $mailing_list['email'] ?>">mailing list</a>
+is enabled. Users will be notified of new posts.
+<?php } ?>
+</p>
 
 <div id="topic_list">
 	<?php display_topic_list(); ?>
