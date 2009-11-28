@@ -17,7 +17,8 @@ if ($p == 'cron' || $argv[1] == 'cron') {
 }
 
 $allowed = array(
-	'pages', 'forum', 'files', 'calendar', 'schedule', 'users', 'register'
+	'pages', 'forum', 'files', 'calendar', 'schedule', 'users', 'register',
+	'profile'
 );
 
 /**

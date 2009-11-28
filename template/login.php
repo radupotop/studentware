@@ -27,6 +27,7 @@ function display_menu() {
 
 	<?php if ($_SESSION['login']) { ?>
 	<li><a href="?p=users">Users</a></li>
+	<li><a href="?p=profile">Profile</a></li>
 	<?php } ?>
 
 	<?php if ($_SESSION['login']==false && $site['reg']['enabled']) { ?>

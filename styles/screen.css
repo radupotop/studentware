@@ -44,7 +44,7 @@ h2, .page_title {
 #menu a {
 	display: block;
 	padding: .5em;
-	width: 10em;
+	width: 9em;
 	text-align: center;
 	background: #eee;
 }
@@ -143,14 +143,14 @@ pre {
 	font: normal 1.1em "Courier New", monospace;
 }
 
-#register label {
+#register label, #profile label {
 	display: block;
 	float: left;
 	margin-top: .5em;
 	width: 7em;
 }
 
-#register input {
+#register input, #profile input {
 	margin: .2em;
 	font-size: 1em;
 }

@@ -39,5 +39,28 @@ class UsersInput {
 		return $email;
 	}
 
+	/**
+	 * Add a new user.
+	 */
+	function addUser($idGroup, $firstName, $famName, $email, $pass, $about) {
+		// check if user exists
+		if($idUser = $this->getUserId($email))
+			return $idUser;
+
+		$pass = hash('sha1', $pass);
+		$query = sprintf(
+			'insert into users values (null, %s, "%s", "%s", "%s", "%s", "%s")',
+			$idGroup, esc($firstName), esc($famName), esc($email), $pass,
+			esc($about)
+		);
+		$result = mysql_query($query);
+		queryCount();
+
+		// check again if user exists and return its ID
+		if($result)
+			if($idUser = $this->getUserId($email))
+				_log('users: added user with id='.$idUser);
+		return $idUser;
+	}
 }
 ?>
