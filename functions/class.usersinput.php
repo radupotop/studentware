@@ -71,5 +71,52 @@ class UsersInput {
 				_log('users: added user with id='.$idUser);
 		return $idUser;
 	}
+
+	/**
+	 * Edit a user's details.
+	 */
+	function editUser($idUser=int, $idGroup=null, $firstName=null,
+	$famName=null, $email=null, $pass=null, $about=null) {
+
+		$query = 'update users set ';
+		if($idGroup)
+			$query .= sprintf('id_group = %s, ', $idGroup);
+		if($firstName)
+			$query .= sprintf('first_name = "%s", ', esc($firstName));
+		if($famName)
+			$query .= sprintf('fam_name = "%s", ', esc($famName));
+		if($email)
+			$query .= sprintf('email = "%s", ', esc($email));
+		if($pass) {
+			$pass = hash('sha1', $pass);
+			$query .= sprintf('pass = "%s", ', $pass);
+		}
+		if($about)
+			$query .= sprintf('about = "%s", ', esc($about));
+		// strip the last ', '
+		$query = rtrim($query, ', ');
+		$query .= ' where id_user = '.$idUser;
+
+		$status = mysql_query($query);
+		queryCount();
+		if ($status)
+			_log('users: edited user with id='.$idUser);
+		return $status;
+	}
+
+	/**
+	 * Delete a user.
+	 */
+	function deleteUser($idUser=int) {
+		// do not allow deletion of id_user = 1
+		if($idUser == 1)
+			return false;
+		$query = 'delete from users where id_user = '.$idUser;
+		$status = mysql_query($query);
+		queryCount();
+		if ($status)
+			_log('users: deleted user with id='.$idUser);
+		return $status;
+	}
 }
 ?>

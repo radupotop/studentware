@@ -131,14 +131,10 @@ input_users_add();
  */
 function input_users_delete() {
 	$delete_user = filter_input(INPUT_POST, 'delete_user', FILTER_VALIDATE_INT);
-	// do not allow deletion of id_user = 1
-	if ($_SESSION['login'] && $delete_user && $delete_user != 1) {
-		// delete user
-		mysql_query(
-			'delete from users
-			where id_user = ' . $delete_user
-		);
-		queryCount();
+
+	if ($_SESSION['login'] && $delete_user) {
+		$users = new UsersInput;
+		$users->deleteUser($delete_user);
 	}
 	return;
 }
@@ -152,7 +148,10 @@ function input_users_edit() {
 		global $html_filter;
 		$submit_edit_user =
 			filter_input(INPUT_POST, 'submit_edit_user', FILTER_VALIDATE_INT);
+
 		if ($_SESSION['login'] && $submit_edit_user) {
+
+			// filter input
 			$input_data = array(
 				'x_id_group' => FILTER_VALIDATE_INT,
 				'x_first_name' => FILTER_UNSAFE_RAW,
@@ -162,45 +161,35 @@ function input_users_edit() {
 				'x_about' => FILTER_UNSAFE_RAW,
 			);
 			$filtered_data = filter_input_array(INPUT_POST, $input_data);
-		}
 
-		if (
-			$filtered_data['x_id_group'] &&
-			$filtered_data['x_first_name'] &&
-			$filtered_data['x_fam_name'] &&
-			$filtered_data['x_email']
-		) {
-			$valid = true;
-		}
-
-		if ($valid) {
 			$filtered_data['x_about'] =
 				$html_filter->process($filtered_data['x_about']);
-			$query =
-				'update users set ' .
-				'id_group = ' . $filtered_data['x_id_group'] . ', ' .
-				'first_name = "' . esc($filtered_data['x_first_name']) . '", ' .
-				'fam_name = "' . esc($filtered_data['x_fam_name']) . '", ' .
-				'email = "' . esc($filtered_data['x_email']) . '", ';
-			if($filtered_data['x_pass']) {
-				$filtered_data['x_pass'] = sha1($filtered_data['x_pass']);
-				$query = $query . 'pass = "' . $filtered_data['x_pass'] . '", ';
-			}
-			$query = $query .
-				'about= "' . esc($filtered_data['x_about']) . '" ' .
-				'where id_user = ' . $submit_edit_user;
-			mysql_query($query);
-			queryCount();
-			if ($_SESSION['id_user'] == $submit_edit_user) {
 
-				$_SESSION['id_group'] = $filtered_data['x_id_group'];
-				$_SESSION['first_name'] = $filtered_data['x_first_name'];
-				$_SESSION['fam_name'] = $filtered_data['x_fam_name'];
-				$_SESSION['email'] = $filtered_data['x_email'];
+			// edit user details
+			$users = new UsersInput;
+			$users->editUser(
+				$submit_edit_user,
+				$filtered_data['x_id_group'],
+				$filtered_data['x_first_name'],
+				$filtered_data['x_fam_name'],
+				$filtered_data['x_email'],
+				$filtered_data['x_pass'],
+				$filtered_data['x_about']
+			);
+
+			// update session cookie with latest info
+			if ($_SESSION['id_user'] == $submit_edit_user) {
+				if($filtered_data['x_id_group'])
+					$_SESSION['id_group'] = $filtered_data['x_id_group'];
+				if($filtered_data['x_first_name'])
+					$_SESSION['first_name'] = $filtered_data['x_first_name'];
+				if ($filtered_data['x_fam_name'])
+					$_SESSION['fam_name'] = $filtered_data['x_fam_name'];
+				if($filtered_data['x_email'])
+					$_SESSION['email'] = $filtered_data['x_email'];
 			}
 		}
 	return;
 }
 input_users_edit();
-
 ?>
