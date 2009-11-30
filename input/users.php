@@ -108,19 +108,18 @@ function input_users_add() {
 			$valid = true;
 		}
 		if ($valid) {
-			$filtered_data['pass'] = sha1($filtered_data['pass']);
 			$filtered_data['about'] =
 				$html_filter->process($filtered_data['about']);
-			mysql_query(
-				'insert into users values (null, ' .
-				$filtered_data['id_group'] . ', "' .
-				esc($filtered_data['first_name']) . '", "' .
-				esc($filtered_data['fam_name']) . '", "' .
-				esc($filtered_data['email']) . '", "' .
-				$filtered_data['pass'] . '", "' .
-				esc($filtered_data['about']) . '")'
+
+			$users = new UsersInput;
+			$users->addUser(
+				$filtered_data['id_group'],
+				$filtered_data['first_name'],
+				$filtered_data['fam_name'],
+				$filtered_data['email'],
+				$filtered_data['pass'],
+				$filtered_data['about']
 			);
-			queryCount();
 		}
 	return;
 }

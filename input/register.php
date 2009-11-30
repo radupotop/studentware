@@ -34,18 +34,14 @@ function input_register() {
 		$register['pass'] == $register['pass_verif'] &&
 		sha1($register['code']) == $site['reg']['code']
 	) {
-		mysql_query (
-			'insert into users values (
-				null,
-				3,
-				"'.esc($register['first_name']).'",
-				"'.esc($register['fam_name']).'",
-				"'.esc($register['email']).'",
-				"'.sha1($register['pass']).'",
-				null
-			);'
+		$users = new UsersInput;
+		$users->addUser(
+			3,
+			$register['first_name'],
+			$register['fam_name'],
+			$register['email'],
+			$register['pass']
 		);
-		queryCount();
 		header('Location: .');
 	}
 

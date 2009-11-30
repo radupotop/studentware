@@ -41,8 +41,17 @@ class UsersInput {
 
 	/**
 	 * Add a new user.
+	 *
+	 * @param int $idGroup
+	 * @param string $firstName
+	 * @param string $famName
+	 * @param string $email
+	 * @param string $pass
+	 * @param string $about
+	 *
+	 * @return int $idUser - id of added user
 	 */
-	function addUser($idGroup, $firstName, $famName, $email, $pass, $about) {
+	function addUser($idGroup=int, $firstName, $famName, $email, $pass, $about=null) {
 		// check if user exists
 		if($idUser = $this->getUserId($email))
 			return $idUser;
