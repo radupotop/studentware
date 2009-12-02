@@ -40,6 +40,22 @@ class UsersInput {
 	}
 
 	/**
+	 * Get details of an user, or of all users.
+	 *
+	 * @param int $id - id of user, if none is specified get all users.
+	 * @return array $users - a numeric array with users' details.
+	 */
+	function viewUser($id='%') {
+		$query = sprintf('select * from users where id_user like "%s"', $id);
+		$result = mysql_query($query);
+		queryCount();
+		$numRows = mysql_num_rows($result);
+		for($i=0; $i<$numRows; $i++)
+			$users[$i] = mysql_fetch_assoc($result);
+		return $users;
+	}
+
+	/**
 	 * Add a new user.
 	 *
 	 * @param int $idGroup
