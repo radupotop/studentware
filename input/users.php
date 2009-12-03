@@ -179,14 +179,13 @@ function input_users_edit() {
 
 			// update session cookie with latest info
 			if ($_SESSION['id_user'] == $submit_edit_user) {
-				if($filtered_data['x_id_group'])
-					$_SESSION['id_group'] = $filtered_data['x_id_group'];
-				if($filtered_data['x_first_name'])
-					$_SESSION['first_name'] = $filtered_data['x_first_name'];
-				if ($filtered_data['x_fam_name'])
-					$_SESSION['fam_name'] = $filtered_data['x_fam_name'];
-				if($filtered_data['x_email'])
-					$_SESSION['email'] = $filtered_data['x_email'];
+				$session = new Session;
+				$session->update(
+					$filtered_data['x_id_group'],
+					$filtered_data['x_first_name'],
+					$filtered_data['x_fam_name'],
+					$filtered_data['x_email']
+				);
 			}
 		}
 	return;
