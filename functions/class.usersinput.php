@@ -49,9 +49,8 @@ class UsersInput {
 		$query = sprintf('select * from users where id_user like "%s"', $id);
 		$result = mysql_query($query);
 		queryCount();
-		$numRows = mysql_num_rows($result);
-		for($i=0; $i<$numRows; $i++)
-			$users[$i] = mysql_fetch_assoc($result);
+		while($row = mysql_fetch_assoc($result))
+			$users[$row['id_user']] = $row;
 		return $users;
 	}
 

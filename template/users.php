@@ -249,6 +249,35 @@ function display_users() {
 	</thead>
 	<tbody>
 <?php
+	$UsersInput = new UsersInput;
+	$usersArray = $UsersInput->viewUser();
+
+	$GroupsInput = new GroupsInput;
+	$groupsArray = $GroupsInput->viewGroup();
+
+	// $numUsers = count($usersArray);
+	// for($i=0; $i<$numUsers; $i++) {
+	foreach($usersArray as $user) {
+		echo sprintf(
+		'<tr>
+			<td>%s</td>
+			<td>%s</td>
+			<td>%s</td>
+			<td>%s</td>
+			<td>(Not shown)</td>
+			<td>%s</td>
+			<td><button name="edit_user" value="%s">Edit</button></td>
+		</tr>',
+		$groupsArray[$user['id_group']]['title'],
+		$user['first_name'],
+		$user['fam_name'],
+		$user['email'],
+		trim_title($user['about'], 20),
+		$user['id_user']
+		);
+	}
+
+/*
 	$result = mysql_query ('
 	select id_user, title, first_name, fam_name, email, pass, about
 	from users join groups
@@ -269,17 +298,14 @@ while ($row = mysql_fetch_array($result)) {
 	'		<td>' . $row['email'] . '</td>' . "\n" .
 	'		<td>(Not shown)</td>' . "\n" .
 	'		<td>' . trim_title($row['about'], 20) . '</td>' . "\n";
-	/**
-	 * Display admin controls.
-	 */
+
+	// Display admin controls.
 	if ($_SESSION['id_group'] == 1) {
 		echo
 	'		<td>' . "\n" .
 	'			<button name="edit_user" value="' . $row['id_user'] .
 					'">Edit</button>' . "\n";
-		/**
-		 * Don't display delete button for id_user=1
-		 */
+		// Don't display delete button for id_user=1
 		if($row['id_user'] != 1) {
 			echo
 	'			<button name="delete_user" value="' . $row['id_user'] .
@@ -292,6 +318,8 @@ while ($row = mysql_fetch_array($result)) {
 	'	</tr>' . "\n";
 	}
 }
+*/
+
 	if ($_SESSION['id_group'] == 1) {
 		display_users_add();
 	}

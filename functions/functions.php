@@ -33,11 +33,11 @@ function __autoload($class_name) {
  *
  * @param string $title - input string
  * @param int $len - length
- * @return string $title - trimmed string followed by '...'
+ * @return string $title - trimmed string
  */
 function trim_title($title, $len) {
 	if (strlen($title) > $len) {
-		$title = substr($title, 0, $len) . '...';
+		$title = substr($title, 0, $len) . '…';
 	}
 	return $title;
 }
