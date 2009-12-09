@@ -4,6 +4,10 @@
  * Display users.
  */
 
+$Model = new Model;
+$groupsArray = $Model->view('groups');
+$usersArray = $Model->view('users');
+
 if ($_SESSION['login']) {
 ?>
 <div id="users">
@@ -34,23 +38,17 @@ function display_groups_add() {
  * @return null
  */
 function display_groups_edit() {
-	global $groups;
-	$result = mysql_query (
-		'select title
-		from groups
-		where id_group = ' . $groups['edit']['req']
-	);
-	queryCount();
-	$row = mysql_fetch_array($result);
+	global $groups, $groupsArray;
+	$id_group = $groups['edit']['req'];
 ?>
 	<tr class="editing">
 		<td>
 			<input title="Title" name="groups[edit][title]" type="text"
-				value="<?php echo $row['title'] ?>">
+				value="<?php echo $groupsArray[$id_group]['title'] ?>">
 		</td>
 		<td>
 			<button name="groups[edit][submit]"
-				value="<?php echo $groups['edit']['req'] ?>">
+				value="<?php echo $id_group ?>">
 				Edit group</button>
 		</td>
 	</tr>
@@ -63,7 +61,7 @@ function display_groups_edit() {
  * @return null
  */
 function display_groups() {
-	global $groups;
+	global $groups, $groupsArray;
 ?>
 <form action="<?php echo current_page(true); ?>" method="post">
 <table>
@@ -77,35 +75,26 @@ function display_groups() {
 	</thead>
 	<tbody>
 <?php
-	$result = mysql_query (
-		'select *
-		from groups'
-	);
-	queryCount();
-	while ($row = mysql_fetch_array($result)) {
-		if($row['id_group'] == $groups['edit']['req']) {
+	foreach($groupsArray as $group) {
+		if($group['id_group'] == $groups['edit']['req']) {
 			display_groups_edit();
 		} else {
-		echo
-		'	<tr>' . "\n" .
-		'		<td>' . $row['title'] . '</td>' . "\n";
-		if($_SESSION['id_group'] == 1) {
-			echo
-		'		<td>' ."\n";
-			echo
-		'		<button name="groups[edit][req]" value="' . $row['id_group'] .
-						'">Edit</button>' ."\n";
-		// do not allow deletion of admin group
-		if($row['id_group'] != 1) {
-			echo
-		'		<button name="groups[delete][req]" value="' . $row['id_group'] .
-						'">Delete</button>' ."\n";
-		}
-			echo
-		'		</td>' ."\n";
-		}
-		echo
-		'	</tr>' . "\n";
+			// admin controls
+			if($_SESSION['id_group'] == 1) {
+				$controls = '<td>';
+				$controls .= sprintf('<button name="groups[edit][req]" value="%s">Edit</button> ', $group['id_group']);
+				if($group['id_group'] != 1)
+					$controls .= sprintf('<button name="groups[delete][req]" value="%s">Delete</button> ', $group['id_group']);
+				$controls .= '</td>';
+			}
+			echo sprintf(
+			'<tr>
+				<td>%s</td>
+				%s
+			</tr>',
+			$group['title'],
+			$controls
+			);
 		}
 	}
 	if($_SESSION['id_group'] == 1) {
@@ -122,21 +111,21 @@ display_groups();
 
 /**
  * Display groups dropdown menu.
- * @param int $select - select group with this id
- * @return null
  */
-function display_groups_dropdown($select) {
-	$result = mysql_query(
-		'select *
-		from groups'
-	);
-	queryCount();
-	while ($row = mysql_fetch_array($result)) {
-		echo '			<option ';
-		if($row['id_group'] == $select) {
-			echo 'selected="selected" ';
-		}
-		echo 'value="'. $row['id_group'] .'">'. $row['title'] .'</option>'."\n";
+function display_groups_dropdown($select=null) {
+	global $groupsArray;
+
+	if(!$select) {
+		$lastGroup = end($groupsArray);
+		$select = $lastGroup['id_group'];
+	}
+	foreach($groupsArray as $group) {
+		if($group['id_group'] == $select)
+			$selectCode = ' selected="selected"';
+		else
+			$selectCode = null;
+		echo sprintf('<option value="%s"%s>%s</option>',
+		$group['id_group'], $selectCode, $group['title']);
 	}
 	return;
 }
@@ -150,7 +139,7 @@ function display_users_add() {
 	<tr>
 		<td>
 		<select title="Group" name="id_group">
-			<?php display_groups_dropdown(3); ?>
+			<?php display_groups_dropdown(); ?>
 		</select>
 		</td>
 		<td>
@@ -181,39 +170,32 @@ function display_users_add() {
  * @return null
  */
 function display_users_edit() {
-	global $edit_user;
-	$result = mysql_query(
-		'select *
-		from users
-		where id_user=' . $edit_user
-	);
-	queryCount();
-	$row = mysql_fetch_array($result);
+	global $edit_user, $usersArray;
 ?>
 	<tr class="editing">
 		<td>
 		<select title="Group" name="x_id_group">
-			<?php display_groups_dropdown($row['id_group']); ?>
+			<?php display_groups_dropdown($usersArray[$edit_user]['id_group']); ?>
 		</select>
 		</td>
 		<td>
 		<input title="First name" name="x_first_name" type="text"
-			value="<?php echo $row['first_name']; ?>">
+			value="<?php echo $usersArray[$edit_user]['first_name'] ?>">
 		</td>
 		<td>
 		<input title="Family name" name="x_fam_name" type="text"
-			value="<?php echo $row['fam_name']; ?>">
+			value="<?php echo $usersArray[$edit_user]['fam_name'] ?>">
 		</td>
 		<td>
 		<input title="Email" name="x_email" type="text"
-			value="<?php echo $row['email']; ?>">
+			value="<?php echo $usersArray[$edit_user]['email'] ?>">
 		</td>
 		<td>
 		<input title="Password" name="x_pass" type="password">
 		</td>
 		<td>
 		<input title="About" name="x_about" type="text"
-			value="<?php echo $row['about']; ?>">
+			value="<?php echo $usersArray[$edit_user]['about'] ?>">
 		</td>
 		<td>
 		<button name="submit_edit_user" value="<?php echo $edit_user; ?>">
@@ -229,7 +211,7 @@ function display_users_edit() {
  * @return null
  */
 function display_users() {
-	global $edit_user;
+	global $edit_user, $groupsArray, $usersArray;
 ?>
 <h2>Users</h2>
 <form action="<?php echo current_page(true); ?>" method="post">
@@ -249,15 +231,18 @@ function display_users() {
 	</thead>
 	<tbody>
 <?php
-	$UsersInput = new UsersInput;
-	$usersArray = $UsersInput->viewUser();
-
-	$GroupsInput = new GroupsInput;
-	$groupsArray = $GroupsInput->viewGroup();
-
-	// $numUsers = count($usersArray);
-	// for($i=0; $i<$numUsers; $i++) {
 	foreach($usersArray as $user) {
+	if ($user['id_user'] == $edit_user) {
+		display_users_edit();
+	} else {
+		// admin controls
+		if($_SESSION['id_group'] == 1) {
+			$controls = '<td>';
+			$controls .= sprintf('<button name="edit_user" value="%s">Edit</button> ', $user['id_user']);
+			if($user['id_user'] != 1)
+				$controls .= sprintf('<button name="delete_user" value="%s">Delete</button> ', $user['id_user']);
+			$controls .= '</td>';
+		}
 		echo sprintf(
 		'<tr>
 			<td>%s</td>
@@ -266,60 +251,17 @@ function display_users() {
 			<td>%s</td>
 			<td>(Not shown)</td>
 			<td>%s</td>
-			<td><button name="edit_user" value="%s">Edit</button></td>
+			%s
 		</tr>',
 		$groupsArray[$user['id_group']]['title'],
 		$user['first_name'],
 		$user['fam_name'],
 		$user['email'],
 		trim_title($user['about'], 20),
-		$user['id_user']
+		$controls
 		);
 	}
-
-/*
-	$result = mysql_query ('
-	select id_user, title, first_name, fam_name, email, pass, about
-	from users join groups
-	on users.id_group = groups.id_group
-	order by id_user
-	');
-	queryCount();
-
-while ($row = mysql_fetch_array($result)) {
-	if ($row['id_user'] == $edit_user) {
-		display_users_edit();
-	} else {
-	echo
-	'	<tr>' . "\n" .
-	'		<td>' . $row['title'] . '</td>' . "\n" .
-	'		<td>' . $row['first_name'] . '</td>' . "\n" .
-	'		<td>' . $row['fam_name'] . '</td>' . "\n" .
-	'		<td>' . $row['email'] . '</td>' . "\n" .
-	'		<td>(Not shown)</td>' . "\n" .
-	'		<td>' . trim_title($row['about'], 20) . '</td>' . "\n";
-
-	// Display admin controls.
-	if ($_SESSION['id_group'] == 1) {
-		echo
-	'		<td>' . "\n" .
-	'			<button name="edit_user" value="' . $row['id_user'] .
-					'">Edit</button>' . "\n";
-		// Don't display delete button for id_user=1
-		if($row['id_user'] != 1) {
-			echo
-	'			<button name="delete_user" value="' . $row['id_user'] .
-					'">Delete</button>' . "\n";
-		}
-		echo
-	'		</td>' . "\n";
 	}
-	echo
-	'	</tr>' . "\n";
-	}
-}
-*/
-
 	if ($_SESSION['id_group'] == 1) {
 		display_users_add();
 	}

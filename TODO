@@ -31,6 +31,5 @@ Todo
 	* hashuri pentru auths intre peers
 * files fara db (or revise files db scheme)
 * plus-addressing for ML
-* reduce sql queries: forum 2->1, users 4->2
 * add, edit, delete in sql cu arrays + helpers pentru compunere arrays
 * search function pe Model->view()

@@ -14,7 +14,7 @@ class Model {
 
 		$query = sprintf('select * from %s ', $table);
 		if($field && $value)
-			$query .= sprintf('where %s like "%s" ', $field, esc($value));
+			$query .= sprintf('where %s = "%s" ', $field, esc($value));
 		if($limit)
 			$query .= sprintf('limit %s ', $limit);
 
