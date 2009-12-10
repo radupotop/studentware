@@ -162,3 +162,7 @@ pre {
 .cat_desc {
 	margin-top: -1em;
 }
+
+input:focus, textarea:focus {
+	border: solid 2px #555;
+}

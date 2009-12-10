@@ -30,7 +30,7 @@ if ($_SESSION['login']==false && $site['reg']['enabled']) {
 	 (verify)<br>
 
 	<label for="register_code">Code</label>
-	<input name="register[code]" type="text" id="register_code">
+	<input name="register[code]" type="password" id="register_code">
 	 (given to you at class)<br>
 
 	<input name="register[submit]" type="submit" value="Register">

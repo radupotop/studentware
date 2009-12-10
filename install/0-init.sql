@@ -21,6 +21,7 @@ create table users (
 	first_name varchar(255),
 	fam_name varchar(255),
 	email varchar(255),
+	unique key (email),
 	pass varchar(255),
 	about text
 );
