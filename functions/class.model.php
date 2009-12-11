@@ -38,23 +38,11 @@ class Model {
 	}
 
 	/**
-	 * View the ID of the last inserted row from table.
+	 * Add data to table.
 	 *
 	 * @param string $table
-	 * @return int $id
-	 */
-	function viewLastID($table) {
-		$pk = $this->pk($table);
-		$query = sprintf('select * from %s order by %s desc limit 1', $table, $pk);
-		$result = mysql_query($query);
-		queryCount();
-		$row = mysql_fetch_assoc($result);
-		$id = (int) $row[$pk];
-		return $id;
-	}
-
-	/**
-	 * Add data to table.
+	 * @param array $data
+	 * @return bool $result
 	 */
 	function add($table, $data=array()) {
 		foreach($data as $key => $value) {
@@ -63,7 +51,29 @@ class Model {
 		}
 		$keyList = rtrim($keyList, ', ');
 		$valueList = rtrim($valueList, ', ');
+
 		$query = sprintf('insert into %s (%s) values (%s)', $table, $keyList, $valueList);
+		$result = mysql_query($query);
+		queryCount();
+		return $result;
+	}
+
+	/**
+	 * Edit data from table.
+	 *
+	 * @param string $table
+	 * @param array $data
+	 * @param int $id
+	 */
+	function edit($table, $data=array(), $id=int) {
+		$pk = $this->pk($table);
+
+		$query = sprintf('update %s set ', $table);
+		foreach ($data as $key => $value)
+			$query .= sprintf('%s = "%s", ', $key, esc($value));
+		$query = rtrim($query, ', ');
+		$query .= sprintf(' where %s = %s', $pk, $id);
+
 		$result = mysql_query($query);
 		queryCount();
 		return $result;
