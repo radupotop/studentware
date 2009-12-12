@@ -3,6 +3,19 @@
  * @class Model
  */
 class Model {
+	public $queryCount = 0; // $this->queryCount++;
+
+	/**
+	 * Escape data to be inserted into db.
+	 *
+	 * @param string $value - value to be escaped
+	 * @return string $value - escaped value
+	 */
+	function esc($value) {
+		if (!get_magic_quotes_gpc())
+			$value = mysql_real_escape_string($value);
+		return $value;
+	}
 
 	/**
 	 * Get a table's PK name.
@@ -26,12 +39,12 @@ class Model {
 
 		$query = sprintf('select * from %s ', $table);
 		if($field && $value)
-			$query .= sprintf('where %s = "%s" ', $field, esc($value));
+			$query .= sprintf('where %s = "%s" ', $field, $this->esc($value));
 		if($limit)
 			$query .= sprintf('limit %s ', $limit);
 
 		$result = mysql_query($query);
-		queryCount();
+		$this->queryCount++;
 		while($row = mysql_fetch_assoc($result))
 			$data[$row[$pk]] = $row;
 		return $data;
@@ -47,14 +60,15 @@ class Model {
 	function add($table, $data=array()) {
 		foreach($data as $key => $value) {
 			$keyList .= sprintf('%s, ', $key);
-			$valueList .= sprintf('"%s", ', esc($value));
+			$valueList .= sprintf('"%s", ', $this->esc($value));
 		}
 		$keyList = rtrim($keyList, ', ');
 		$valueList = rtrim($valueList, ', ');
 
-		$query = sprintf('insert into %s (%s) values (%s)', $table, $keyList, $valueList);
+		$query = sprintf('insert into %s (%s) values (%s)',
+			$table, $keyList, $valueList);
 		$result = mysql_query($query);
-		queryCount();
+		$this->queryCount++;
 		return $result;
 	}
 
@@ -68,12 +82,13 @@ class Model {
 	function edit($table, $data=array(), $field, $value) {
 		$query = sprintf('update %s set ', $table);
 		foreach ($data as $key => $val)
-			$query .= sprintf('%s = "%s", ', $key, esc($val));
+			if($val)
+				$query .= sprintf('%s = "%s", ', $key, $this->esc($val));
 		$query = rtrim($query, ', ');
-		$query .= sprintf(' where %s = "%s"', $field, esc($value));
+		$query .= sprintf(' where %s = "%s"', $field, $this->esc($value));
 
 		$result = mysql_query($query);
-		queryCount();
+		$this->queryCount++;
 		return $result;
 	}
 
@@ -86,9 +101,10 @@ class Model {
 	 * @return bool $result
 	 */
 	function delete($table, $field, $value) {
-		$query = sprintf('delete from %s where %s = "%s"', $table, $field, esc($value));
+		$query = sprintf('delete from %s where %s = "%s"',
+			$table, $field, $this->esc($value));
 		$result = mysql_query($query);
-		queryCount();
+		$this->queryCount++;
 		return $result;
 	}
 }
