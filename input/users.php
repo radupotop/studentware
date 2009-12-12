@@ -7,12 +7,14 @@
 	$edit_user = filter_input(INPUT_POST, 'edit_user', FILTER_VALIDATE_INT);
 	$groups['edit']['req'] = filter_var($_POST['groups']['edit']['req'],
 		FILTER_VALIDATE_INT);
+	$Model = new Model;
 
 /**
  * Input groups add.
  * @return null
  */
 function input_groups_add() {
+	global $Model;
 	$title =  filter_var($_POST['groups']['add']['title'], FILTER_UNSAFE_RAW);
 	$submit = $_POST['groups']['add']['submit'];
 	if(
@@ -20,11 +22,10 @@ function input_groups_add() {
 		&& $submit
 		&& $_SESSION['id_group'] == 1
 	) {
-		mysql_query(
-		'insert into groups
-		values (null, "'. esc($title) .'")'
+		$add = array(
+			'title' => $title
 		);
-		queryCount();
+		$Model->add('groups', $add);
 	}
 	return;
 }
@@ -35,21 +36,12 @@ input_groups_add();
  * @return null
  */
 function input_groups_delete() {
+	global $Model;
 	$delete = filter_var($_POST['groups']['delete']['req'],
 		FILTER_VALIDATE_INT);
 	if ($delete && $delete != 1 && $_SESSION['id_group'] == 1) {
-		// delete group
-		mysql_query(
-			'delete from groups
-			where id_group = ' . $delete
-		);
-		queryCount();
-		// also delete users from group
-		mysql_query(
-			'delete from users
-			where id_group='.$delete
-		);
-		queryCount();
+		$Model->delete('groups', 'id_group', $delete);
+		$Model->delete('users', 'id_group', $delete);
 	}
 	return;
 }

@@ -65,14 +65,12 @@ class Model {
 	 * @param array $data
 	 * @param int $id
 	 */
-	function edit($table, $data=array(), $id=int) {
-		$pk = $this->pk($table);
-
+	function edit($table, $data=array(), $field, $value) {
 		$query = sprintf('update %s set ', $table);
-		foreach ($data as $key => $value)
-			$query .= sprintf('%s = "%s", ', $key, esc($value));
+		foreach ($data as $key => $val)
+			$query .= sprintf('%s = "%s", ', $key, esc($val));
 		$query = rtrim($query, ', ');
-		$query .= sprintf(' where %s = %s', $pk, $id);
+		$query .= sprintf(' where %s = "%s"', $field, esc($value));
 
 		$result = mysql_query($query);
 		queryCount();
@@ -83,12 +81,12 @@ class Model {
 	 * Delete data from table.
 	 *
 	 * @param string $table
-	 * @param int $id
+	 * @param string $field
+	 * @param string $value
 	 * @return bool $result
 	 */
-	function delete($table, $id=int) {
-		$pk = $this->pk($table);
-		$query = sprintf('delete from %s where %s = %s', $table, $pk, $id);
+	function delete($table, $field, $value) {
+		$query = sprintf('delete from %s where %s = "%s"', $table, $field, esc($value));
 		$result = mysql_query($query);
 		queryCount();
 		return $result;

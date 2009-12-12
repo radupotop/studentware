@@ -4,7 +4,6 @@
  * Display users.
  */
 
-$Model = new Model;
 $groupsArray = $Model->view('groups');
 $usersArray = $Model->view('users');
 
@@ -155,9 +154,6 @@ function display_users_add() {
 		<input title="Password" name="pass" type="password" id="pass">
 		</td>
 		<td>
-		<input title="About" name="about" type="text" id="about">
-		</td>
-		<td>
 		<input name="add_user" type="submit" value="Add user">
 		</td>
 	</tr>
@@ -194,10 +190,6 @@ function display_users_edit() {
 		<input title="Password" name="x_pass" type="password">
 		</td>
 		<td>
-		<input title="About" name="x_about" type="text"
-			value="<?php echo $usersArray[$edit_user]['about'] ?>">
-		</td>
-		<td>
 		<button name="submit_edit_user" value="<?php echo $edit_user; ?>">
 			Edit user</button>
 		</td>
@@ -223,7 +215,6 @@ function display_users() {
 		<th>Family name</th>
 		<th>Email</th>
 		<th>Password</th>
-		<th>About</th>
 		<?php if ($_SESSION['id_group'] == 1) { ?>
 		<th>Manage</th>
 		<?php } ?>
@@ -250,14 +241,12 @@ function display_users() {
 			<td>%s</td>
 			<td>%s</td>
 			<td>(Not shown)</td>
-			<td>%s</td>
 			%s
 		</tr>',
 		$groupsArray[$user['id_group']]['title'],
 		$user['first_name'],
 		$user['fam_name'],
 		$user['email'],
-		trim_title($user['about'], 20),
 		$controls
 		);
 	}

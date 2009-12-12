@@ -135,8 +135,8 @@ td, th {
 	background: #DBEBF9;
 }
 
-input, button {
-	font-size: .8em;
+select, input, button {
+	font-size: 1em;
 }
 
 pre {
