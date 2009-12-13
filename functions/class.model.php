@@ -58,15 +58,17 @@ class Model {
 	 * @return bool $result
 	 */
 	function add($table, $data=array()) {
-		foreach($data as $key => $value) {
+		foreach($data as $key => $val) {
+			if($key == 'pass')
+				$val = sha1($val);
 			$keyList .= sprintf('%s, ', $key);
-			$valueList .= sprintf('"%s", ', $this->esc($value));
+			$valList .= sprintf('"%s", ', $this->esc($val));
 		}
 		$keyList = rtrim($keyList, ', ');
-		$valueList = rtrim($valueList, ', ');
+		$valList = rtrim($valList, ', ');
 
 		$query = sprintf('insert into %s (%s) values (%s)',
-			$table, $keyList, $valueList);
+			$table, $keyList, $valList);
 		$result = mysql_query($query);
 		$this->queryCount++;
 		return $result;
@@ -82,8 +84,11 @@ class Model {
 	function edit($table, $data=array(), $field, $value) {
 		$query = sprintf('update %s set ', $table);
 		foreach ($data as $key => $val)
-			if($val)
+			if($val) {
+				if($key == 'pass')
+					$val = sha1($val);
 				$query .= sprintf('%s = "%s", ', $key, $this->esc($val));
+			}
 		$query = rtrim($query, ', ');
 		$query .= sprintf(' where %s = "%s"', $field, $this->esc($value));
 

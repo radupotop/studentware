@@ -52,6 +52,7 @@ input_groups_delete();
  * @return null
  */
 function input_groups_edit() {
+	global $Model;
 	$title =  filter_var($_POST['groups']['edit']['title'], FILTER_UNSAFE_RAW);
 	$submit = filter_var($_POST['groups']['edit']['submit'],
 		FILTER_VALIDATE_INT);
@@ -60,12 +61,10 @@ function input_groups_edit() {
 		&& $submit
 		&& $_SESSION['id_group'] == 1
 	) {
-		mysql_query(
-			'update groups
-			set title = "'. esc($title) .'"
-			where id_group = '. $submit
+		$edit = array(
+			'title' => $title
 		);
-		queryCount();
+		$Model->edit('groups', $edit, 'id_group', $submit);
 	}
 	return;
 }
@@ -76,7 +75,7 @@ input_groups_edit();
  * @return null
  */
 function input_users_add() {
-		global $html_filter;
+		global $html_filter, $Model;
 		$add_user = $_POST['add_user'];
 
 		if ($_SESSION['login'] && $add_user) {
@@ -103,15 +102,15 @@ function input_users_add() {
 			$filtered_data['about'] =
 				$html_filter->process($filtered_data['about']);
 
-			$users = new UsersInput;
-			$users->addUser(
-				$filtered_data['id_group'],
-				$filtered_data['first_name'],
-				$filtered_data['fam_name'],
-				$filtered_data['email'],
-				$filtered_data['pass'],
-				$filtered_data['about']
+			$add = array (
+				'id_group' => $filtered_data['id_group'],
+				'first_name' => $filtered_data['first_name'],
+				'fam_name' => $filtered_data['fam_name'],
+				'email' => $filtered_data['email'],
+				'pass' => $filtered_data['pass'],
+				'about' => $filtered_data['about']
 			);
+			$Model->add('users', $add);
 		}
 	return;
 }
@@ -122,11 +121,11 @@ input_users_add();
  * @return null
  */
 function input_users_delete() {
+	global $Model;
 	$delete_user = filter_input(INPUT_POST, 'delete_user', FILTER_VALIDATE_INT);
 
 	if ($_SESSION['login'] && $delete_user) {
-		$users = new UsersInput;
-		$users->deleteUser($delete_user);
+		$Model->delete('users', 'id_user', $delete_user);
 	}
 	return;
 }
@@ -137,7 +136,7 @@ input_users_delete();
  * @return null
  */
 function input_users_edit() {
-		global $html_filter;
+		global $html_filter, $Model;
 		$submit_edit_user =
 			filter_input(INPUT_POST, 'submit_edit_user', FILTER_VALIDATE_INT);
 
@@ -158,16 +157,15 @@ function input_users_edit() {
 				$html_filter->process($filtered_data['x_about']);
 
 			// edit user details
-			$users = new UsersInput;
-			$users->editUser(
-				$submit_edit_user,
-				$filtered_data['x_id_group'],
-				$filtered_data['x_first_name'],
-				$filtered_data['x_fam_name'],
-				$filtered_data['x_email'],
-				$filtered_data['x_pass'],
-				$filtered_data['x_about']
+			$edit = array(
+				'id_group' => $filtered_data['x_id_group'],
+				'first_name' => $filtered_data['x_first_name'],
+				'fam_name' => $filtered_data['x_fam_name'],
+				'email' => $filtered_data['x_email'],
+				'pass' => $filtered_data['x_pass'],
+				'about' => $filtered_data['x_about']
 			);
+			$Model->edit('users', $edit, 'id_user', $submit_edit_user);
 
 			// update session cookie with latest info
 			if ($_SESSION['id_user'] == $submit_edit_user) {
