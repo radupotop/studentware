@@ -7,14 +7,14 @@
 	$edit_user = filter_input(INPUT_POST, 'edit_user', FILTER_VALIDATE_INT);
 	$groups['edit']['req'] = filter_var($_POST['groups']['edit']['req'],
 		FILTER_VALIDATE_INT);
-	$Model = new Model;
+	$DB = new DB;
 
 /**
  * Input groups add.
  * @return null
  */
 function input_groups_add() {
-	global $Model;
+	global $DB;
 	$title =  filter_var($_POST['groups']['add']['title'], FILTER_UNSAFE_RAW);
 	$submit = $_POST['groups']['add']['submit'];
 	if(
@@ -25,7 +25,7 @@ function input_groups_add() {
 		$add = array(
 			'title' => $title
 		);
-		$Model->add('groups', $add);
+		$DB->add('groups', $add);
 	}
 	return;
 }
@@ -36,12 +36,12 @@ input_groups_add();
  * @return null
  */
 function input_groups_delete() {
-	global $Model;
+	global $DB;
 	$delete = filter_var($_POST['groups']['delete']['req'],
 		FILTER_VALIDATE_INT);
 	if ($delete && $delete != 1 && $_SESSION['id_group'] == 1) {
-		$Model->delete('groups', 'id_group', $delete);
-		$Model->delete('users', 'id_group', $delete);
+		$DB->delete('groups', 'id_group', $delete);
+		$DB->delete('users', 'id_group', $delete);
 	}
 	return;
 }
@@ -52,7 +52,7 @@ input_groups_delete();
  * @return null
  */
 function input_groups_edit() {
-	global $Model;
+	global $DB;
 	$title =  filter_var($_POST['groups']['edit']['title'], FILTER_UNSAFE_RAW);
 	$submit = filter_var($_POST['groups']['edit']['submit'],
 		FILTER_VALIDATE_INT);
@@ -64,7 +64,7 @@ function input_groups_edit() {
 		$edit = array(
 			'title' => $title
 		);
-		$Model->edit('groups', $edit, 'id_group', $submit);
+		$DB->edit('groups', $edit, 'id_group', $submit);
 	}
 	return;
 }
@@ -75,7 +75,7 @@ input_groups_edit();
  * @return null
  */
 function input_users_add() {
-		global $html_filter, $Model;
+		global $html_filter, $DB;
 		$add_user = $_POST['add_user'];
 
 		if ($_SESSION['login'] && $add_user) {
@@ -110,7 +110,7 @@ function input_users_add() {
 				'pass' => $filtered_data['pass'],
 				'about' => $filtered_data['about']
 			);
-			$Model->add('users', $add);
+			$DB->add('users', $add);
 		}
 	return;
 }
@@ -121,11 +121,11 @@ input_users_add();
  * @return null
  */
 function input_users_delete() {
-	global $Model;
+	global $DB;
 	$delete_user = filter_input(INPUT_POST, 'delete_user', FILTER_VALIDATE_INT);
 
 	if ($_SESSION['login'] && $delete_user) {
-		$Model->delete('users', 'id_user', $delete_user);
+		$DB->delete('users', 'id_user', $delete_user);
 	}
 	return;
 }
@@ -136,7 +136,7 @@ input_users_delete();
  * @return null
  */
 function input_users_edit() {
-		global $html_filter, $Model, $Session;
+		global $html_filter, $DB, $Session;
 		$submit_edit_user =
 			filter_input(INPUT_POST, 'submit_edit_user', FILTER_VALIDATE_INT);
 
@@ -165,7 +165,7 @@ function input_users_edit() {
 				'pass' => $filtered_data['x_pass'],
 				'about' => $filtered_data['x_about']
 			);
-			$Model->edit('users', $edit, 'id_user', $submit_edit_user);
+			$DB->edit('users', $edit, 'id_user', $submit_edit_user);
 
 			// update session cookie with latest info
 			if ($_SESSION['id_user'] == $submit_edit_user) {

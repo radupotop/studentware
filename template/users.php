@@ -4,8 +4,8 @@
  * Display users.
  */
 
-$groupsArray = $Model->view('groups');
-$usersArray = $Model->view('users');
+$groupsArray = $DB->view('groups');
+$usersArray = $DB->view('users');
 
 if ($_SESSION['login']) {
 ?>

@@ -1,8 +1,8 @@
 <?php
 /**
- * @class Model
+ * @class DB
  */
-class Model {
+class DB {
 	public $queryCount = 0; // $this->queryCount++;
 
 	/**

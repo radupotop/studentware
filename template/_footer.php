@@ -3,7 +3,7 @@
  Powered by <a href="<?php echo $app['site']; ?>">Studentware</a>
  <?php echo $app['ver']; ?>
  <?php if($app['queryCount']) { ?>
- <span id="queries"> | <?php echo $Model->queryCount; ?> queries</span>
+ <span id="queries"> | <?php echo $DB->queryCount; ?> queries</span>
  <?php } ?>
 </p>
 

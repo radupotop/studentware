@@ -6,8 +6,8 @@
 
 if ($_SESSION['login']) {
 
-$Model = new Model;
-$currentUser = $Model->view('users', 'id_user', $_SESSION['id_user']);
+$DB = new DB;
+$currentUser = $DB->view('users', 'id_user', $_SESSION['id_user']);
 
 	function display_profile() {
 ?>
