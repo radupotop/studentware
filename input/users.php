@@ -136,7 +136,7 @@ input_users_delete();
  * @return null
  */
 function input_users_edit() {
-		global $html_filter, $Model;
+		global $html_filter, $Model, $Session;
 		$submit_edit_user =
 			filter_input(INPUT_POST, 'submit_edit_user', FILTER_VALIDATE_INT);
 
@@ -169,8 +169,7 @@ function input_users_edit() {
 
 			// update session cookie with latest info
 			if ($_SESSION['id_user'] == $submit_edit_user) {
-				$session = new Session;
-				$session->update(
+				$Session->update(
 					$filtered_data['x_id_group'],
 					$filtered_data['x_first_name'],
 					$filtered_data['x_fam_name'],

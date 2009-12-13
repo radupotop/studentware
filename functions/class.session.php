@@ -4,10 +4,15 @@
  * @class Session
  */
 class Session {
-	
+
+	function __construct() {
+		session_name('Studentware');
+		session_start();
+	}
+
 	/**
 	 * Login. Set session global variables with user's data.
-	 * 
+	 *
 	 * @param string $email
 	 * @param string $pass
 	 * @return bool $status - true if login was successful, false if not.
@@ -31,7 +36,7 @@ class Session {
 			$status = false;
 		return $status;
 	}
-	
+
 	/**
 	 * Logout. Unset session global variables.
 	 */
@@ -41,7 +46,7 @@ class Session {
 		session_destroy();
 		return;
 	}
-	
+
 	/**
 	 * Update session cookie with latest user info.
 	 */

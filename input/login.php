@@ -3,14 +3,15 @@
  * @file
  * Input login.
  */
-	global $login_fail;
+
+$Session = new Session;
 
 /**
  * Input login.
  * @return null
  */
 function input_login() {
-	global $login_fail;
+	global $login_fail, $Session;
 	$login = $_POST['login'];
 	if ($login) {
 		$input_data = array(
@@ -19,8 +20,7 @@ function input_login() {
 		);
 		$filtered_data = filter_input_array(INPUT_POST, $input_data);
 
-		$session = new Session;
-		$status = $session->login(
+		$status = $Session->login(
 			$filtered_data['email'], $filtered_data['pass']);
 
 		if (!$status)
@@ -35,11 +35,10 @@ input_login();
  * @return null
  */
 function input_logout() {
+	global $Session;
 	$logout = $_POST['logout'];
-	if ($logout) {
-		$session = new Session;
-		$session->logout();
-	}
+	if ($logout)
+		$Session->logout();
 	return;
 }
 input_logout();

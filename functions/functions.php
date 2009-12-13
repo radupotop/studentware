@@ -11,8 +11,6 @@
 	mysql_connect($db['host'], $db['user'], $db['pass']);
 	mysql_set_charset($db['char']);
 	mysql_select_db($db['name']);
-	session_start();
-	$queryCount = 0;
 	chdir($site['path']);
 }
 
@@ -52,7 +50,7 @@ function trim_title($title, $len) {
 function current_page($escape=true) {
 	$get_string = '?' . $_SERVER['QUERY_STRING'];
 	if ($escape)
-		$get_string = preg_replace('/&/', '&amp;', $get_string);
+		$get_string = str_replace('&', '&amp;', $get_string);
 	if ($get_string == '?')
 		$get_string = '.';
 	return $get_string;
