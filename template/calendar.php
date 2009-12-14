@@ -4,12 +4,14 @@
  * Display calendar.
  */
 
+$calendarsArray = $DB->view('calendars');
+
 /**
  * Display calendar.
  * @return null
  */
 function display_calendar() {
-	global $calendar;
+	global $calendar, $calendarsArray;
 ?>
 <h2>Calendar</h2>
 <p class="cat_desc">Events calendar. Non-weekly events or events that span across multiple days belong here.</p>
@@ -29,43 +31,35 @@ function display_calendar() {
 </thead>
 <tbody>
 <?php
-	$result = mysql_query(
-		'select *
-		from calendars
-		order by date_start'
-	);
-	queryCount();
-	while ($row = mysql_fetch_array($result)) {
-		if($row['id_calendar'] == $calendar['edit']['req']) {
+	foreach($calendarsArray as $cal) {
+		if($cal['id_calendar'] == $calendar['edit']['req']) {
 			display_calendar_edit();
 		} else {
-		echo
-		'	<tr>'."\n".
-		'		<td>'.$row['title'].'</td>'."\n".
-		'		<td>'.Date::from_sql($row['date_start']).'</td>'."\n".
-		'		<td>';
-		if ($row['date_end'] != '0000-00-00 00:00:00') {
-			echo Date::from_sql($row['date_end']);
-		}
-		echo
-				'</td>'."\n";
-		if (
-			// if users owns element or if user is admin display edit & delete
-			$_SESSION['id_user'] == $row['id_user'] ||
-			$_SESSION['id_group'] == 1
-		) {
-		echo
-		'<td>'.
-		'		<button name="calendar[edit][req]" value="'
-					.$row['id_calendar'].'">Edit</button>' .
-		'		<button name="calendar[delete][req]" value="'
-					.$row['id_calendar'].'">Delete</button>'.
-		'</td>';
-		} else if ($_SESSION['login']) {
-			echo
-			'<td></td>';
-		}
-		echo '	</tr>'."\n";
+			// admin controls
+			if ($_SESSION['id_user'] == $cal['id_user'] ||
+			$_SESSION['id_group'] == 1) {
+				$controls = sprintf(
+				'<button name="calendar[edit][req]" value="%s">Edit</button>
+				<button name="calendar[delete][req]" value="%1$s">Delete</button>',
+				$cal['id_calendar']
+				);
+			} else
+				unset($controls);
+			if($_SESSION['login'])
+				$controls = sprintf('<td>%s</td>', $controls);
+			// list
+			echo sprintf(
+			'<tr>
+				<td>%s</td>
+				<td>%s</td>
+				<td>%s</td>
+				%s
+			</tr>',
+			$cal['title'],
+			Date::from_sql($cal['date_start']),
+			Date::from_sql($cal['date_end']),
+			$controls
+			);
 		}
 	}
 
@@ -99,31 +93,25 @@ display_calendar();
  * @return null
  */
 function display_calendar_edit() {
-	global $calendar;
-	$result = mysql_query(
-		'select *
-		from calendars
-		where id_calendar='.$calendar['edit']['req']
-	);
-	queryCount();
-	$row = mysql_fetch_array($result);
+	global $calendar, $calendarsArray;
+	$cal = $calendar['edit']['req'];
 ?>
 <tr class="editing">
 	<td>
 		<input type="text" name="calendar[edit][title]"
-			value="<?php echo $row['title'] ?>">
+			value="<?php echo $calendarsArray[$cal]['title'] ?>">
 	</td>
 	<td>
 		<input type="text" name="calendar[edit][date_start]"
-			value="<?php echo Date::from_sql($row['date_start']) ?>">
+			value="<?php echo Date::from_sql($calendarsArray[$cal]['date_start']) ?>">
 	</td>
 	<td>
 		<input type="text" name="calendar[edit][date_end]"
-			value="<?php echo Date::from_sql($row['date_end']) ?>">
+			value="<?php echo Date::from_sql($calendarsArray[$cal]['date_end']) ?>">
 	</td>
 	<td>
 		<button name="calendar[edit][submit]"
-			value="<?php echo $row['id_calendar'] ?>">Edit event</button>
+			value="<?php echo $cal ?>">Edit event</button>
 	</td>
 </tr>
 <?php
