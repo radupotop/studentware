@@ -90,7 +90,8 @@ create table schedules (
 	time_start time,
 	time_end time,
 	weekday int unsigned,
-	title varchar(255)
+	title varchar(255),
+	body text
 );
 
 
