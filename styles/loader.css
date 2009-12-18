@@ -3,7 +3,3 @@
 /* Site css */
 @import url("screen.css");
 @import url("print.css");
-
-/* Scripts css */
-@import url("../scripts/mooeditable/MooEditable.css");
-@import url("../scripts/mooeditable/MooEditable.Extras.css");
