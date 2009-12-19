@@ -59,7 +59,7 @@ thead th {
 }
 
 tbody tr:hover {
-	background: #DBEBF9;
+	background: #DBEBF9 !important;
 }
 
 td, th {

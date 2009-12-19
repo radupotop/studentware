@@ -34,9 +34,9 @@ $currentUser = $DB->view('users', 'id_user', $_SESSION['id_user']);
 	<input name="profile[pass_verif]" type="password" id="profile_pass_verif">
 	 (verify)<br>
 
-	<label for="textarea">About you</label><br><br>
-	<textarea name="profile[about]" rows="10" cols="80" id="textarea">
-		</textarea><br>
+	<label for="profile_about">About you</label><br><br>
+	<textarea name="profile[about]" rows="10" cols="80"
+		id="profile_about"></textarea><br>
 
 	<input name="profile[submit]" type="submit" value="Submit">
 </div>

@@ -174,8 +174,8 @@ function display_page_add() {
 ?>
 <form action="<?php echo current_page(true); ?>" method="post">
 	<input name="page[add][title]" type="text" class="page_title"><br><br>
-	<textarea name="page[add][body]" rows="18" cols="100" id="textarea">
-		</textarea><br>
+	<textarea name="page[add][body]" rows="18" cols="100"
+		id="page_add_body"></textarea><br>
 	<button name="page[add][submit]" value="Submit">Submit</button>
 </form>
 <?php
@@ -199,8 +199,8 @@ function display_page_edit() {
 <form action="<?php echo current_page(true); ?>" method="post">
 	<input name="page[edit][title]" type="text" class="page_title"
 		value="<?php echo $row['title'] ?>"><br><br>
-	<textarea name="page[edit][body]" rows="18" cols="100" id="textarea">
-		<?php echo $row['body'] ?></textarea><br>
+	<textarea name="page[edit][body]" rows="18" cols="100"
+		id="page_edit_body"><?php echo $row['body'] ?></textarea><br>
 	<button name="page[edit][submit]"
 		value="<?php echo $row['id_page'] ?>">Submit</button>
 </form>

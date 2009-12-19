@@ -26,7 +26,7 @@ function display_home_edit() {
 	<input name="home[edit][title]" type="text" class="page_title"
 		value="<?php echo $row['title'] ?>"><br><br>
 	<textarea name="home[edit][body]" rows="18" cols="100"
-		id="textarea"><?php echo $row['body'] ?></textarea><br>
+		id="home_edit_body"><?php echo $row['body'] ?></textarea><br>
 	<button name="home[edit][submit]" value="<?php echo $row['id_page'] ?>">
 		Submit</button>
 <?php

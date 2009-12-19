@@ -203,10 +203,10 @@ function display_post_add() {
 	<form action="<?php echo current_page(true); ?>" method="post">
 		<div id="reply">
 			<h3>
-				<label for="textarea">Reply</label>
+				<label for="post_add_body">Reply</label>
 			</h3>
 			<textarea name="post[add][body]" rows="18" cols="100"
-				id="textarea"></textarea><br>
+				id="post_add_body"></textarea><br>
 			<button name="post[add][submit]" value="true">Post reply</button>
 		</div>
 	</form>
@@ -224,7 +224,7 @@ function display_topic_add() {
 	<form action="<?php echo current_page(true); ?>" method="post">
 		<input name="topic[add][title]" type="text" class="page_title"><br><br>
 		<textarea name="topic[add][body]" rows="18" cols="100"
-			id="textarea"></textarea><br>
+			id="topic_add_body"></textarea><br>
 		<button name="topic[add][submit]" value="true">Submit</button>
 	</form>
 <?php
@@ -281,7 +281,7 @@ function display_post_edit() {
 	<form action="<?php echo current_page(true); ?>" method="post">
 		<div>
 			<textarea name="post[edit][body]" rows="8" cols="100"
-				id="textarea"><?php echo $row['body'] ?></textarea><br>
+				id="post_edit_body"><?php echo $row['body'] ?></textarea><br>
 			<button name="post[edit][submit]"
 				value="<?php echo $row['id_post'] ?>">Submit</button>
 			<button value="true">Cancel</button>
