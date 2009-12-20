@@ -35,7 +35,7 @@ $currentUser = $DB->view('users', 'id_user', $_SESSION['id_user']);
 	 (verify)<br>
 
 	<label for="profile_about">About you</label><br><br>
-	<textarea name="profile[about]" rows="10" cols="80"
+	<textarea name="profile[about]" rows="10" cols="100"
 		id="profile_about"></textarea><br>
 
 	<input name="profile[submit]" type="submit" value="Submit">

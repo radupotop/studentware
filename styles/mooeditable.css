@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+body {
+	font: normal .75em Verdana, sans-serif;
+}
+pre {
+	font: normal 1.1em "Courier New", monospace;
+}
+
+/* mooeditable specific */
+table { border: 1px dashed #BBBBBB; font:inherit; }
+table td, table th { border: 1px dashed #BBBBBB; }
+table th { font-weight:bold ; }
+object { display:block; border: 1px dashed gray; background: url(Other/flash.png) no-repeat center center; }
