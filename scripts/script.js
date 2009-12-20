@@ -31,7 +31,7 @@ window.addEvent('domready', function(){
 	$$('textarea').mooEditable({
 		actions: 'bold italic strikethrough | formatBlock justifyleft justifyright justifycenter justifyfull | insertunorderedlist insertorderedlist indent outdent | undo redo removeformat | createlink unlink | urlimage charmap insertHorizontalRule | toggleview | \
 		tableadd tableedit tablerowadd tablerowedit tablerowspan tablerowsplit tablerowdelete tablecoladd tablecoledit tablecolspan tablecolsplit tablecoldelete',
-		externalCSS: 'styles/mooeditable.css'
+		externalCSS: 'scripts/mooeditable.css'
 	});
 
 	// site scripts
