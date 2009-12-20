@@ -9,6 +9,7 @@ window.addEvent('domready', function(){
 			options: {
 				list: [
 					{text: 'Paragraph', value: 'p'},
+					{text: 'Code', value: 'pre'},
 					{text: 'Heading 2', value: 'h2'},
 					{text: 'Heading 3', value: 'h3'},
 					{text: 'Heading 4', value: 'h4'},
@@ -17,7 +18,7 @@ window.addEvent('domready', function(){
 				]
 			},
 			states: {
-				tags: ['p', 'h2', 'h3', 'h4', 'h5', 'h6']
+				tags: ['p', 'pre', 'h2', 'h3', 'h4', 'h5', 'h6']
 			},
 			command: function(menulist, name){
 				var argument = '<' + name + '>';
