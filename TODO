@@ -16,13 +16,10 @@ Bugs
 Todo
 ====
 * schedule
-* permisiuni
-* linking system
-* versioning (sau macar history) pt pages
+* versioning
 * proper input filters
 * localization
 * url rewrite
-* profile page
 * users last login (show new stuff)
 * group si teachers in aceeasi app
 	* peering intre mai multe studentwares
@@ -31,3 +28,9 @@ Todo
 * files fara db (or revise files db scheme)
 * plus-addressing for ML
 * search function pe Model->view()
+* dynamic types? (w/ dynamic menu)
+* references
+* permissions
+* controller si view care sa foloseasca DB class
+* unified controllers and unified views across types?
+* UI class, pentru elementele comune mai multor types

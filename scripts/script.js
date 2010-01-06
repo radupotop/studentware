@@ -29,7 +29,7 @@ window.addEvent('domready', function(){
 	});
 
 	$$('textarea').mooEditable({
-		actions: 'bold italic strikethrough | formatBlock justifyleft justifyright justifycenter justifyfull | insertunorderedlist insertorderedlist indent outdent | undo redo removeformat | createlink unlink | urlimage charmap insertHorizontalRule | toggleview | \
+		actions: 'bold italic strikethrough | formatBlock justifyleft justifycenter justifyright justifyfull | insertunorderedlist insertorderedlist indent outdent | undo redo removeformat | createlink unlink | urlimage charmap insertHorizontalRule | toggleview | \
 		tableadd tableedit tablerowadd tablerowedit tablerowspan tablerowsplit tablerowdelete tablecoladd tablecoledit tablecolspan tablecolsplit tablecoldelete',
 		externalCSS: 'scripts/mooeditable.css'
 	});
