@@ -141,6 +141,7 @@ select, input, button {
 
 pre {
 	font: normal 1.1em "Courier New", monospace;
+	overflow: auto;
 }
 
 #register label, #profile label {
